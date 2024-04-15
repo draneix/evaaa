@@ -63,9 +63,9 @@ public class InteroceptiveAgent : Agent
         public int olfactoryFeatureSize = 10;
         public float[] olfactoryObservation;
         public bool useThermalObs;
-        // public bool isObjectDetected = false;
-        // public bool useObjectObs;
-        // public float objectObservation;
+        public bool isObjectDetected = false;
+        public bool useObjectObs;
+        public float objectObservation;
         public bool relativeThermalObs;
         public float[] thermoObservation;
         public GameObject thermoSensorCenter; 
@@ -183,10 +183,10 @@ public class InteroceptiveAgent : Agent
                         this.olfactoryObservation = new float[this.olfactoryFeatureSize];
                 }
 
-                // if (this.useObjectObs)
-                // {
-                //         this.objectObservation = 0.0f;
-                // }
+                if (this.useObjectObs)
+                {
+                        this.objectObservation = 0.0f;
+                }
 
                 if (this.useThermalObs)
                 {
@@ -256,10 +256,10 @@ public class InteroceptiveAgent : Agent
                         }
                 }
                 
-                // if (useObjectObs)
-                // {
-                //         this.objectObservation = 0.0f;
-                // }
+                if (useObjectObs)
+                {
+                        this.objectObservation = 0.0f;
+                }
 
                 if (this.useThermalObs)
                 {
@@ -312,10 +312,10 @@ public class InteroceptiveAgent : Agent
                 {
                         sensor.AddObservation(thermoObservation);
                 }
-                // if (useObjectObs)
-                // {
-                //         sensor.AddObservation(objectObservation);
-                // }
+                if (useObjectObs)
+                {
+                        sensor.AddObservation(objectObservation);
+                }
                 if (useTouchObs)
                 {
                         sensor.AddObservation(touchObservation);
@@ -390,10 +390,10 @@ public class InteroceptiveAgent : Agent
                 {
                         OlfactoryObserving();
                 }
-                // if (this.useObjectObs)
-                // {
-                //         ObjectObserving();
-                // }
+                if (this.useObjectObs)
+                {
+                        ObjectObserving();
+                }
                 // ThermalChanging() : thermalSense에 변화 반영시킴
                 // ThermalObserving() : 반영된 thermalSense를 다시 가져와 observation에 추가가
                 if (this.useThermalObs)
@@ -592,19 +592,19 @@ public class InteroceptiveAgent : Agent
         }
 
 
-        // public void ObjectObserving()
-        // {
-        //         if (isObjectDetected)
-        //         {
-        //                 objectObservation = 1.0f;
-        //         }
-        //         else
-        //         {
-        //                 objectObservation = 0.0f;
-        //         }
+        public void ObjectObserving()
+        {
+                if (isObjectDetected)
+                {
+                        objectObservation = 1.0f;
+                }
+                else
+                {
+                        objectObservation = 0.0f;
+                }
                 
-        //         // return objectObservation;
-        // }
+                // return objectObservation;
+        }
         public void TouchObserving()
         {
                 if (isTouched)
@@ -699,7 +699,7 @@ public class InteroceptiveAgent : Agent
                 startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
 
                 useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
-                // useObjectObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useObjectObs", System.Convert.ToSingle(useObjectObs)));
+                useObjectObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useObjectObs", System.Convert.ToSingle(useObjectObs)));
                 useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
                 olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
 

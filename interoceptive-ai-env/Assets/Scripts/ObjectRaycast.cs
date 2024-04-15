@@ -12,7 +12,7 @@ public class ObjectRaycast : MonoBehaviour
     public float radialRange = 360f;
 
     public float impulseToDamageConversion = 0.1f;
-    public float damageConstant = 1f;
+    public float damageConstant = 0.01f;
     public int hitCount = 0; // count the number ray of hit
     public RaycastHit hit;
 
@@ -38,7 +38,7 @@ public class ObjectRaycast : MonoBehaviour
             {
                 
                 Debug.DrawRay(transform.position, direction * maxDistance, Color.red);
-                // agent.GetComponent<InteroceptiveAgent>().isObjectDetected = true;
+                agent.GetComponent<InteroceptiveAgent>().isObjectDetected = true;
                 // Debug.Log("Detected obstacle: " + hit.collider.name + " at distance: " + hit.distance);
 
                 hitCount++; // Increment the count for hit ray

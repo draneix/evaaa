@@ -37522,7 +37522,9 @@ MonoBehaviour:
   raysPerDirection: 100
   maxDistance: 1
   radialRange: 360
-  impulseToDamageConversion: 0.1
+  impulseToDamageConversion: 0
+  damageConstant: 0.01
+  hitCount: 0
 --- !u!1001 &5331082243850555881
 PrefabInstance:
   m_ObjectHideFlags: 0
