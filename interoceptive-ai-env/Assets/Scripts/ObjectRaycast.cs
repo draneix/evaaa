@@ -12,7 +12,8 @@ public class ObjectRaycast : MonoBehaviour
     public float radialRange = 360f;
 
     public float impulseToDamageConversion = 0.1f;
-    public float damage = 1f;
+    public float damageConstant = 1f;
+    public int hitCount = 0; // count the number ray of hit
     public RaycastHit hit;
 
 
@@ -37,8 +38,10 @@ public class ObjectRaycast : MonoBehaviour
             {
                 
                 Debug.DrawRay(transform.position, direction * maxDistance, Color.red);
-                agent.GetComponent<InteroceptiveAgent>().isObjectDetected = true;
+                // agent.GetComponent<InteroceptiveAgent>().isObjectDetected = true;
                 // Debug.Log("Detected obstacle: " + hit.collider.name + " at distance: " + hit.distance);
+
+                hitCount++; // Increment the count for hit ray
             }
             else
             {
@@ -52,7 +55,7 @@ public class ObjectRaycast : MonoBehaviour
             if (layermask == (layermask | (1 << collision.gameObject.layer)))
             {
                 // float damage = collision.impulse.magnitude * impulseToDamageConversion;
-                // float damage = 
+                float damage = hitCount * damageConstant;    // total damage = num of ray hit x damage constant
 
                 // collision.impulse : OnCollisionEnter 함수에 전달되는 Collision 객체의 속성으로, 충돌 중에 오브젝트에 작용한 총 충격량을 벡터로 나타냄.
                 // impulse는 힘과 그 힘이 작용하는 시간의 곱으로 정의되며, 운동량의 변화량을 나타냄. 
