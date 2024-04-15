@@ -5,6 +5,7 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Policies;
 using System.Linq;
+using UnityEditor;
 
 // GameObject인 Agent에 부착함
 
@@ -62,9 +63,12 @@ public class InteroceptiveAgent : Agent
         public int olfactoryFeatureSize = 10;
         public float[] olfactoryObservation;
         public bool useThermalObs;
+        // public bool isObjectDetected = false;
+        // public bool useObjectObs;
+        // public float objectObservation;
         public bool relativeThermalObs;
         public float[] thermoObservation;
-        public GameObject thermoSensorCenter;
+        public GameObject thermoSensorCenter; 
         public GameObject thermoSensorForward;
         public GameObject thermoSensorBackward;
         public GameObject thermoSensorLeft;
@@ -150,8 +154,6 @@ public class InteroceptiveAgent : Agent
         public float maxHP = 100.0f;
         public float minHP = 0.0f;
         public float changeHP = 1.0f;
-
-        public float collisionHP = 0.3f;
         public bool checkHP;
         public float startHP = 100.0f;
 
@@ -181,6 +183,11 @@ public class InteroceptiveAgent : Agent
                         this.olfactoryObservation = new float[this.olfactoryFeatureSize];
                 }
 
+                // if (this.useObjectObs)
+                // {
+                //         this.objectObservation = 0.0f;
+                // }
+
                 if (this.useThermalObs)
                 {
                         this.thermoObservation = new float[8];
@@ -191,6 +198,7 @@ public class InteroceptiveAgent : Agent
                         // Reset heatmap
                         // heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
+
                 if (this.useTouchObs)
                 {
                         this.touchObservation = 0.0f;
@@ -247,6 +255,11 @@ public class InteroceptiveAgent : Agent
                                 this.olfactoryObservation[i] = 0;
                         }
                 }
+                
+                // if (useObjectObs)
+                // {
+                //         this.objectObservation = 0.0f;
+                // }
 
                 if (this.useThermalObs)
                 {
@@ -272,7 +285,7 @@ public class InteroceptiveAgent : Agent
                         // Reset heatmap
                         heatMap.GetComponent<HeatMap>().EpisodeHeatMap(debugMode);
                 }
-
+                
                 if (useTouchObs)
                 {
                         this.touchObservation = 0.0f;
@@ -299,6 +312,10 @@ public class InteroceptiveAgent : Agent
                 {
                         sensor.AddObservation(thermoObservation);
                 }
+                // if (useObjectObs)
+                // {
+                //         sensor.AddObservation(objectObservation);
+                // }
                 if (useTouchObs)
                 {
                         sensor.AddObservation(touchObservation);
@@ -373,7 +390,10 @@ public class InteroceptiveAgent : Agent
                 {
                         OlfactoryObserving();
                 }
-
+                // if (this.useObjectObs)
+                // {
+                //         ObjectObserving();
+                // }
                 // ThermalChanging() : thermalSense에 변화 반영시킴
                 // ThermalObserving() : 반영된 thermalSense를 다시 가져와 observation에 추가가
                 if (this.useThermalObs)
@@ -491,8 +511,7 @@ public class InteroceptiveAgent : Agent
                 }
 
                 // agent 크기 바뀌면 z값 확인하기
-                Vector3 SpherePos = new Vector3(gameObject.transform.position.x,
-                    gameObject.transform.position.y, gameObject.transform.position.z + 0.5f);
+                Vector3 SpherePos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z + 0.5f);
                 // Detect layer number 8
                 Collider[] olfactoryTargets = Physics.OverlapSphere(SpherePos, olfactorySensorLength, 1 << 8);
 
@@ -572,12 +591,25 @@ public class InteroceptiveAgent : Agent
                 return thermoObservation;
         }
 
+
+        // public void ObjectObserving()
+        // {
+        //         if (isObjectDetected)
+        //         {
+        //                 objectObservation = 1.0f;
+        //         }
+        //         else
+        //         {
+        //                 objectObservation = 0.0f;
+        //         }
+                
+        //         // return objectObservation;
+        // }
         public void TouchObserving()
         {
                 if (isTouched)
                 {
-                        touchObservation = 1.0f;
-                        isTouched = false;
+                        touchObservation = 0.0f;
                 }
                 else
                 {
@@ -642,10 +674,6 @@ public class InteroceptiveAgent : Agent
                 resourceLevels[3] -= changeHP * Time.fixedDeltaTime;
         }
 
-        public void Collision()
-        {
-                resourceLevels[3] -= collisionHP * Time.fixedDeltaTime;
-        }
         public void SetResetParameters()
         {
                 singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
@@ -671,7 +699,7 @@ public class InteroceptiveAgent : Agent
                 startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
 
                 useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
-
+                // useObjectObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useObjectObs", System.Convert.ToSingle(useObjectObs)));
                 useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
                 olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
 

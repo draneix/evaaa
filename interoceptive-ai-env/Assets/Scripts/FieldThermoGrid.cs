@@ -101,7 +101,7 @@ public class FieldThermoGrid : MonoBehaviour
 
         private void generateCube(Vector3 count, Vector3 position)
         {
-                // var layer = LayerMask.NameToLayer("cube");
+                var layer = LayerMask.NameToLayer("Player");
                 Transform parent = new GameObject().transform;
                 GameObject newCube = null;
 
@@ -118,7 +118,7 @@ public class FieldThermoGrid : MonoBehaviour
 
                                 newCube.name = string.Format("{0},0,{1}", x, z);
                                 newCube.transform.SetParent(parent);
-                                // newCube.layer = layer;
+                                newCube.layer = layer;
                                 newCube.tag = "thermalGridCube";
 
                                 Collider collider = newCube.GetComponent<Collider>();
