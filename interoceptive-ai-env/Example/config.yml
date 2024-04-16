@@ -93,3 +93,6 @@ collisionSensor:
 
 touchSensor:
   useTouchObs: true
+
+objectSensor:
+  useObjectObs: true

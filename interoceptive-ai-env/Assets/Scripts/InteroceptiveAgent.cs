@@ -63,9 +63,6 @@ public class InteroceptiveAgent : Agent
         public int olfactoryFeatureSize = 10;
         public float[] olfactoryObservation;
         public bool useThermalObs;
-        public bool isObjectDetected = false;
-        public bool useObjectObs;
-        public float objectObservation;
         public bool relativeThermalObs;
         public float[] thermoObservation;
         public GameObject thermoSensorCenter; 
@@ -77,7 +74,9 @@ public class InteroceptiveAgent : Agent
         public GameObject thermoSensorForwardRight;
         public GameObject thermoSensorBackwardLeft;
         public GameObject thermoSensorBackwardRight;
-
+        public bool isObjectDetected;
+        public bool useObjectObs;
+        public float objectObservation;
         public GameObject WeatherSystem;
         public WeatherState weatherState;
 
@@ -150,12 +149,12 @@ public class InteroceptiveAgent : Agent
         public float changeBody_4 = 0.0f;
 
         // hp
-        [Header("Health Point")]
-        public float maxHP = 100.0f;
-        public float minHP = 0.0f;
-        public float changeHP = 1.0f;
-        public bool checkHP;
-        public float startHP = 100.0f;
+        [Header("Collision Level")]
+        public float maxCollision = 30.0f;
+        public float minCollision = 0.0f;
+        public float changeCollision = 1.0f;
+        public bool checkCollision;
+        public float startCollision = 30.0f;
 
         // [Header("Predator / Prey")]
         // public GameObject Pig;
@@ -182,12 +181,6 @@ public class InteroceptiveAgent : Agent
                 {
                         this.olfactoryObservation = new float[this.olfactoryFeatureSize];
                 }
-
-                if (this.useObjectObs)
-                {
-                        this.objectObservation = 0.0f;
-                }
-
                 if (this.useThermalObs)
                 {
                         this.thermoObservation = new float[8];
@@ -198,7 +191,10 @@ public class InteroceptiveAgent : Agent
                         // Reset heatmap
                         // heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
-
+                if (this.useObjectObs)
+                {
+                        this.objectObservation = 0.0f;
+                }
                 if (this.useTouchObs)
                 {
                         this.touchObservation = 0.0f;
@@ -242,7 +238,7 @@ public class InteroceptiveAgent : Agent
                         }
                         else if (i == 3)
                         {
-                                this.resourceLevels[i] = startHP;
+                                this.resourceLevels[i] = startCollision;
                                 this.oldResourceLevels[i] = this.resourceLevels[i];
                         }
                 }
@@ -256,10 +252,6 @@ public class InteroceptiveAgent : Agent
                         }
                 }
                 
-                if (useObjectObs)
-                {
-                        this.objectObservation = 0.0f;
-                }
 
                 if (this.useThermalObs)
                 {
@@ -285,7 +277,12 @@ public class InteroceptiveAgent : Agent
                         // Reset heatmap
                         heatMap.GetComponent<HeatMap>().EpisodeHeatMap(debugMode);
                 }
-                
+
+                if (useObjectObs)
+                {
+                        this.objectObservation = 0.0f;
+                }
+
                 if (useTouchObs)
                 {
                         this.touchObservation = 0.0f;
@@ -390,10 +387,7 @@ public class InteroceptiveAgent : Agent
                 {
                         OlfactoryObserving();
                 }
-                if (this.useObjectObs)
-                {
-                        ObjectObserving();
-                }
+
                 // ThermalChanging() : thermalSense에 변화 반영시킴
                 // ThermalObserving() : 반영된 thermalSense를 다시 가져와 observation에 추가가
                 if (this.useThermalObs)
@@ -402,6 +396,11 @@ public class InteroceptiveAgent : Agent
                         ThermalObserving();
                         ThermoUpdate(changeBody_0, changeBody_1, changeBody_2, changeBody_3, changeBody_4);
                         field.GetComponent<FieldThermoGrid>().SetDayNightTemperature();
+                }
+
+                if (this.useObjectObs)
+                {
+                        ObjectObserving();
                 }
 
                 if (this.useTouchObs)
@@ -419,10 +418,10 @@ public class InteroceptiveAgent : Agent
                         checkThermoLevel = (this.maxThermoLevel < this.bodyTemp || this.bodyTemp < this.minThermoLevel);
                 }
 
-                bool checkHP = (this.resourceLevels[3] < this.minHP);
+                bool checkCollision = (this.resourceLevels[3] < this.minCollision);
 
                 // 만약 상한이나 하한을 넘어간 EV가 있다면 episode 종료
-                if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHP)
+                if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkCollision)
                         EndEpisode();
 
                 int action = actions.DiscreteActions[0];
@@ -671,7 +670,7 @@ public class InteroceptiveAgent : Agent
 
         public void Damage()
         {
-                resourceLevels[3] -= changeHP * Time.fixedDeltaTime;
+                resourceLevels[3] -= changeCollision * Time.fixedDeltaTime;
         }
 
         public void SetResetParameters()
@@ -728,9 +727,9 @@ public class InteroceptiveAgent : Agent
                 changeBody_3 = m_ResetParams.GetWithDefault("changeBody_3", changeBody_3);
                 changeBody_3 = m_ResetParams.GetWithDefault("changeBody_4", changeBody_4);
 
-                maxHP = m_ResetParams.GetWithDefault("maxHP", maxHP);
-                minHP = m_ResetParams.GetWithDefault("minHP", minHP);
-                changeHP = m_ResetParams.GetWithDefault("changeHP", changeHP);
-                startHP = m_ResetParams.GetWithDefault("startHP", startHP);
+                maxCollision = m_ResetParams.GetWithDefault("maxCollision", maxCollision);
+                minCollision = m_ResetParams.GetWithDefault("minCollision", minCollision);
+                changeCollision = m_ResetParams.GetWithDefault("changeCollision", changeCollision);
+                startCollision = m_ResetParams.GetWithDefault("startCollision", startCollision);
         }
 }
