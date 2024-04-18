@@ -74,9 +74,10 @@ public class InteroceptiveAgent : Agent
         public GameObject thermoSensorForwardRight;
         public GameObject thermoSensorBackwardLeft;
         public GameObject thermoSensorBackwardRight;
-        public bool isObjectDetected;
-        public bool useObjectObs;
-        public float objectObservation;
+        public bool isCollisionDetected;
+        public bool useCollisionObs;
+        public float collisionObservation;
+        public bool isCollided;
         public GameObject WeatherSystem;
         public WeatherState weatherState;
 
@@ -156,6 +157,12 @@ public class InteroceptiveAgent : Agent
         public bool checkCollision;
         public float startCollision = 30.0f;
 
+        [Header("Collision System")]
+        public float raysPerDirection = 100;
+        public float maxDistance = 2;
+        public float radialRange = 360f;
+        public float damageConstant = 0.05f;
+
         // [Header("Predator / Prey")]
         // public GameObject Pig;
         // Rigidbody m_pig;
@@ -191,9 +198,9 @@ public class InteroceptiveAgent : Agent
                         // Reset heatmap
                         // heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
-                if (this.useObjectObs)
+                if (this.useCollisionObs)
                 {
-                        this.objectObservation = 0.0f;
+                        this.collisionObservation = 0.0f;
                 }
                 if (this.useTouchObs)
                 {
@@ -278,9 +285,9 @@ public class InteroceptiveAgent : Agent
                         heatMap.GetComponent<HeatMap>().EpisodeHeatMap(debugMode);
                 }
 
-                if (useObjectObs)
+                if (useCollisionObs)
                 {
-                        this.objectObservation = 0.0f;
+                        this.collisionObservation = 0.0f;
                 }
 
                 if (useTouchObs)
@@ -309,9 +316,9 @@ public class InteroceptiveAgent : Agent
                 {
                         sensor.AddObservation(thermoObservation);
                 }
-                if (useObjectObs)
+                if (useCollisionObs)
                 {
-                        sensor.AddObservation(objectObservation);
+                        sensor.AddObservation(collisionObservation);
                 }
                 if (useTouchObs)
                 {
@@ -398,9 +405,9 @@ public class InteroceptiveAgent : Agent
                         field.GetComponent<FieldThermoGrid>().SetDayNightTemperature();
                 }
 
-                if (this.useObjectObs)
+                if (this.useCollisionObs)
                 {
-                        ObjectObserving();
+                        CollisionObserving();
                 }
 
                 if (this.useTouchObs)
@@ -591,18 +598,17 @@ public class InteroceptiveAgent : Agent
         }
 
 
-        public void ObjectObserving()
+        public void CollisionObserving()
         {
-                if (isObjectDetected)
+                if (isCollisionDetected)
                 {
-                        objectObservation = 1.0f;
+                        collisionObservation = 1.0f;
                 }
                 else
                 {
-                        objectObservation = 0.0f;
+                        collisionObservation = 0.0f;
                 }
                 
-                // return objectObservation;
         }
         public void TouchObserving()
         {
@@ -698,7 +704,7 @@ public class InteroceptiveAgent : Agent
                 startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
 
                 useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
-                useObjectObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useObjectObs", System.Convert.ToSingle(useObjectObs)));
+                useCollisionObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useCollisionObs", System.Convert.ToSingle(useCollisionObs)));
                 useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
                 olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
 
@@ -731,5 +737,11 @@ public class InteroceptiveAgent : Agent
                 minCollision = m_ResetParams.GetWithDefault("minCollision", minCollision);
                 changeCollision = m_ResetParams.GetWithDefault("changeCollision", changeCollision);
                 startCollision = m_ResetParams.GetWithDefault("startCollision", startCollision);
+                raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
+                maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
+                radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
+                damageConstant = m_ResetParams.GetWithDefault("damageConstant", damageConstant);
+                isCollided = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isCollided", System.Convert.ToSingle(isCollided)));
+
         }
 }
