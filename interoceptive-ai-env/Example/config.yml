@@ -88,8 +88,9 @@ thermoSensor:
 collisionSensor:
   useColliison: ture
   collisionRaysPerDirection: 20
-  collisionMaxDistance: 3
+  collisionMaxDistance: 1.5
   collsionRadialRange: 100
+  collisionFeatureSize: 10
 
 touchSensor:
   useTouchObs: true

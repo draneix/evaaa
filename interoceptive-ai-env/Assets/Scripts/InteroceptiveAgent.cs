@@ -78,6 +78,7 @@ public class InteroceptiveAgent : Agent
         public bool isCollisionDetected;
         public bool useCollisionObs;
         public float[] collisionObservation;
+        public int collisionFeatureSize = 10;
         public bool isCollided;
         // public float damage;
         // public GameObject WeatherSystem;
@@ -115,9 +116,9 @@ public class InteroceptiveAgent : Agent
 
         // hp
         [Header("Health")]
-        public float maxHealth = 30.0f;
+        public float maxHealth = 100.0f;
         public float minHealth = 0.0f;
-        public float startHealthLevel = 30.0f;
+        public float startHealthLevel = 100.0f;
 
 
         [Header("Merterials")]
@@ -167,7 +168,7 @@ public class InteroceptiveAgent : Agent
 
         [Header("Collision System")]
         public float raysPerDirection = 100;
-        public float maxDistance = 2;
+        public float maxDistance = 1.5f;
         public float radialRange = 360f;
         public float damageConstant = 0.05f;
 
@@ -210,7 +211,7 @@ public class InteroceptiveAgent : Agent
                 {
                         // this.collisionObservation = 0.0f;
                         isCollided = true;
-                        this.collisionObservation = new float[10];
+                        this.collisionObservation = new float[this.collisionFeatureSize];
                 }
                 if (this.useTouchObs)
                 {
