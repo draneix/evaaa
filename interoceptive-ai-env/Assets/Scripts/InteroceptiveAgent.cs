@@ -74,13 +74,14 @@ public class InteroceptiveAgent : Agent
         public GameObject thermoSensorForwardRight;
         public GameObject thermoSensorBackwardLeft;
         public GameObject thermoSensorBackwardRight;
+        public ObjectRaycast objectRaycast;
         public bool isCollisionDetected;
         public bool useCollisionObs;
-        public float collisionObservation;
+        public float[] collisionObservation;
         public bool isCollided;
-        public GameObject WeatherSystem;
-        public WeatherState weatherState;
-
+        // public float damage;
+        // public GameObject WeatherSystem;
+        // public WeatherState weatherState;
 
         [Header("Essential variables (EV)")]
         public int countEV = 4;
@@ -111,6 +112,13 @@ public class InteroceptiveAgent : Agent
         // public float changeThermoLevelRate = 0.005f;
         // public int thermoSensorChangeRate = 10;
         public float startThermoLevel = 0.0f;
+
+        // hp
+        [Header("Health")]
+        public float maxHealth = 30.0f;
+        public float minHealth = 0.0f;
+        public float startHealthLevel = 30.0f;
+
 
         [Header("Merterials")]
         public Material agentMerterial;
@@ -149,13 +157,13 @@ public class InteroceptiveAgent : Agent
         public float changeBody_3 = 0.0f;
         public float changeBody_4 = 0.0f;
 
-        // hp
-        [Header("Collision Level")]
-        public float maxCollision = 30.0f;
-        public float minCollision = 0.0f;
-        public float changeCollision = 1.0f;
-        public bool checkCollision;
-        public float startCollision = 30.0f;
+        [Header("Coefficient (Health)")]
+        public float changeHealth_0 = 0.01f;
+        public float changeHealth_1 = 0.0f;
+        public float changeHealth_2 = 0.0f;
+        public float changeHealth_3 = 0.0f;
+        public float changeHealth_4 = 0.0f;
+        public float changeHealth_5 = 0.0f;
 
         [Header("Collision System")]
         public float raysPerDirection = 100;
@@ -200,7 +208,9 @@ public class InteroceptiveAgent : Agent
                 }
                 if (this.useCollisionObs)
                 {
-                        this.collisionObservation = 0.0f;
+                        // this.collisionObservation = 0.0f;
+                        isCollided = true;
+                        this.collisionObservation = new float[10];
                 }
                 if (this.useTouchObs)
                 {
@@ -245,7 +255,7 @@ public class InteroceptiveAgent : Agent
                         }
                         else if (i == 3)
                         {
-                                this.resourceLevels[i] = startCollision;
+                                this.resourceLevels[i] = startHealthLevel;
                                 this.oldResourceLevels[i] = this.resourceLevels[i];
                         }
                 }
@@ -287,7 +297,12 @@ public class InteroceptiveAgent : Agent
 
                 if (useCollisionObs)
                 {
-                        this.collisionObservation = 0.0f;
+                        // this.collisionObservation = 0.0f;
+                        for (int i = 0; i < 10; i++)
+                        {
+                                this.collisionObservation[i] = 0;
+                        }                                            
+
                 }
 
                 if (useTouchObs)
@@ -339,30 +354,30 @@ public class InteroceptiveAgent : Agent
                 this.agentPosition = this.transform.position;
                 this.agentRotation = this.transform.eulerAngles;
 
-                // Debug.Log(WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState);
-                if (WeatherSystem.activeSelf == true)  //WeatherSystem.enabled == true
-                {
-                        if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Rain)
-                        {
-                                olfactorySensorLength = 50f;
-                        }
+                // // Debug.Log(WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState);
+                // if (WeatherSystem.activeSelf == true)  //WeatherSystem.enabled == true
+                // {
+                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Rain)
+                //         {
+                //                 olfactorySensorLength = 50f;
+                //         }
 
-                        // if (weatherState == WeatherState.Thunder)
-                        // {   
-                        // olfactorySensorLength = 30f;
-                        // }
+                //         // if (weatherState == WeatherState.Thunder)
+                //         // {   
+                //         // olfactorySensorLength = 30f;
+                //         // }
 
-                        if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Snow)
-                        {
-                                olfactorySensorLength = 20f;
-                        }
+                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Snow)
+                //         {
+                //                 olfactorySensorLength = 20f;
+                //         }
 
-                        if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.None)
-                        {
-                                olfactorySensorLength = 100f;
-                        }
+                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.None)
+                //         {
+                //                 olfactorySensorLength = 100f;
+                //         }
 
-                }
+                // }
 
                 if (eatenResource)
                 {
@@ -384,6 +399,7 @@ public class InteroceptiveAgent : Agent
                 // EV (Food, Water, Thermo) Update
                 FoodUpdate(changeFood_0, changeFood_1, changeFood_2, changeFood_3, changeFood_4, changeFood_5);
                 WaterUpdate(changeWater_0, changeWater_1, changeWater_2, changeWater_3, changeWater_4, changeWater_5);
+                HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
                 // if (this.useThermalObs)
                 // {
 
@@ -425,11 +441,16 @@ public class InteroceptiveAgent : Agent
                         checkThermoLevel = (this.maxThermoLevel < this.bodyTemp || this.bodyTemp < this.minThermoLevel);
                 }
 
-                bool checkCollision = (this.resourceLevels[3] < this.minCollision);
+                bool checkHealth = (this.resourceLevels[3] < this.minHealth);
 
                 // 만약 상한이나 하한을 넘어간 EV가 있다면 episode 종료
-                if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkCollision)
+                if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
                         EndEpisode();
+
+                if (this.resourceLevels[3] > maxHealth)
+                {
+                        this.resourceLevels[3] = maxHealth;
+                }
 
                 int action = actions.DiscreteActions[0];
                 MoveAgent(action);
@@ -600,15 +621,22 @@ public class InteroceptiveAgent : Agent
 
         public void CollisionObserving()
         {
+                objectRaycast = GetComponent<ObjectRaycast>();
+                collisionObservation[0] = objectRaycast.collisionObservation[0];
+                collisionObservation[1] = objectRaycast.collisionObservation[1];
+                collisionObservation[2] = objectRaycast.collisionObservation[2];
+                collisionObservation[3] = objectRaycast.collisionObservation[3];
+                collisionObservation[4] = objectRaycast.collisionObservation[4];
+                collisionObservation[5] = objectRaycast.collisionObservation[5];
+                collisionObservation[6] = objectRaycast.collisionObservation[6];
+                collisionObservation[7] = objectRaycast.collisionObservation[7];
+                collisionObservation[8] = objectRaycast.collisionObservation[8];
+                collisionObservation[9] = objectRaycast.collisionObservation[9];
+                
                 if (isCollisionDetected)
                 {
-                        collisionObservation = 1.0f;
+                        this.resourceLevels[3] -= objectRaycast.damage;
                 }
-                else
-                {
-                        collisionObservation = 0.0f;
-                }
-                
         }
         public void TouchObserving()
         {
@@ -669,6 +697,19 @@ public class InteroceptiveAgent : Agent
                 this.resourceLevels[2] = this.bodyTemp;
         }
 
+        public void HealthUpdate(float changeHealth_0, float changeHealth_1, float changeHealth_2, float changeHealth_3, float changeHealth_4, float changeHealth_5)
+        {
+                this.resourceLevels[3] = this.resourceLevels[3] +
+                                        changeHealth_0 * maxHealth * Time.fixedDeltaTime +
+                                        changeHealth_1 * (this.oldResourceLevels[0] + 15) * Time.fixedDeltaTime +
+                                        changeHealth_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
+                                        changeHealth_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
+                                        changeHealth_4 * (CalculateInteraction(oldResourceLevels[0], oldResourceLevels[1], oldResourceLevels[2])) * Time.fixedDeltaTime +
+                                        changeHealth_5 * resourceWaterValue;
+        }
+
+
+
         public float CalculateInteraction(float food, float water, float bodyTemp)
         {
                 return 1.0f;
@@ -676,7 +717,7 @@ public class InteroceptiveAgent : Agent
 
         public void Damage()
         {
-                resourceLevels[3] -= changeCollision * Time.fixedDeltaTime;
+                // sresourceLevels[3] -= changeHealth * Time.fixedDeltaTime;
         }
 
         public void SetResetParameters()
@@ -719,24 +760,30 @@ public class InteroceptiveAgent : Agent
                 changeFood_1 = m_ResetParams.GetWithDefault("changeFood_1", changeFood_1);
                 changeFood_2 = m_ResetParams.GetWithDefault("changeFood_2", changeFood_2);
                 changeFood_3 = m_ResetParams.GetWithDefault("changeFood_3", changeFood_3);
-                changeFood_3 = m_ResetParams.GetWithDefault("changeFood_4", changeFood_4);
+                changeFood_4 = m_ResetParams.GetWithDefault("changeFood_4", changeFood_4);
 
                 changeWater_0 = m_ResetParams.GetWithDefault("changeWater_0", changeWater_0);
                 changeWater_1 = m_ResetParams.GetWithDefault("changeWater_1", changeWater_1);
                 changeWater_2 = m_ResetParams.GetWithDefault("changeWater_2", changeWater_2);
                 changeWater_3 = m_ResetParams.GetWithDefault("changeWater_3", changeWater_3);
-                changeWater_3 = m_ResetParams.GetWithDefault("changeWater_4", changeWater_4);
+                changeWater_4 = m_ResetParams.GetWithDefault("changeWater_4", changeWater_4);
 
                 changeBody_0 = m_ResetParams.GetWithDefault("changeBody_0", changeBody_0);
                 changeBody_1 = m_ResetParams.GetWithDefault("changeBody_1", changeBody_1);
                 changeBody_2 = m_ResetParams.GetWithDefault("changeBody_2", changeBody_2);
                 changeBody_3 = m_ResetParams.GetWithDefault("changeBody_3", changeBody_3);
-                changeBody_3 = m_ResetParams.GetWithDefault("changeBody_4", changeBody_4);
+                changeBody_4 = m_ResetParams.GetWithDefault("changeBody_4", changeBody_4);
 
-                maxCollision = m_ResetParams.GetWithDefault("maxCollision", maxCollision);
-                minCollision = m_ResetParams.GetWithDefault("minCollision", minCollision);
-                changeCollision = m_ResetParams.GetWithDefault("changeCollision", changeCollision);
-                startCollision = m_ResetParams.GetWithDefault("startCollision", startCollision);
+                changeHealth_0 = m_ResetParams.GetWithDefault("changeHealth_0", changeHealth_0);
+                changeHealth_1 = m_ResetParams.GetWithDefault("changeHealth_1", changeHealth_1);
+                changeHealth_2 = m_ResetParams.GetWithDefault("changeHealth_2", changeHealth_2);
+                changeHealth_3 = m_ResetParams.GetWithDefault("changeHealth_3", changeHealth_3);
+                changeHealth_4 = m_ResetParams.GetWithDefault("changeHealth_4", changeHealth_4);
+
+                maxHealth = m_ResetParams.GetWithDefault("maxHealth", maxHealth);
+                minHealth = m_ResetParams.GetWithDefault("minHealth", minHealth);
+                // changeHealth = m_ResetParams.GetWithDefault("changeHealth", changeHealth);
+                startHealthLevel = m_ResetParams.GetWithDefault("startHealthLevel", startHealthLevel);
                 raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
                 maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
                 radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
