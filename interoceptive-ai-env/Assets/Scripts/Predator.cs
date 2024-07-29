@@ -12,9 +12,9 @@ public class Predator : StrongAnimal
         if (theViewAngle.View() && !isDead)
         {
             StopAllCoroutines();
-            Debug.Log("stop");
+            // Debug.Log("stop");
             StartCoroutine(ChaseTargetCoroutine());
-            Debug.Log("start chasing");
+            // Debug.Log("start chasing");
         }
     }
 
@@ -61,19 +61,19 @@ public class Predator : StrongAnimal
     {
         currentTime = waitTime;
         anim.SetTrigger("Walk");
-        Debug.Log("Walk");
+        // Debug.Log("Walk");
     }
     private void Run()
     {
         currentTime = runTime;
         anim.SetTrigger("Run");
-        Debug.Log("Run");
+        // Debug.Log("Run");
     }
 
     private void Wait()  // 대기
     {
         currentTime = waitTime;
-        Debug.Log("wait");
+        // Debug.Log("wait");
     }
 
 }

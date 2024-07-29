@@ -637,6 +637,7 @@ public class InteroceptiveAgent : Agent
                 if (isCollisionDetected)
                 {
                         this.resourceLevels[3] -= objectRaycast.damage;
+                        isCollisionDetected = false;
                 }
         }
         public void TouchObserving()

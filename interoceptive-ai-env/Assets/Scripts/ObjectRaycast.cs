@@ -70,10 +70,10 @@ public class ObjectRaycast : MonoBehaviour
         // Debug.Log("mass : " + mass);
         // Debug.Log("collision.impulse.magnitude : " + collision.impulse.magnitude);
     }
-    void OnCollisionExit(Collision collision)
-    {
-        // Reset the isCollisionDetected flag and damage
-        agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = false;
-        // Debug.Log("Collision ended. isCollided : " + agent.GetComponent<InteroceptiveAgent>().isCollisionDetected);
-    }
+    // void OnCollisionExit(Collision collision)
+    // {
+    //     // Reset the isCollisionDetected flag and damage
+    //     agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = false;
+    //     // Debug.Log("Collision ended. isCollided : " + agent.GetComponent<InteroceptiveAgent>().isCollisionDetected);
+    // }
 }

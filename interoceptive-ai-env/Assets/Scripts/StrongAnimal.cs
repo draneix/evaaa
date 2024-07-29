@@ -8,8 +8,8 @@ public class StrongAnimal : Animal
     // protected int attackDamage; 
     public GameObject agent;
     [SerializeField]
-    protected float attackDelay;
-    [SerializeField]
+    // protected float attackDelay;
+    // [SerializeField]
     protected float attackDistance;
     [SerializeField]
     protected LayerMask targetMask;
@@ -18,7 +18,7 @@ public class StrongAnimal : Animal
     protected float ChaseTime;
     protected float CurrentChaseTime;
     [SerializeField]
-    protected float ChaseDelayTime;
+    // protected float ChaseDelayTime;
     public void Chase(Vector3 _targetPos)
     {
         destination = _targetPos;
@@ -56,12 +56,15 @@ public class StrongAnimal : Animal
             {
                 if (theViewAngle.View()) // 눈 앞에 있을 경우
                 {
-                    Debug.Log("try attack");
-                    StartCoroutine(AttackCoroutine());
+                    // Debug.Log("try attack");
+                    // StartCoroutine(AttackCoroutine());
                 }
             }
-            yield return new WaitForSeconds(ChaseDelayTime);
-            CurrentChaseTime += ChaseDelayTime;
+            // yield return new WaitForSeconds(ChaseDelayTime);
+            yield return new WaitForSeconds(CurrentChaseTime);
+            // CurrentChaseTime += ChaseDelayTime;\           
+            CurrentChaseTime += CurrentChaseTime;
+
         }
 
         isChasing = false;
@@ -70,31 +73,31 @@ public class StrongAnimal : Animal
         nav.ResetPath();
     }
 
-    public IEnumerator AttackCoroutine()
-    {
-        isAttacking = true;
-        nav.ResetPath();
-        CurrentChaseTime = ChaseTime;
-        // yield return new WaitForSeconds(0.5f);
-        transform.LookAt(new Vector3(theViewAngle.GetTargetPos().x, 0f, theViewAngle.GetTargetPos().z));
-        anim.SetTrigger("Attack");
-        // yield return new WaitForSeconds(0.5f);
-        RaycastHit _hit;
-        if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out _hit, attackDistance, targetMask))
-        {
-            Debug.Log("target hit");
-            agent.GetComponent<InteroceptiveAgent>().Damage();
-            // thePlayerStatus.DecreaseHP(attackDamage);
-        }
+    // public IEnumerator AttackCoroutine()
+    // {
+    //     isAttacking = true;
+    //     nav.ResetPath();
+    //     CurrentChaseTime = ChaseTime;
+    //     // yield return new WaitForSeconds(0.5f);
+    //     transform.LookAt(new Vector3(theViewAngle.GetTargetPos().x, 0f, theViewAngle.GetTargetPos().z));
+    //     anim.SetTrigger("Attack");
+    //     // yield return new WaitForSeconds(0.5f);
+    //     RaycastHit _hit;
+    //     if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out _hit, attackDistance, targetMask))
+    //     {
+    //         // Debug.Log("target hit");
+    //         agent.GetComponent<InteroceptiveAgent>().Damage();
+    //         // thePlayerStatus.DecreaseHP(attackDamage);
+    //     }
 
-        else
-        {
-            Debug.Log("target missed");
-        }
+    //     else
+    //     {
+    //         // Debug.Log("target missed");
+    //     }
 
-        yield return new WaitForSeconds(attackDelay);
-        isAttacking = false;
-        StartCoroutine(ChaseTargetCoroutine());
-    }
+    //     yield return new WaitForSeconds(attackDelay);
+    //     isAttacking = false;
+    //     StartCoroutine(ChaseTargetCoroutine());
+    // }
 
 }
