@@ -80,6 +80,7 @@ public class InteroceptiveAgent : Agent
         public float[] collisionObservation;
         public int collisionFeatureSize = 10;
         public bool isCollided;
+        public bool isChasing;
         // public float damage;
         // public GameObject WeatherSystem;
         // public WeatherState weatherState;
@@ -634,7 +635,12 @@ public class InteroceptiveAgent : Agent
                 collisionObservation[8] = objectRaycast.collisionObservation[8];
                 collisionObservation[9] = objectRaycast.collisionObservation[9];
                 
-                if (isCollisionDetected)
+                if (isChasing &isCollisionDetected)
+                {       
+                        this.resourceLevels[3] -= objectRaycast.damage;
+                }
+
+                else if (isCollisionDetected)
                 {
                         this.resourceLevels[3] -= objectRaycast.damage;
                         isCollisionDetected = false;

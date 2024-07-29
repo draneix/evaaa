@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class StrongAnimal : Animal
 {
-    // [SerializeField]
-    // protected int attackDamage; 
+    [SerializeField]
+    protected int attackDamage; 
     public GameObject agent;
     [SerializeField]
-    // protected float attackDelay;
-    // [SerializeField]
+    protected float attackDelay;
+    [SerializeField]
     protected float attackDistance;
     [SerializeField]
     protected LayerMask targetMask;
@@ -18,7 +18,7 @@ public class StrongAnimal : Animal
     protected float ChaseTime;
     protected float CurrentChaseTime;
     [SerializeField]
-    // protected float ChaseDelayTime;
+    protected float ChaseDelayTime;
     public void Chase(Vector3 _targetPos)
     {
         destination = _targetPos;
@@ -47,23 +47,13 @@ public class StrongAnimal : Animal
     {
         CurrentChaseTime = 0;
         Chase(theViewAngle.GetTargetPos());
-
+        agent.GetComponent<InteroceptiveAgent>().isChasing = true;
 
         while (CurrentChaseTime < ChaseTime)
         {
             Chase(theViewAngle.GetTargetPos()); //충분히 가까이 있고
-            if (Vector3.Distance(transform.position, theViewAngle.GetTargetPos()) <= attackDistance)
-            {
-                if (theViewAngle.View()) // 눈 앞에 있을 경우
-                {
-                    // Debug.Log("try attack");
-                    // StartCoroutine(AttackCoroutine());
-                }
-            }
-            // yield return new WaitForSeconds(ChaseDelayTime);
-            yield return new WaitForSeconds(CurrentChaseTime);
-            // CurrentChaseTime += ChaseDelayTime;\           
-            CurrentChaseTime += CurrentChaseTime;
+            yield return new WaitForSeconds(ChaseDelayTime);
+            CurrentChaseTime += ChaseDelayTime;          
 
         }
 
@@ -71,32 +61,35 @@ public class StrongAnimal : Animal
         isRunning = false;
         anim.SetBool("Running", isRunning);
         nav.ResetPath();
+
+        agent.GetComponent<InteroceptiveAgent>().isChasing = false;
+        StartCoroutine(ChaseTargetCoroutine());
     }
 
     // public IEnumerator AttackCoroutine()
     // {
-    //     isAttacking = true;
     //     nav.ResetPath();
     //     CurrentChaseTime = ChaseTime;
-    //     // yield return new WaitForSeconds(0.5f);
+    //     yield return new WaitForSeconds(0.5f);
     //     transform.LookAt(new Vector3(theViewAngle.GetTargetPos().x, 0f, theViewAngle.GetTargetPos().z));
     //     anim.SetTrigger("Attack");
-    //     // yield return new WaitForSeconds(0.5f);
+    //     yield return new WaitForSeconds(0.5f);
     //     RaycastHit _hit;
     //     if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out _hit, attackDistance, targetMask))
     //     {
-    //         // Debug.Log("target hit");
+    //         Debug.Log("target hit");
     //         agent.GetComponent<InteroceptiveAgent>().Damage();
     //         // thePlayerStatus.DecreaseHP(attackDamage);
     //     }
 
     //     else
     //     {
-    //         // Debug.Log("target missed");
+    //         Debug.Log("target missed");
     //     }
 
     //     yield return new WaitForSeconds(attackDelay);
-    //     isAttacking = false;
+    //     agent.GetComponent<InteroceptiveAgent>().isChasing = false;
+    //     // Debug.Log(isAttacking);
     //     StartCoroutine(ChaseTargetCoroutine());
     // }
 

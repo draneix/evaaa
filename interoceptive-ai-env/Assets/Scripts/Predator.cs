@@ -12,30 +12,30 @@ public class Predator : StrongAnimal
         if (theViewAngle.View() && !isDead)
         {
             StopAllCoroutines();
-            // Debug.Log("stop");
+            Debug.Log("stop");
             StartCoroutine(ChaseTargetCoroutine());
-            // Debug.Log("start chasing");
+            Debug.Log("start chasing");
         }
     }
 
-    // IEnumerator chaseTargetCoroutine()
-    // {
-    //     CurrentChaseTime = 0;
-    //     Chase(theViewAngle.GetTargetPos());
+    IEnumerator chaseTargetCoroutine()
+    {
+        CurrentChaseTime = 0;
+        Chase(theViewAngle.GetTargetPos());
 
-    //     while(CurrentChaseTime < ChaseTime)
-    //     {
-    //         Chase(theViewAngle.GetTargetPos());
-    //         yield return new WaitForSeconds(ChaseDelayTime);
-    //         CurrentChaseTime += ChaseDelayTime;
-    //         Debug.Log("chasing");
-    //     }
+        while(CurrentChaseTime < ChaseTime)
+        {
+            Chase(theViewAngle.GetTargetPos());
+            yield return new WaitForSeconds(ChaseDelayTime);
+            CurrentChaseTime += ChaseDelayTime;
+            Debug.Log("chasing");
+        }
 
-    //     isChasing = false;
-    //     isRunning = false;
-    //     anim.SetBool("Running", isRunning);
-    //     nav.ResetPath();
-    // }
+        isChasing = false;
+        isRunning = false;
+        anim.SetBool("Running", isRunning);
+        nav.ResetPath();
+    }
 
     protected override void ReSet()
     {

@@ -21,7 +21,7 @@ public class Animal : MonoBehaviour
     protected  bool isWalking ;
     protected bool isRunning ; 
     protected bool isChasing; 
-    protected bool isAttacking;
+    // protected bool isAttacking;
     protected bool isDead;
 
     [SerializeField] protected float walkTime ; 
@@ -78,7 +78,7 @@ public class Animal : MonoBehaviour
         if (isAction)
         {
             currentTime -= Time.deltaTime;
-            if (currentTime <= 0 && !isChasing && !isAttacking)  // 랜덤하게 다음 행동을 개시
+            if (currentTime <= 0 && !isChasing ) // 랜덤하게 다음 행동을 개시
                 ReSet();
         }
     }
@@ -138,7 +138,6 @@ public class Animal : MonoBehaviour
         isWalking = false;
         isRunning = false;
         isChasing = false;
-        isAttacking = false;
         isDead = true;
         nav.ResetPath();
         anim.SetTrigger("Dead");
@@ -163,5 +162,4 @@ public class Animal : MonoBehaviour
     // }
    
 }
-
 
