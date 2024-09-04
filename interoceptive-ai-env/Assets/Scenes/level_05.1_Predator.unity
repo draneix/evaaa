@@ -16130,7 +16130,7 @@ PrefabInstance:
     - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -34.71
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
         type: 3}
@@ -16190,6 +16190,11 @@ PrefabInstance:
     - target: {fileID: 5933569027085062042, guid: b80541d830afd4004941a278d45ae448,
         type: 3}
       propertyPath: attackDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5933569027085062042, guid: b80541d830afd4004941a278d45ae448,
+        type: 3}
+      propertyPath: totalChaseTime
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
