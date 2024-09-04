@@ -32,7 +32,8 @@ public class AgentHP : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    void Update()
+    // void Update()
+    void FixedUpdate()
     {
         bool foundTarget = false;
 

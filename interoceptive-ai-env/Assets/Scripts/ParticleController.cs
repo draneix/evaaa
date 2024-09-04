@@ -14,7 +14,8 @@ public class ParticleController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    // void Update()
+    void FixedUpdate()
     {
         ps.Play();
         ps.Emit(150); //즉각적으로 100개의 파티클 방출 , burst같은 것.

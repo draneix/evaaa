@@ -41,10 +41,10 @@ public class Field : MonoBehaviour
         public float range = 40;
         public float height = 1;
 
-        public void Awake()
-        {
-                Random.InitState(randomSeed);
-        }
+        // public void Awake()
+        // {
+        //         Random.InitState(randomSeed);
+        // }
 
 
         // 음식의 생성 개수 조절

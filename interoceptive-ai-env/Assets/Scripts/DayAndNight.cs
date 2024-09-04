@@ -57,7 +57,8 @@ public class DayAndNight : MonoBehaviour
 
 
         // Update is called once per frame
-        void Update()
+        // void Update()
+        void FixedUpdate()
         {
                 eulerAnglesSun = transform.eulerAngles.x;
                 // GameObject인 Sun을 회전시키기 위한 함수

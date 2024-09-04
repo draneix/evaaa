@@ -27,7 +27,8 @@ public class AgentTrack : MonoBehaviour
     //     GetComponent<RectTransform>().anchoredPosition = screenPosition;
     // }
 
-    void Update()
+    // void Update()
+    void FixedUpdate()
     {
         // agent의 scene 상에서의 좌표 (transform)를 cam (TopViewCamera) 상에서의 좌표로 변환
         // https://fiftiesstudy.tistory.com/254

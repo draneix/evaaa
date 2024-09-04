@@ -5,9 +5,11 @@ using UnityEngine.AI;
 
 public class Predator : StrongAnimal
 {
-    protected override void Update()
+    // protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        // base.Update();
+        base.FixedUpdate();
         // Debug.Log(theViewAngle.View());
         if (theViewAngle.View() && !isDead)
         {

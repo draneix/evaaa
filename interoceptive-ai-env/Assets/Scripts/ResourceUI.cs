@@ -52,7 +52,8 @@ public class ResourceUI : MonoBehaviour
 
     }
 
-    protected void Update()
+    // protected void Update()
+    protected void FixedUpdate()
     {
         foodLevel = agent.resourceLevels[0];
         waterLevel = agent.resourceLevels[1];

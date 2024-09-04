@@ -6,9 +6,9 @@ using Unity.MLAgents.Sensors;
 public class ObjectRaycast : MonoBehaviour
 {
     public GameObject agent;
-    // public int hitCount = 0; // count the number ray of hit
     public RaycastHit hit;
     public float damage;
+    private float impulseMagnitude;
 
     public float[] collisionObservation;
 
@@ -16,12 +16,9 @@ public class ObjectRaycast : MonoBehaviour
     {
         collisionObservation = new float[10];
     }
-    void Update()
+    void FixedUpdate()
     {
-        // hitCount = 0;
         DetectObstacle();
-        // agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = false;
-
     }
 
     void DetectObstacle()
@@ -46,34 +43,33 @@ public class ObjectRaycast : MonoBehaviour
             if (Physics.Raycast(transform.position, direction, out hit, agent.GetComponent<InteroceptiveAgent>().maxDistance, layerMask))
             {
                 Debug.DrawRay(transform.position, direction * agent.GetComponent<InteroceptiveAgent>().maxDistance, Color.red);
-                collisionObservation[groupIndex] = 1; // 해당 그룹에서 충돌 감지시 1로 설정
+                collisionObservation[groupIndex] = 1 + impulseMagnitude; // 해당 그룹에서 충돌 감지시 1로 설정
             }
             else
             {
                 Debug.DrawRay(transform.position, direction * agent.GetComponent<InteroceptiveAgent>().maxDistance, Color.green);
             }
-            // Debug.Log("isCollisionDetected : " + agent.GetComponent<InteroceptiveAgent>().isCollisionDetected);
-            // Debug.Log("damage : " + damage);
-            // Debug.Log(agent.GetComponent<InteroceptiveAgent>().resourceLevels[3]);
         }
+        // string collisionObservationString = string.Join(", ", collisionObservation);
+        // Debug.Log("collisionObservation : " + collisionObservationString);
+        // Debug.Log("Observation : " + agent.GetComponent<InteroceptiveAgent>().collisionObservation);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
+    {   
+        int agentLayer = LayerMask.NameToLayer("Court");
+        if (collision.gameObject.layer == agentLayer)
+        {
+            return;
+        }
+        impulseMagnitude = collision.impulse.magnitude;
+        // agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = true;
+        damage = Mathf.Exp(0.07f * (impulseMagnitude-60)) * agent.GetComponent<InteroceptiveAgent>().damageConstant;
+        // agent.GetComponent<InteroceptiveAgent>().ApplyDamage(damage);
+    }
+
+    void OnCollisionExit(Collision collision)
     {
-        // Get the mass of the colliding object
-        float mass = collision.rigidbody.mass;
-
-        // Calculate damage using an adjusted exponential function of the mass
-        agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = true;
-        damage = collision.impulse.magnitude * Mathf.Exp(0.01f * mass) * agent.GetComponent<InteroceptiveAgent>().damageConstant;
-        // Debug.Log("damage : " + damage);
-        // Debug.Log("mass : " + mass);
-        // Debug.Log("collision.impulse.magnitude : " + collision.impulse.magnitude);
+        damage = 0;
     }
-    // void OnCollisionExit(Collision collision)
-    // {
-    //     // Reset the isCollisionDetected flag and damage
-    //     agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = false;
-    //     // Debug.Log("Collision ended. isCollided : " + agent.GetComponent<InteroceptiveAgent>().isCollisionDetected);
-    // }
 }

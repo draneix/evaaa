@@ -76,7 +76,8 @@ public class MaterialChange : MonoBehaviour
         rend.sharedMaterial = material[x];
     }
 
-    void Update()
+    // void Update()
+    void FixedUpdate()
     {
         rend.sharedMaterial = material[x];
         StartCoroutine(WaitForChange());

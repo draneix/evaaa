@@ -53,7 +53,8 @@ public class Animal : MonoBehaviour
         currentTime = waitTime;
         isAction = true;
     }
-    protected virtual void Update()
+    // protected virtual void Update()
+    protected virtual void FixedUpdate()
     {   
         nav.SetDestination(AgentStatus.position);
         

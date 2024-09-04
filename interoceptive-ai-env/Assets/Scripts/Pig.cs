@@ -5,9 +5,11 @@ using UnityEngine.AI;
 
 public class Pig : WeakAnimal
 { 
-     protected override void Update()
+    //  protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        // base.Update();
+        base.FixedUpdate();
         if(theViewAngle.View() && !isDead)
         {
             Run(theViewAngle.GetTargetPos());

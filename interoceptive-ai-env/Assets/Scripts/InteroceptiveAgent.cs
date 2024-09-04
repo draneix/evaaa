@@ -6,7 +6,6 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Policies;
 using System.Linq;
 using UnityEditor;
-
 // GameObject인 Agent에 부착함
 
 public class InteroceptiveAgent : Agent
@@ -179,6 +178,8 @@ public class InteroceptiveAgent : Agent
         //초기화 작업을 위해 한번 호출되는 메소드
         public override void Initialize()
         {
+                // Academy.Instance.DisableAutomaticStepping();
+
                 if (debugMode) { print("Initialization"); }
                 m_ResetParams = Academy.Instance.EnvironmentParameters;
                 SetResetParameters();
@@ -425,7 +426,7 @@ public class InteroceptiveAgent : Agent
 
                 if (this.useCollisionObs)
                 {
-                        CollisionObserving();
+                        CollisionObserving(); 
                 }
 
                 if (this.useTouchObs)
@@ -467,6 +468,7 @@ public class InteroceptiveAgent : Agent
                 {
                         oldResourceLevels[i] = resourceLevels[i];
                 }
+
         }
 
         //개발자(사용자)가 직접 명령을 내릴때 호출하는 메소드(주로 테스트용도 또는 모방학습에 사용)
@@ -624,6 +626,9 @@ public class InteroceptiveAgent : Agent
         public void CollisionObserving()
         {
                 objectRaycast = GetComponent<ObjectRaycast>();
+
+                // objectRaycast.DetectObstacle();
+
                 collisionObservation[0] = objectRaycast.collisionObservation[0];
                 collisionObservation[1] = objectRaycast.collisionObservation[1];
                 collisionObservation[2] = objectRaycast.collisionObservation[2];
@@ -635,16 +640,21 @@ public class InteroceptiveAgent : Agent
                 collisionObservation[8] = objectRaycast.collisionObservation[8];
                 collisionObservation[9] = objectRaycast.collisionObservation[9];
                 
-                if (isChasing &isCollisionDetected)
-                {       
-                        this.resourceLevels[3] -= objectRaycast.damage;
-                }
+                // if (isChasing &isCollisionDetected)
+                // {       
+                //         this.resourceLevels[3] -= objectRaycast.damage;
+                // }
 
-                else if (isCollisionDetected)
-                {
-                        this.resourceLevels[3] -= objectRaycast.damage;
-                        isCollisionDetected = false;
-                }
+                // else if (isCollisionDetected)
+                // {
+                //         this.resourceLevels[3] -= objectRaycast.damage;
+                // //         // isCollisionDetected = false;
+                // // }
+                // if (isCollisionDetected)
+                // {
+                //         this.resourceLevels[3] -= objectRaycast.damage;
+                // }
+                this.resourceLevels[3] -= objectRaycast.damage;
         }
         public void TouchObserving()
         {

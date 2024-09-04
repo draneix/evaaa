@@ -10,7 +10,8 @@ public class TreeShader : MonoBehaviour
     public float maxlevel = 1.0f;
     public bool check = true;
     private int i = 0;
-    void Update()
+    // void Update()
+    void FixedUpdate()
     {
         StartCoroutine(WaitForlt());
     }
