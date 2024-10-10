@@ -291,8 +291,16 @@ public class InteroceptiveAgent : Agent
                         thermoSensorForwardRight.GetComponent<ThermalSensing>().SetThermalSense(0);
                         thermoSensorBackwardLeft.GetComponent<ThermalSensing>().SetThermalSense(0);
                         thermoSensorBackwardRight.GetComponent<ThermalSensing>().SetThermalSense(0);
-                        // Reset area
-                        field.GetComponent<FieldThermoGrid>().EpisodeAreaSmoothing();
+                        // Reset area temperature
+                        field.GetComponent<FieldThermoGrid>().SetAreaTemp();
+                        // Find all spotlight hotzones and set their hotzones
+                        SpotlightHotzone[] spotlightHotzones = FindObjectsOfType<SpotlightHotzone>(); // Get all spotlight hotzones
+                        foreach (var spotlightHotzone in spotlightHotzones)
+                        {
+                                spotlightHotzone.ApplySpotlightHotzone(); // Set hotzone for each spotlight
+                        }
+                        // Apply area temperature smoothing
+                        field.GetComponent<FieldThermoGrid>().AreaSmoothing();
 
                         // Reset heatmap
                         heatMap.GetComponent<HeatMap>().EpisodeHeatMap(debugMode);

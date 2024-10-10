@@ -227,15 +227,92 @@ public class FieldThermoGrid : MonoBehaviour
                 return areaTemp[x, z];
         }
 
-        public void SetAreaTemp(float temp)
+        public void SetAreaTemp()
         {
+                // areaTemp = new double[numberOfGridCubeX, numberOfGridCubeZ];
+                areaTemp = new float[numberOfGridCubeX, numberOfGridCubeZ];
+
+                // Setting default temperature
                 for (int x = 0; x < numberOfGridCubeX; ++x)
                 {
                         for (int z = 0; z < numberOfGridCubeZ; ++z)
                         {
-                                areaTemp[x, z] = areaTemp[x, z] + temp;
+                                areaTemp[x, z] = fieldDefaultTemp;
                         }
                 }
+
+                if (useRandomHotSpot)
+                {
+                        // Placing random position for hot spot
+                        for (int hotSpotCount = 0; hotSpotCount < this.hotSpotCount; ++hotSpotCount)
+                        {
+                                int x = Random.Range(0, numberOfGridCubeX);
+                                int z = Random.Range(0, numberOfGridCubeZ);
+
+                                int startIndexI = Mathf.Max(x - (int)hotSpotSize / 2, 0);
+                                int startIndexJ = Mathf.Max(z - (int)hotSpotSize / 2, 0);
+                                int endIndexI = Mathf.Min((x + (int)hotSpotSize / 2), numberOfGridCubeX);
+                                int endIndexJ = Mathf.Min((z + (int)hotSpotSize / 2), numberOfGridCubeZ);
+
+                                for (int i = startIndexI; i < endIndexI; i++)
+                                {
+                                        for (int j = startIndexJ; j < endIndexJ; j++)
+                                        {
+                                                areaTemp[i, j] = hotSpotTemp;
+                                        }
+                                }
+
+                                // areaTemp[x, z] = hotSpotTemp;
+                        }
+                }
+
+                // Adding temperature where Heat objects are located
+                if (useObjectHotSpot)
+                {
+                        if (heatObjectList.Length > 0)
+                        {
+                                for (int objectCount = 0; objectCount < heatObjectList.Length; ++objectCount)
+                                {
+                                        Vector2 cubeIndex = FindCloseGridCube(heatObjectList[objectCount], heatGridCubes);
+                                        float temperature = heatObjectList[objectCount].GetComponent<ThermalObject>().temperature;
+
+                                        Vector3 sizeOfObject = heatObjectList[objectCount].transform.lossyScale;
+                                        Vector3 sizeOfGridCube = heatGridCubes[0].gridCube.transform.lossyScale;
+
+                                        int relativeSizeX = (int)Mathf.Ceil(sizeOfObject.x / sizeOfGridCube.x);
+                                        int relativeSizeZ = (int)Mathf.Ceil(sizeOfObject.z / sizeOfGridCube.z);
+
+                                        // areaTemp[(int)cubeIndex.x, (int)cubeIndex.y] += temperature;
+
+                                        int startIndexI = Mathf.Max((int)cubeIndex.x - (int)relativeSizeX / 2, 0);
+                                        int startIndexJ = Mathf.Max((int)cubeIndex.y - (int)relativeSizeZ / 2, 0);
+                                        int endIndexI = Mathf.Min((int)cubeIndex.x + (int)relativeSizeX / 2, numberOfGridCubeX);
+                                        int endIndexJ = Mathf.Min((int)cubeIndex.y + (int)relativeSizeZ / 2, numberOfGridCubeZ);
+
+                                        for (int i = startIndexI; i < endIndexI; i++)
+                                        {
+                                                for (int j = startIndexJ; j < endIndexJ; j++)
+                                                {
+                                                        areaTemp[i, j] = temperature;
+                                                }
+                                        }
+
+                                }
+                        }
+                }
+        }
+        
+        public void AreaSmoothing()
+        {
+                // areaTemp = GaussianSmoothingAreaTemp(areaTemp);
+                // float sigma = 1.0f;
+                if (smoothingSigma > 0)
+                {
+                        float[,] smoothedMatrix = GaussianSmoothing.Smooth(areaTemp, smoothingSigma);
+                        areaTemp = smoothedMatrix;
+                }
+
+                SetNormalizedAreaTemp();
         }
 
         public void SetNormalizedAreaTemp()
@@ -318,6 +395,17 @@ public class FieldThermoGrid : MonoBehaviour
                         agent.heatMap.GetComponent<HeatMap>().EpisodeHeatMap(agent.debugMode);
                         isNight = currentIsNight;
                 }
+        }
+
+        public List<HeatGridCube> GetHeatGridCubes()
+        {
+        return heatGridCubes;
+        }
+
+        public void SetGridTemp(int x, int y, float temp)
+        {
+        // Set the temperature in the areaTemp array based on the grid coordinates
+                areaTemp[x, y] = temp;
         }
 
 
