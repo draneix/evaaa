@@ -185,6 +185,7 @@ public class InteroceptiveAgent : Agent
                 SetResetParameters();
 
                 m_AgentRb = GetComponent<Rigidbody>();
+                m_AgentRb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
                 // m_MyArea = field.GetComponent<Field>();
                 eatenResource = false;
 
