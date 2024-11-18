@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44856763, g: 0.4986177, b: 0.57565814, a: 1}
+  m_IndirectSpecularColor: {r: 0.44856745, g: 0.49861777, b: 0.57565826, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -308,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 4626527189425990883, guid: 99fe62541e4b0483b9453512a53ccf63,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3023,6 +3023,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 182731153}
+    - target: {fileID: 2303690753865835200, guid: 1e67812e2873e4900a1d0e7a776304c7,
+        type: 3}
+      propertyPath: m_RuntimeCameraEnable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2475848489444546966, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
       propertyPath: m_Layer
@@ -3066,7 +3071,7 @@ PrefabInstance:
     - target: {fileID: 4805768801126511269, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 33
+      value: 39
       objectReference: {fileID: 0}
     - target: {fileID: 4806027653304860779, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
