@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using MathNet.Numerics;
+// using MathNet.Numerics;
 
 // Food 클래스의 멤버 변수 prefab을 선언할 때 사용됨
 public class ResourceProperty : MonoBehaviour
