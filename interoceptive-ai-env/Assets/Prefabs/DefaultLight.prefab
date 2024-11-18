@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5331082244738282599}
   - component: {fileID: 5331082244738282596}
-  - component: {fileID: 2694718419866297572}
+  - component: {fileID: 6945228547701702595}
   m_Layer: 0
   m_Name: DefaultLight
   m_TagString: Untagged
@@ -95,7 +95,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &2694718419866297572
+--- !u!114 &6945228547701702595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,4 +117,4 @@ MonoBehaviour:
   m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
+  m_SoftShadowQuality: 1
