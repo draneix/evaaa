@@ -9373,7 +9373,7 @@ PrefabInstance:
     - target: {fileID: 4806027653304860779, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
       propertyPath: changeHealth_0
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 4806027653304860779, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
@@ -9383,7 +9383,7 @@ PrefabInstance:
     - target: {fileID: 4806027653304860779, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
       propertyPath: damageConstant
-      value: 0.0005
+      value: 0.0002
       objectReference: {fileID: 0}
     - target: {fileID: 4806027653304860779, guid: 1e67812e2873e4900a1d0e7a776304c7,
         type: 3}
@@ -10297,13 +10297,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 3704193887516318204}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
       propertyPath: nightSpeed
-      value: 30
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
+      propertyPath: dayFogColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
+      propertyPath: dayFogColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
+      propertyPath: dayFogColor.r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
       propertyPath: dayFogDensity
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
@@ -10312,13 +10332,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
+      propertyPath: fogChangeSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
       propertyPath: fogDensityCalc
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
+      propertyPath: nightFogColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
+      propertyPath: nightFogColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
+      propertyPath: nightFogColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6020930168887161810, guid: 03d4bb41328a54bad92e6825603dd1f6,
+        type: 3}
       propertyPath: nightFogDensity
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6020930168887161813, guid: 03d4bb41328a54bad92e6825603dd1f6,
         type: 3}
