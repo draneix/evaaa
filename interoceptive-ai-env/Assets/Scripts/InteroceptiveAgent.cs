@@ -28,6 +28,8 @@ public class InteroceptiveAgent : Agent
 
         public bool debugMode = false;
 
+        // Variable to determine if the agent is AI-controlled
+        public bool isAIControlled = false; // Default to true for AI control
 
         [Header("Game Ojects for script")]
         public GameObject field;
@@ -35,6 +37,9 @@ public class InteroceptiveAgent : Agent
         public GameObject heatMap;
         public GameObject playRecorder;
         public GameObject foodEatRange;
+
+        // Reference to CameraSwitcher (optional)
+        public CameraSwitcher camareManager;
 
         [Header("Environment settings")]
         public bool singleTrial = false;
@@ -189,6 +194,12 @@ public class InteroceptiveAgent : Agent
                 if (debugMode) { print("Initialization"); }
                 m_ResetParams = Academy.Instance.EnvironmentParameters;
                 SetResetParameters();
+                                
+                // Update the CameraSwitcher if available
+                if (camareManager != null)
+                {
+                        camareManager.isAIControlled = isAIControlled;
+                }
 
                 m_AgentRb = GetComponent<Rigidbody>();
                 m_AgentRb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
@@ -769,6 +780,7 @@ public class InteroceptiveAgent : Agent
 
         public void SetResetParameters()
         {
+                // isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
                 singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
                 initRandomAgentPosition = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("initRandomAgentPosition", System.Convert.ToSingle(initRandomAgentPosition)));
 
