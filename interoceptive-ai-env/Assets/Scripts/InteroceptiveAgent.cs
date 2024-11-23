@@ -1,10 +1,11 @@
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Policies;
-using System.Linq;
 using UnityEditor;
 // GameObject인 Agent에 부착함
 
@@ -80,6 +81,11 @@ public class InteroceptiveAgent : Agent
         public int collisionFeatureSize = 10;
         public bool isCollided;
         public bool isChasing;
+
+        private Queue<float> recentRewards; // Queue for storing recent rewards
+        public int rewardWindowSize = 100; // Size of the moving average window
+        public float averageReward = 0f; // Calculated average reward
+        public float currentReward = 0f; // Current reward for this step
         // public float damage;
         // public GameObject WeatherSystem;
         // public WeatherState weatherState;
@@ -220,6 +226,8 @@ public class InteroceptiveAgent : Agent
                 {
                         this.touchObservation = 0.0f;
                 }
+                
+                recentRewards = new Queue<float>(rewardWindowSize);
 
                 // m_pig = GetComponent<Rigidbody>();
         }
@@ -366,31 +374,6 @@ public class InteroceptiveAgent : Agent
                 this.agentPosition = this.transform.position;
                 this.agentRotation = this.transform.eulerAngles;
 
-                // // Debug.Log(WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState);
-                // if (WeatherSystem.activeSelf == true)  //WeatherSystem.enabled == true
-                // {
-                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Rain)
-                //         {
-                //                 olfactorySensorLength = 50f;
-                //         }
-
-                //         // if (weatherState == WeatherState.Thunder)
-                //         // {   
-                //         // olfactorySensorLength = 30f;
-                //         // }
-
-                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.Snow)
-                //         {
-                //                 olfactorySensorLength = 20f;
-                //         }
-
-                //         if (WeatherSystem.GetComponent<DynamicWeatherSystem>().weatherState == WeatherState.None)
-                //         {
-                //                 olfactorySensorLength = 100f;
-                //         }
-
-                // }
-
                 if (eatenResource)
                 {
                         if (eatenResourceTag.ToLower() == "food")
@@ -412,10 +395,6 @@ public class InteroceptiveAgent : Agent
                 FoodUpdate(changeFood_0, changeFood_1, changeFood_2, changeFood_3, changeFood_4, changeFood_5);
                 WaterUpdate(changeWater_0, changeWater_1, changeWater_2, changeWater_3, changeWater_4, changeWater_5);
                 HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
-                // if (this.useThermalObs)
-                // {
-
-                // }
 
                 // Olfactory Observation
                 if (this.useOlfactoryObs)
@@ -466,6 +445,19 @@ public class InteroceptiveAgent : Agent
 
                 int action = actions.DiscreteActions[0];
                 MoveAgent(action);
+
+                // Calculate reward
+                currentReward = CalculateReward();
+                // Track recent rewards for moving average
+                if (recentRewards.Count >= rewardWindowSize)
+                {
+                        recentRewards.Dequeue(); // Remove oldest reward
+                }
+                recentRewards.Enqueue(currentReward);
+                // Update average reward
+                averageReward = recentRewards.Average();
+                // Apply the reward to ML-Agent
+                AddReward(currentReward);
 
                 // Reset eating state as default
                 eatenResource = false;
@@ -745,6 +737,34 @@ public class InteroceptiveAgent : Agent
         public void Damage()
         {
                 // sresourceLevels[3] -= changeHealth * Time.fixedDeltaTime;
+        }
+
+        private float CalculateReward()
+        {
+                float[] setPoints = new float[] { 0f, 0f, 0f, 0f };
+                setPoints[0] = startFoodLevel;
+                setPoints[1] = startWaterLevel;
+                setPoints[2] = startThermoLevel;
+                setPoints[3] = startHealthLevel;
+
+                float[] maxDeviations = new float[] { startFoodLevel - minFoodLevel, 
+                                                startWaterLevel - minWaterLevel, 
+                                                startThermoLevel - minThermoLevel, 
+                                                maxHealth - minHealth };
+
+                // Calculate normalized Euclidean distance
+                float sumSquares = 0f;
+                for (int i = 0; i < resourceLevels.Length; i++)
+                {
+                        float deviation = resourceLevels[i] - setPoints[i];
+                        float normalizedDeviation = deviation / maxDeviations[i];
+                        sumSquares += normalizedDeviation * normalizedDeviation;
+                }
+
+                float reward = Mathf.Sqrt(sumSquares);
+
+                // Invert reward (higher distance = lower reward)
+                return -reward;
         }
 
         public void SetResetParameters()
