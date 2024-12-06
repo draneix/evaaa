@@ -225,7 +225,7 @@ public class Field : MonoBehaviour
                                 bool tooCloseToPond = true;
                                 int tryCount = 0;
 
-                                agent.transform.position = new Vector3(Random.Range(-range, range), 1f, Random.Range(-range, range)) + transform.position;
+                                agent.transform.position = new Vector3(Random.Range(-range, range), 0f, Random.Range(-range, range)) + transform.position;
                                 agent.transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
 
                                 if (resources[2].num > 0)
