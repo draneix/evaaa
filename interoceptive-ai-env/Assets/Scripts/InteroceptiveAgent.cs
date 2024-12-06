@@ -405,7 +405,7 @@ public class InteroceptiveAgent : Agent
                 // EV (Food, Water, Thermo) Update
                 FoodUpdate(changeFood_0, changeFood_1, changeFood_2, changeFood_3, changeFood_4, changeFood_5);
                 WaterUpdate(changeWater_0, changeWater_1, changeWater_2, changeWater_3, changeWater_4, changeWater_5);
-                HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
+                // HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
 
                 // Olfactory Observation
                 if (this.useOlfactoryObs)
@@ -780,7 +780,7 @@ public class InteroceptiveAgent : Agent
 
         public void SetResetParameters()
         {
-                // isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
+                isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
                 singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
                 initRandomAgentPosition = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("initRandomAgentPosition", System.Convert.ToSingle(initRandomAgentPosition)));
 

@@ -66,6 +66,9 @@ public class ObjectRaycast : MonoBehaviour
         // agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = true;
         damage = Mathf.Exp(0.07f * (impulseMagnitude-60)) * agent.GetComponent<InteroceptiveAgent>().damageConstant;
         // agent.GetComponent<InteroceptiveAgent>().ApplyDamage(damage);
+
+        InteroceptiveAgent agentScript = agent.GetComponent<InteroceptiveAgent>();
+        agentScript.resourceLevels[3] -= damage;
     }
 
     void OnCollisionExit(Collision collision)
