@@ -37,9 +37,6 @@ public class CourtSpawner : MonoBehaviour
 
         string configFilePath = Path.Combine(configFolderPath, configFileName);
 
-        Debug.Log($"Resolved Config Folder Path: {configFolderPath}");
-        Debug.Log($"Resolved Config File Path: {configFilePath}");
-
         if (!File.Exists(configFilePath))
         {
             Debug.LogError($"Config file not found at: {configFilePath}");
