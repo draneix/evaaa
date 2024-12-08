@@ -251,7 +251,19 @@ public class InteroceptiveAgent : Agent
                 // Reset agent
                 m_AgentRb.velocity = Vector3.zero;
                 FindObjectOfType<ObstacleSpawner>().ResetObstacles();
-                field.GetComponent<Field>().ResetResourceArea(this.gameObject);
+
+                // Reset resources
+                var resourceSpawner = FindObjectOfType<ResourceSpawner>();
+                if (resourceSpawner != null)
+                {
+                        resourceSpawner.ResetResources();
+                }
+                else
+                {
+                        Debug.LogError("ResourceSpawner not found in the scene.");
+                }
+
+                // field.GetComponent<Field>().ResetResourceArea(this.gameObject);
                 // m_MyArea.ResetResourceArea(this.gameObject);
                 eatenResource = false;
 

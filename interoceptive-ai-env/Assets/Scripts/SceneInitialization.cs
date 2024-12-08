@@ -10,7 +10,7 @@ public class SceneInitialization : MonoBehaviour
         public GameObject agent;
         public GameObject field;
         [HideInInspector]
-        public Field[] listArea;
+        // public Field[] listArea;
 
         public void Awake()
         {
@@ -19,7 +19,7 @@ public class SceneInitialization : MonoBehaviour
 
         void EnvironmentReset()
         {
-                field.GetComponent<Field>().ResetResourceArea(agent);
+                // field.GetComponent<Field>().ResetResourceArea(agent);
                 // ClearObjects(GameObject.FindGameObjectsWithTag("water"));
                 // ClearObjects(GameObject.FindGameObjectsWithTag("food"));
 
