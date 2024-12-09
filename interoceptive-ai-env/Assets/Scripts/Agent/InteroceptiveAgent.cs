@@ -14,6 +14,7 @@ public class InteroceptiveAgent : Agent
         // Variables for script
         // protected Field m_MyArea;
         protected SceneInitialization m_SceneInitialization;
+        public static bool isEnvironmentReady = false; // Global readiness flag
         protected EnvironmentParameters m_ResetParams;
         protected ResourceProperty[] FoodObjects;
         protected Rigidbody m_AgentRb;
@@ -246,22 +247,27 @@ public class InteroceptiveAgent : Agent
         //에피소드(학습단위)가 시작할때마다 호출
         public override void OnEpisodeBegin()
         {
+
+                if (!isEnvironmentReady)
+                {
+                        Debug.LogWarning("Environment is not ready. Skipping OnEpisodeBegin.");
+                        return;
+                }
+
                 if (debugMode) { print("New episode begin"); }
 
-                // Reset agent
-                m_AgentRb.velocity = Vector3.zero;
-                FindObjectOfType<ObstacleSpawner>().ResetObstacles();
-
-                // Reset resources
-                var resourceSpawner = FindObjectOfType<ResourceSpawner>();
-                if (resourceSpawner != null)
+                // Find the SpawnerManager and reset all spawners
+                var spawnerManager = FindObjectOfType<SpawnerManager>();
+                if (spawnerManager != null)
                 {
-                        resourceSpawner.ResetResources();
+                        spawnerManager.ResetAllSpawners();
                 }
                 else
                 {
-                        Debug.LogError("ResourceSpawner not found in the scene.");
+                        Debug.LogError("SpawnerManager not found in the scene.");
                 }
+                // Reset agent
+                m_AgentRb.velocity = Vector3.zero;
 
                 // field.GetComponent<Field>().ResetResourceArea(this.gameObject);
                 // m_MyArea.ResetResourceArea(this.gameObject);
@@ -353,6 +359,8 @@ public class InteroceptiveAgent : Agent
                 {
                         this.touchObservation = 0.0f;
                 }
+
+                Debug.Log("OnEpisodeBegin.");
 
                 // Reset pig
                 //    m_pig.velocity = Vector3.zero;

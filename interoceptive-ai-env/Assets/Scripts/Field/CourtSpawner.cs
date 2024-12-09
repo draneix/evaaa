@@ -15,14 +15,26 @@ public class CourtSpawner : MonoBehaviour
     public Material floorMaterial;
     public Material wallMaterial;
 
-    private CourtConfig courtConfig; // Declare courtConfig here
-    private GameObject courtObject; // Store the generated court
+    public CourtConfig courtConfig; // Court configuration data
+    private GameObject courtObject;  // Store the generated court
+    private GameObject courtFloor;   // Store the generated court floor
 
     public Transform CourtTransform => courtObject != null ? courtObject.transform : null;
+    public Transform CourtFloorTransform => courtFloor != null ? courtFloor.transform : null;
 
-    void Start()
+    public void ReloadConfig()
     {
         LoadConfig();
+    }
+
+    public void InitializeCourt()
+    {
+        if (courtConfig == null)
+        {
+            Debug.LogError("Court configuration is not loaded. Call ReloadConfig() before InitializeCourt().");
+            return;
+        }
+
         GenerateCourt();
     }
 
@@ -49,34 +61,33 @@ public class CourtSpawner : MonoBehaviour
         }
     }
 
-    public void ReloadConfig()
-    {
-        LoadConfig();
-        GenerateCourt();
-        Debug.Log("Court configuration reloaded.");
-    }
-
     private void GenerateCourt()
     {
-        if (courtObject != null) Destroy(courtObject);
+        // Clear existing court
+        if (courtObject != null)
+        {
+            Destroy(courtObject);
+        }
 
         courtObject = new GameObject("Court");
         courtObject.transform.position = courtConfig.position;
 
         CreateFloor(courtObject.transform);
         CreateWalls(courtObject.transform);
+
+        // Debug.Log("Court generated.");
     }
 
     private void CreateFloor(Transform parent)
     {
-        GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        floor.name = "Court_Floor";
-        floor.transform.parent = parent;
-        floor.transform.localScale = new Vector3(courtConfig.floorSize.x, 1, courtConfig.floorSize.z);
+        courtFloor = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        courtFloor.name = "Court_Floor";
+        courtFloor.transform.parent = parent;
+        courtFloor.transform.localScale = new Vector3(courtConfig.floorSize.x, 1, courtConfig.floorSize.z);
 
         if (floorMaterial != null)
         {
-            floor.GetComponent<Renderer>().material = floorMaterial;
+            courtFloor.GetComponent<Renderer>().material = floorMaterial;
         }
     }
 

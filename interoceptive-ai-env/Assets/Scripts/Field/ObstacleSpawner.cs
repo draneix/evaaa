@@ -1,6 +1,5 @@
 using SpawnerUtilities;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -30,28 +29,20 @@ public class ObstacleSpawner : MonoBehaviour
     private List<GameObject> spawnedObstacles = new List<GameObject>(); // Tracks generated obstacles
     private Transform courtTransform; // Reference to dynamically generated court
 
-    void Start()
+    public void ReloadConfig()
     {
         LoadConfig();
-        StartCoroutine(WaitForCourtAndGenerateObstacles());
     }
 
-    private IEnumerator WaitForCourtAndGenerateObstacles()
+    public void InitializeObstacles(Transform court)
     {
-        // Wait for the CourtSpawner to generate the court
-        CourtSpawner courtSpawner = FindObjectOfType<CourtSpawner>();
-        while (courtSpawner == null || courtSpawner.CourtTransform == null)
+        if (obstacleConfig == null)
         {
-            yield return null; // Wait for the next frame
+            Debug.LogError("Obstacle configuration is not loaded. Call ReloadConfig() before InitializeObstacles().");
+            return;
         }
 
-        courtTransform = courtSpawner.CourtTransform;
-        GenerateObstacles();
-    }
-
-    public void ResetObstacles()
-    {
-        ClearObstacles();
+        courtTransform = court;
         GenerateObstacles();
     }
 
@@ -76,6 +67,12 @@ public class ObstacleSpawner : MonoBehaviour
         {
             Debug.LogError("Invalid or empty obstacle configuration.");
         }
+    }
+
+    public void ResetObstacles()
+    {
+        ClearObstacles();
+        GenerateObstacles();
     }
 
     private void GenerateObstacles()

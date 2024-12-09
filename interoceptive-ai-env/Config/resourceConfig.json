@@ -38,9 +38,9 @@
                 "prefabName": "Pond",
                 "count": 1,
                 "area": {
-                    "xMin": -20, "xMax": 0,
+                    "xMin": -40, "xMax": -40,
                     "yMin": 1, "yMax": 1,
-                    "zMin": -20, "zMax": 0
+                    "zMin": -40, "zMax": -40
                 },
                 "rotationRange": {
                     "x": 0, "y": 0, "z": 0
