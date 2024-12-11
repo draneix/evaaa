@@ -1,5 +1,5 @@
 {
-        "floorSize": { "x": 200, "y": 1, "z": 200 },
+        "floorSize": { "x": 100, "y": 1, "z": 100 },
         "wallHeight": 10,
         "position": { "x": 0, "y": 0, "z": 0 }
     }

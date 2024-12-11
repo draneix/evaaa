@@ -302,4 +302,17 @@ public class ThermoGridSpawner : MonoBehaviour
 
         isThermalGridReady = false; // Mark as ready
     }
+
+    // Function to adjust the temperature of the grid cubes
+    public void AdjustTemperature(float temperatureChange)
+    {
+        for (int x = 0; x < config.numberOfGridCubeX; x++)
+        {
+            for (int z = 0; z < config.numberOfGridCubeZ; z++)
+            {
+                areaTemp[x, z] += temperatureChange;
+            }
+        }
+        Debug.Log($"ThermoGridSpawner: Temperature adjusted by {temperatureChange}.");
+    }
 }

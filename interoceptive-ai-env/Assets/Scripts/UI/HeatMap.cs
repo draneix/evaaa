@@ -92,6 +92,13 @@ public class HeatMap : MonoBehaviour
         heatMap.material.mainTexture = mapTexture;
     }
 
+    public void SetDayNightTemperature(bool isNight)
+    {
+        // Update the heatmap based on the day/night state
+        ModifyPixels();
+        Debug.Log("Modified HeatMap for " + (isNight ? "Night" : "Day"));
+    }
+
     public bool IsThermalGridReady()
     {
         var thermoGridSpawner = FindObjectOfType<ThermoGridSpawner>();

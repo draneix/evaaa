@@ -39,7 +39,7 @@ public class AgentTrackBlackDot : MonoBehaviour
 
         // Get the agent's relative position within the court
         Vector3 relativePosition = GetAgentRelativePosition();
-        Debug.Log($"Agent's relative position: {relativePosition}");
+        // Debug.Log($"Agent's relative position: {relativePosition}");
 
         // Move the black dot based on the agent's relative position
         MoveBlackDot(relativePosition);

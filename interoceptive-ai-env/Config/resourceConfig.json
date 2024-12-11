@@ -2,7 +2,7 @@
         "groups": [
             {
                 "prefabName": "Food",
-                "count": 1,
+                "count": 30,
                 "area": {
                     "xMin": -30, "xMax": 30,
                     "yMin": 1, "yMax": 1,
@@ -19,7 +19,7 @@
             },
             {
                 "prefabName": "Water",
-                "count": 1,
+                "count": 30,
                 "area": {
                     "xMin": -25, "xMax": 25,
                     "yMin": 1, "yMax": 1,
