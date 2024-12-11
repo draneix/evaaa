@@ -50,7 +50,7 @@ public class HeatMap : MonoBehaviour
         isInitialized = true;
     }
 
-    public void EpisodeHeatMap(bool debugMode)
+    public void EpisodeHeatMap()
     {
         if (!isInitialized)
         {
@@ -59,10 +59,6 @@ public class HeatMap : MonoBehaviour
         }
 
         ModifyPixels();
-        if (debugMode)
-        {
-            Debug.Log("Modified HeatMap");
-        }
     }
 
     private void ModifyPixels()

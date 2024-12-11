@@ -5,15 +5,12 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
-using Unity.MLAgents.Policies;
-using UnityEditor;
-// GameObject인 Agent에 부착함
+using Assets.Scripts.Utility;
 
 public class InteroceptiveAgent : Agent
 {
-        // Variables for script
-        // protected Field m_MyArea;
-        protected SceneInitialization m_SceneInitialization;
+        [Header("Configuration")]
+        public string configFileName = "agentConfig.json";
         public static bool isEnvironmentReady = false; // Global readiness flag
         protected EnvironmentParameters m_ResetParams;
         protected ResourceProperty[] FoodObjects;
@@ -27,46 +24,35 @@ public class InteroceptiveAgent : Agent
         protected float bodyTemp;
         protected GameObject[] agents;
 
-        public bool debugMode = false;
-
-        // Variable to determine if the agent is AI-controlled
-        public bool isAIControlled = false; // Default to true for AI control
+        public bool isAIControlled; // Default to true for AI control
 
         [Header("Game Ojects for script")]
-        public GameObject field;
-        public GameObject sun;
         public GameObject heatMap;
         public GameObject playRecorder;
-        public GameObject foodEatRange;
-
-        // Reference to CameraSwitcher (optional)
         public CameraSwitcher camareManager;
 
         [Header("Environment settings")]
-        public bool singleTrial = false;
-        public bool initRandomAgentPosition = false;
-        public Vector3 initAgentPosition;
-        public Vector3 initAgentAngle;
+        public bool singleTrial;
+        public bool initRandomAgentPosition;
+
+        public ThreeDVector initAgentPosition;
+        public ThreeDVector initAgentAngle;
 
         [Header("Actions")]
-        public float moveSpeed = 12.0f;
-        public float turnSpeed = 800.0f;
-        public float eatingDistance = 1.0f;
-        public bool autoEat = false;
-
-        // private Rigidbody rb;
-        // public float agentVelocity;
+        public float moveSpeed;
+        public float turnSpeed;
+        public float eatingDistance;
+        public bool autoEat;
         public Vector3 agentRotation;
         public Vector3 agentPosition;
-        // public bool IsAutoEat { get { return this.autoEat; } set { this.autoEat = value; } }
 
         [Header("Observations")]
         public bool useTouchObs;
         public float touchObservation;
         public bool isTouched;
         public bool useOlfactoryObs;
-        public float olfactorySensorLength = 100f;
-        public int olfactoryFeatureSize = 10;
+        public float olfactorySensorLength;
+        public int olfactoryFeatureSize;
         public float[] olfactoryObservation;
         public bool useThermalObs;
         public bool relativeThermalObs;
@@ -84,59 +70,37 @@ public class InteroceptiveAgent : Agent
         public bool isCollisionDetected;
         public bool useCollisionObs;
         public float[] collisionObservation;
-        public int collisionFeatureSize = 10;
-        public bool isCollided;
-        public bool isChasing;
-
+        public int collisionFeatureSize;
         private Queue<float> recentRewards; // Queue for storing recent rewards
-        public int rewardWindowSize = 100; // Size of the moving average window
-        public float averageReward = 0f; // Calculated average reward
-        public float currentReward = 0f; // Current reward for this step
-        // public float damage;
-        // public GameObject WeatherSystem;
-        // public WeatherState weatherState;
+        public int rewardWindowSize; // Size of the moving average window
+        public float averageReward; // Calculated average reward
+        public float currentReward; // Current reward for this step
 
         [Header("Essential variables (EV)")]
-        public int countEV = 4;
+        public int countEV;
         public float[] resourceLevels;
         private float[] oldResourceLevels;
-        // public float[] ResourceLevels { get { return resourceLevels; } set { resourceLevels = value; } }
 
-        // red
         [Header("Food")]
-        public float maxFoodLevel = 15.0f;
-        public float minFoodLevel = -15.0f;
-        // public float changeFoodLevelRate = 0.002f;
-        public float resourceFoodValue = 3.0f;
-        public float startFoodLevel = 0.0f;
+        public EVRange foodLevelRange;
+        public float resourceFoodValue;
+        public float startFoodLevel;
 
         // blue
         [Header("Water")]
-        public float maxWaterLevel = 15.0f;
-        public float minWaterLevel = -15.0f;
-        // public float changeWaterLevelRate = 0.002f;
-        public float resourceWaterValue = 3.0f;
-        public float startWaterLevel = 0.0f;
+        public EVRange waterLevelRange;
+        public float resourceWaterValue;
+        public float startWaterLevel;
 
         // yellow
         [Header("Temperature")]
-        public float maxThermoLevel = 15.0f;
-        public float minThermoLevel = -15.0f;
-        // public float changeThermoLevelRate = 0.005f;
-        // public int thermoSensorChangeRate = 10;
-        public float startThermoLevel = 0.0f;
+        public EVRange thermoLevelRange;
+        public float startThermoLevel;
 
         // hp
         [Header("Health")]
-        public float maxHealth = 100.0f;
-        public float minHealth = 0.0f;
-        public float startHealthLevel = 100.0f;
-
-
-        [Header("Merterials")]
-        public Material agentMerterial;
-        public Material redMaterial;
-        public Material blueMaterial;
+        public EVRange healthLevelRange;
+        public float startHealthLevel;
 
         // Food Function Coefficient
         // Index 0 : Constant Decay
@@ -145,54 +109,38 @@ public class InteroceptiveAgent : Agent
         // Index 3 : Thermo Effect
         // Index 4 : Interaction Effect
         // Index 5 : Discrete Change (Eating)
-        [Header("Coefficient (Food)")]
-        public float changeFood_0 = -0.02f;
-        public float changeFood_1 = 0.0f;
-        public float changeFood_2 = 0.0f;
-        public float changeFood_3 = 0.0f;
-        public float changeFood_4 = 0.0f;
-        private float changeFood_5 = 0.0f;
+        [Header("Coefficient for EV dynamics")]
+        public Coefficient foodCoefficient;
+        public Coefficient waterCoefficient;
+        public Coefficient thermoCoefficient;
+        public Coefficient healthCoefficient;
 
-        // Water Function Coefficient
-        [Header("Coefficient (Water)")]
-        public float changeWater_0 = -0.04f;
-        public float changeWater_1 = 0.0f;
-        public float changeWater_2 = 0.0f;
-        public float changeWater_3 = 0.0f;
-        public float changeWater_4 = 0.0f;
-        private float changeWater_5 = 0.0f;
-
-        // Thermo Function Coefficient
-        [Header("Coefficient (Thermo)")]
-        public float changeBody_0 = -0.01f;
-        public float changeBody_1 = 0.0f;
-        public float changeBody_2 = 0.0f;
-        public float changeBody_3 = 0.0f;
-        public float changeBody_4 = 0.0f;
-
-        [Header("Coefficient (Health)")]
-        public float changeHealth_0 = 0.01f;
-        public float changeHealth_1 = 0.0f;
-        public float changeHealth_2 = 0.0f;
-        public float changeHealth_3 = 0.0f;
-        public float changeHealth_4 = 0.0f;
-        public float changeHealth_5 = 0.0f;
 
         [Header("Collision System")]
-        public float raysPerDirection = 100;
-        public float maxDistance = 1.5f;
-        public float radialRange = 360f;
-        public float damageConstant = 0.05f;
+        public float raysPerDirection;
+        public float maxDistance;
+        public float radialRange;
+        public float damageConstant;
+        private void LoadConfig()
+        {
+                string configFolderPath = Application.isEditor
+                ? Path.Combine(Application.dataPath, "../Config")
+                : Path.Combine(Directory.GetCurrentDirectory(), "Config");
 
-        // [Header("Predator / Prey")]
-        // public GameObject Pig;
-        // Rigidbody m_pig;
-        //초기화 작업을 위해 한번 호출되는 메소드
+                string configFilePath = Path.Combine(configFolderPath, configFileName);
+
+                if (!File.Exists(configFilePath))
+                {
+                        Debug.LogError($"Config file not found: {configFilePath}");
+                        return;
+                }
+
+                string json = File.ReadAllText(configFilePath);
+                JsonUtility.FromJsonOverwrite(json, this);
+        }       
         public override void Initialize()
         {
-                // Academy.Instance.DisableAutomaticStepping();
-
-                if (debugMode) { print("Initialization"); }
+                LoadConfig();
                 m_ResetParams = Academy.Instance.EnvironmentParameters;
                 SetResetParameters();
                                 
@@ -201,13 +149,17 @@ public class InteroceptiveAgent : Agent
                 {
                         camareManager.isAIControlled = isAIControlled;
                 }
+                // Set initial position and rotation
+                if (!initRandomAgentPosition)
+                {
+                        transform.position = initAgentPosition.ToVector3();
+                        transform.eulerAngles = initAgentAngle.ToVector3();
+                }
 
                 m_AgentRb = GetComponent<Rigidbody>();
                 m_AgentRb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-                // m_MyArea = field.GetComponent<Field>();
                 eatenResource = false;
 
-                // this.rb = this.gameObject.GetComponent<Rigidbody>();
                 this.agentPosition = this.transform.position;
                 this.agentRotation = this.transform.eulerAngles;
 
@@ -221,17 +173,10 @@ public class InteroceptiveAgent : Agent
                 if (this.useThermalObs)
                 {
                         this.thermoObservation = new float[8];
-
-                        // Reset area
-                        // field.GetComponent<FieldThermoGrid>().EpisodeAreaSmoothing();
-
-                        // Reset heatmap
-                        // heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
                 if (this.useCollisionObs)
                 {
-                        // this.collisionObservation = 0.0f;
-                        isCollided = true;
+                        // isCollided = true;
                         this.collisionObservation = new float[this.collisionFeatureSize];
                 }
                 if (this.useTouchObs)
@@ -240,11 +185,8 @@ public class InteroceptiveAgent : Agent
                 }
                 
                 recentRewards = new Queue<float>(rewardWindowSize);
-
-                // m_pig = GetComponent<Rigidbody>();
         }
 
-        //에피소드(학습단위)가 시작할때마다 호출
         public override void OnEpisodeBegin()
         {
 
@@ -253,8 +195,6 @@ public class InteroceptiveAgent : Agent
                         Debug.LogWarning("Environment is not ready. Skipping OnEpisodeBegin.");
                         return;
                 }
-
-                if (debugMode) { print("New episode begin"); }
 
                 // Find the SpawnerManager and reset all spawners
                 var spawnerManager = FindObjectOfType<SpawnerManager>();
@@ -269,13 +209,9 @@ public class InteroceptiveAgent : Agent
                 // Reset agent
                 m_AgentRb.velocity = Vector3.zero;
 
-                // field.GetComponent<Field>().ResetResourceArea(this.gameObject);
-                // m_MyArea.ResetResourceArea(this.gameObject);
                 eatenResource = false;
 
                 SetResetParameters();
-
-                // Reset DayAndNight (지금은 DayAndNight가 에피소드 시작할 때 초기화되지 않는데 필요하면 추가)
 
                 // Reset energy
                 for (int i = 0; i < this.countEV; i++)
@@ -330,19 +266,14 @@ public class InteroceptiveAgent : Agent
                         thermoSensorForwardRight.GetComponent<ThermalSensing>().SetThermalSense(0);
                         thermoSensorBackwardLeft.GetComponent<ThermalSensing>().SetThermalSense(0);
                         thermoSensorBackwardRight.GetComponent<ThermalSensing>().SetThermalSense(0);
-                        // Reset area temperature
-                        field.GetComponent<FieldThermoGrid>().SetAreaTemp();
-                        // Find all spotlight hotzones and set their hotzones
-                        SpotlightHotzone[] spotlightHotzones = FindObjectsOfType<SpotlightHotzone>(); // Get all spotlight hotzones
-                        foreach (var spotlightHotzone in spotlightHotzones)
-                        {
-                                spotlightHotzone.ApplySpotlightHotzone(); // Set hotzone for each spotlight
-                        }
-                        // Apply area temperature smoothing
-                        field.GetComponent<FieldThermoGrid>().AreaSmoothing();
-
+                        // // Find all spotlight hotzones and set their hotzones
+                        // SpotlightHotzone[] spotlightHotzones = FindObjectsOfType<SpotlightHotzone>(); // Get all spotlight hotzones
+                        // foreach (var spotlightHotzone in spotlightHotzones)
+                        // {
+                        //         spotlightHotzone.ApplySpotlightHotzone(); // Set hotzone for each spotlight
+                        // }
                         // Reset heatmap
-                        heatMap.GetComponent<HeatMap>().EpisodeHeatMap(debugMode);
+                        heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
 
                 if (useCollisionObs)
@@ -360,17 +291,9 @@ public class InteroceptiveAgent : Agent
                         this.touchObservation = 0.0f;
                 }
 
-                Debug.Log("OnEpisodeBegin.");
-
-                // Reset pig
-                //    m_pig.velocity = Vector3.zero;
-                //    transform.position = new Vector3(Random.Range(-m_MyArea.range, m_MyArea.range), 2f, Random.Range(-m_MyArea.range, m_MyArea.range)) + area.transform.position;
-                //    transform.rotation = Quaternion.Euler(new Vector3(0f, Random.Range(0, 360)));
-                //    SetResetParameters();
-
+                Debug.Log("InteroceptiveAgent: OnEpisodeBegin");
         }
 
-        //환경 정보를 관측 및 수집해 정책 결정을 위해 브레인에 전달하는 메소드
         public override void CollectObservations(VectorSensor sensor)
         {
                 sensor.AddObservation(resourceLevels);
@@ -410,11 +333,11 @@ public class InteroceptiveAgent : Agent
                 {
                         if (eatenResourceTag.ToLower() == "food")
                         {
-                                changeFood_5 = 1.0f;
+                                foodCoefficient.change_5 = 1.0f;
                         }
                         if (eatenResourceTag.ToLower() == "water" || eatenResourceTag.ToLower() == "pond")
                         {
-                                changeWater_5 = 1.0f;
+                                waterCoefficient.change_5 = 1.0f;
                         }
 
                         if (singleTrial)
@@ -424,8 +347,8 @@ public class InteroceptiveAgent : Agent
                 }
 
                 // EV (Food, Water, Thermo) Update
-                FoodUpdate(changeFood_0, changeFood_1, changeFood_2, changeFood_3, changeFood_4, changeFood_5);
-                WaterUpdate(changeWater_0, changeWater_1, changeWater_2, changeWater_3, changeWater_4, changeWater_5);
+                FoodUpdate(foodCoefficient.change_0, foodCoefficient.change_1, foodCoefficient.change_2, foodCoefficient.change_3, foodCoefficient.change_4, foodCoefficient.change_5);
+                WaterUpdate(waterCoefficient.change_0, waterCoefficient.change_1, waterCoefficient.change_2, waterCoefficient.change_3, waterCoefficient.change_4, waterCoefficient.change_5);
                 // HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
 
                 // Olfactory Observation
@@ -434,14 +357,11 @@ public class InteroceptiveAgent : Agent
                         OlfactoryObserving();
                 }
 
-                // ThermalChanging() : thermalSense에 변화 반영시킴
-                // ThermalObserving() : 반영된 thermalSense를 다시 가져와 observation에 추가가
                 if (this.useThermalObs)
                 {
                         // ThermalChanging();
                         ThermalObserving();
-                        ThermoUpdate(changeBody_0, changeBody_1, changeBody_2, changeBody_3, changeBody_4);
-                        field.GetComponent<FieldThermoGrid>().SetDayNightTemperature();
+                        ThermoUpdate(thermoCoefficient.change_0, thermoCoefficient.change_1, thermoCoefficient.change_2, thermoCoefficient.change_3, thermoCoefficient.change_4);
                 }
 
                 if (this.useCollisionObs)
@@ -452,27 +372,24 @@ public class InteroceptiveAgent : Agent
                 if (this.useTouchObs)
                 {
                         TouchObserving();
-                        // Debug.Log("Touch Obs: " + touchObservation);
                 }
 
-                // EV의 상한이나 하한을 넘어가는지 확인
-                bool checkFoodLevel = (this.maxFoodLevel < this.resourceLevels[0] || this.resourceLevels[0] < this.minFoodLevel);
-                bool checkWaterLevel = (this.maxWaterLevel < this.resourceLevels[1] || this.resourceLevels[1] < this.minWaterLevel);
+                bool checkFoodLevel = (this.foodLevelRange.max < this.resourceLevels[0] || this.resourceLevels[0] < this.foodLevelRange.min);
+                bool checkWaterLevel = (this.waterLevelRange.max < this.resourceLevels[1] || this.resourceLevels[1] < this.waterLevelRange.min);
                 bool checkThermoLevel = false;
                 if (this.useThermalObs)
                 {
-                        checkThermoLevel = (this.maxThermoLevel < this.bodyTemp || this.bodyTemp < this.minThermoLevel);
+                        checkThermoLevel = (this.thermoLevelRange.max < this.bodyTemp || this.bodyTemp < this.thermoLevelRange.min);
                 }
 
-                bool checkHealth = (this.resourceLevels[3] < this.minHealth);
+                bool checkHealth = (this.resourceLevels[3] < this.healthLevelRange.min);
 
-                // 만약 상한이나 하한을 넘어간 EV가 있다면 episode 종료
                 if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
                         EndEpisode();
 
-                if (this.resourceLevels[3] > maxHealth)
+                if (this.resourceLevels[3] > healthLevelRange.max)
                 {
-                        this.resourceLevels[3] = maxHealth;
+                        this.resourceLevels[3] = healthLevelRange.max;
                 }
 
                 int action = actions.DiscreteActions[0];
@@ -494,8 +411,8 @@ public class InteroceptiveAgent : Agent
                 // Reset eating state as default
                 eatenResource = false;
                 eatenResourceTag = "none";
-                changeFood_5 = 0.0f;
-                changeWater_5 = 0.0f;
+                foodCoefficient.change_5 = 0.0f;
+                waterCoefficient.change_5 = 0.0f;
 
                 for (int i = 0; i < this.countEV; i++)
                 {
@@ -504,7 +421,6 @@ public class InteroceptiveAgent : Agent
 
         }
 
-        //개발자(사용자)가 직접 명령을 내릴때 호출하는 메소드(주로 테스트용도 또는 모방학습에 사용)
         public override void Heuristic(in ActionBuffers actionsOut)
         {
                 var discreteActionsOut = actionsOut.DiscreteActions;
@@ -602,32 +518,8 @@ public class InteroceptiveAgent : Agent
                 olfactorySensingRange.transform.localScale = newScale;
         }
 
-        // public void ThermalChanging()
-        // {
-        //         thermoSensorForward.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorBackward.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorLeft.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorRight.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorForwardLeft.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorForwardRight.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorBackwardLeft.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorBackwardRight.GetComponent<ThermalSensing>().CalculateThermalSense();
-        //         thermoSensorCenter.GetComponent<ThermalSensing>().CalculateThermalSense();
-        // }
-
-        // 온도에 대한 observation 값은 각 sensor에 입력되는 값과 중앙 sensor (agent의 체온)의 값의 차이를 받아옴
-        // 실제 생명체가 온도를 느낄 때 절대적인 온도를 감지하는 것이 아니라 체온과 비교한 상대적인 온도를 감지하기 때문임
         public float[] ThermalObserving()
         {
-                // thermoObservation[0] = thermoSensorForward.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[1] = thermoSensorBackward.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[2] = thermoSensorLeft.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[3] = thermoSensorRight.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[4] = thermoSensorForwardLeft.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[5] = thermoSensorForwardRight.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[6] = thermoSensorBackwardLeft.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-                // thermoObservation[7] = thermoSensorBackwardRight.GetComponent<ThermalSensing>().GetThermalSense() - thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-
                 if (relativeThermalObs)
                 {
                         thermoObservation[0] = thermoSensorForward.GetComponent<ThermalSensing>().GetThermalSense() - this.resourceLevels[2];
@@ -650,8 +542,6 @@ public class InteroceptiveAgent : Agent
                         thermoObservation[6] = thermoSensorBackwardLeft.GetComponent<ThermalSensing>().GetThermalSense();
                         thermoObservation[7] = thermoSensorBackwardRight.GetComponent<ThermalSensing>().GetThermalSense();
                 }
-                // bodyTemp = thermoSensorCenter.GetComponent<ThermalSensing>().GetThermalSense();
-
                 return thermoObservation;
         }
 
@@ -659,8 +549,6 @@ public class InteroceptiveAgent : Agent
         public void CollisionObserving()
         {
                 objectRaycast = GetComponent<ObjectRaycast>();
-
-                // objectRaycast.DetectObstacle();
 
                 collisionObservation[0] = objectRaycast.collisionObservation[0];
                 collisionObservation[1] = objectRaycast.collisionObservation[1];
@@ -673,21 +561,7 @@ public class InteroceptiveAgent : Agent
                 collisionObservation[8] = objectRaycast.collisionObservation[8];
                 collisionObservation[9] = objectRaycast.collisionObservation[9];
                 
-                // if (isChasing &isCollisionDetected)
-                // {       
-                //         this.resourceLevels[3] -= objectRaycast.damage;
-                // }
-
-                // else if (isCollisionDetected)
-                // {
-                //         this.resourceLevels[3] -= objectRaycast.damage;
-                // //         // isCollisionDetected = false;
-                // // }
-                // if (isCollisionDetected)
-                // {
-                //         this.resourceLevels[3] -= objectRaycast.damage;
-                // }
-                this.resourceLevels[3] -= objectRaycast.damage;
+                // this.resourceLevels[3] -= objectRaycast.damage;
         }
         public void TouchObserving()
         {
@@ -705,7 +579,7 @@ public class InteroceptiveAgent : Agent
         public void FoodUpdate(float changeFood_0, float changeFood_1, float changeFood_2, float changeFood_3, float changeFood_4, float changeFood_5)
         {
                 this.resourceLevels[0] = this.resourceLevels[0] +
-                                        changeFood_0 * maxFoodLevel * Time.fixedDeltaTime +
+                                        changeFood_0 * foodLevelRange.max * Time.fixedDeltaTime +
                                         changeFood_1 * (this.oldResourceLevels[0] + 15) * Time.fixedDeltaTime +
                                         changeFood_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
                                         changeFood_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
@@ -716,7 +590,7 @@ public class InteroceptiveAgent : Agent
         public void WaterUpdate(float changeWater_0, float changeWater_1, float changeWater_2, float changeWater_3, float changeWater_4, float changeWater_5)
         {
                 this.resourceLevels[1] = this.resourceLevels[1] +
-                                        changeWater_0 * maxWaterLevel * Time.fixedDeltaTime +
+                                        changeWater_0 * waterLevelRange.max * Time.fixedDeltaTime +
                                         changeWater_1 * (this.oldResourceLevels[0] + 15) * Time.fixedDeltaTime +
                                         changeWater_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
                                         changeWater_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
@@ -735,8 +609,6 @@ public class InteroceptiveAgent : Agent
                         { surroundTemp += thermoObservation[i] - this.resourceLevels[2]; }
 
                 }
-                // Debug.Log("surroundTemp: " + surroundTemp);
-                // Debug.Log("Temp Update1: " + changeBody_0 * surroundTemp * Time.fixedDeltaTime);
 
                 bodyTemp = this.bodyTemp +
                             changeBody_0 * surroundTemp * Time.fixedDeltaTime +
@@ -744,14 +616,13 @@ public class InteroceptiveAgent : Agent
                             changeBody_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
                             changeBody_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
                             changeBody_4 * (CalculateInteraction(oldResourceLevels[0], oldResourceLevels[1], oldResourceLevels[2])) * Time.fixedDeltaTime;
-                // thermoSensorCenter.GetComponent<ThermalSensing>().SetThermalSense(bodyTemp);
                 this.resourceLevels[2] = this.bodyTemp;
         }
 
         public void HealthUpdate(float changeHealth_0, float changeHealth_1, float changeHealth_2, float changeHealth_3, float changeHealth_4, float changeHealth_5)
         {
                 this.resourceLevels[3] = this.resourceLevels[3] +
-                                        changeHealth_0 * maxHealth * Time.fixedDeltaTime +
+                                        changeHealth_0 * healthLevelRange.max * Time.fixedDeltaTime +
                                         changeHealth_1 * (this.oldResourceLevels[0] + 15) * Time.fixedDeltaTime +
                                         changeHealth_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
                                         changeHealth_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
@@ -759,16 +630,9 @@ public class InteroceptiveAgent : Agent
                                         changeHealth_5 * resourceWaterValue;
         }
 
-
-
         public float CalculateInteraction(float food, float water, float bodyTemp)
         {
                 return 1.0f;
-        }
-
-        public void Damage()
-        {
-                // sresourceLevels[3] -= changeHealth * Time.fixedDeltaTime;
         }
 
         private float CalculateReward()
@@ -779,10 +643,10 @@ public class InteroceptiveAgent : Agent
                 setPoints[2] = startThermoLevel;
                 setPoints[3] = startHealthLevel;
 
-                float[] maxDeviations = new float[] { startFoodLevel - minFoodLevel, 
-                                                startWaterLevel - minWaterLevel, 
-                                                startThermoLevel - minThermoLevel, 
-                                                maxHealth - minHealth };
+                float[] maxDeviations = new float[] { startFoodLevel - foodLevelRange.min, 
+                                                startWaterLevel - waterLevelRange.min, 
+                                                startThermoLevel - thermoLevelRange.min, 
+                                                healthLevelRange.max - healthLevelRange.min };
 
                 // Calculate normalized Euclidean distance
                 float sumSquares = 0f;
@@ -812,16 +676,10 @@ public class InteroceptiveAgent : Agent
 
                 countEV = System.Convert.ToInt32(m_ResetParams.GetWithDefault("countEV", countEV));
 
-                maxFoodLevel = m_ResetParams.GetWithDefault("maxFoodLevel", maxFoodLevel);
-                minFoodLevel = m_ResetParams.GetWithDefault("minFoodLevel", minFoodLevel);
                 resourceFoodValue = m_ResetParams.GetWithDefault("resourceFoodValue", resourceFoodValue);
-                // changeFoodLevelRate = m_ResetParams.GetWithDefault("changeFoodLevelRate", changeFoodLevelRate);
                 startFoodLevel = m_ResetParams.GetWithDefault("startFoodLevel", startFoodLevel);
 
-                maxWaterLevel = m_ResetParams.GetWithDefault("maxWaterLevel", maxWaterLevel);
-                minWaterLevel = m_ResetParams.GetWithDefault("minWaterLevel", minWaterLevel);
                 resourceWaterValue = m_ResetParams.GetWithDefault("resourceWaterValue", resourceWaterValue);
-                // changeWaterLevelRate = m_ResetParams.GetWithDefault("changeWaterLevelRate", changeWaterLevelRate);
                 startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
 
                 useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
@@ -830,45 +688,12 @@ public class InteroceptiveAgent : Agent
                 olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
 
                 useThermalObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useThermalObs", System.Convert.ToSingle(useThermalObs)));
-                maxThermoLevel = m_ResetParams.GetWithDefault("maxThermoLevel", maxThermoLevel);
-                minThermoLevel = m_ResetParams.GetWithDefault("minThermoLevel", minThermoLevel);
-                // changeThermoLevelRate = m_ResetParams.GetWithDefault("changeThermoLevelRate", changeThermoLevelRate);
-                // thermoSensorChangeRate = (int)m_ResetParams.GetWithDefault("thermoSensorChangeRate", thermoSensorChangeRate);
                 startThermoLevel = m_ResetParams.GetWithDefault("startThermoLevel", startThermoLevel);
 
-                changeFood_0 = m_ResetParams.GetWithDefault("changeFood_0", changeFood_0);
-                changeFood_1 = m_ResetParams.GetWithDefault("changeFood_1", changeFood_1);
-                changeFood_2 = m_ResetParams.GetWithDefault("changeFood_2", changeFood_2);
-                changeFood_3 = m_ResetParams.GetWithDefault("changeFood_3", changeFood_3);
-                changeFood_4 = m_ResetParams.GetWithDefault("changeFood_4", changeFood_4);
-
-                changeWater_0 = m_ResetParams.GetWithDefault("changeWater_0", changeWater_0);
-                changeWater_1 = m_ResetParams.GetWithDefault("changeWater_1", changeWater_1);
-                changeWater_2 = m_ResetParams.GetWithDefault("changeWater_2", changeWater_2);
-                changeWater_3 = m_ResetParams.GetWithDefault("changeWater_3", changeWater_3);
-                changeWater_4 = m_ResetParams.GetWithDefault("changeWater_4", changeWater_4);
-
-                changeBody_0 = m_ResetParams.GetWithDefault("changeBody_0", changeBody_0);
-                changeBody_1 = m_ResetParams.GetWithDefault("changeBody_1", changeBody_1);
-                changeBody_2 = m_ResetParams.GetWithDefault("changeBody_2", changeBody_2);
-                changeBody_3 = m_ResetParams.GetWithDefault("changeBody_3", changeBody_3);
-                changeBody_4 = m_ResetParams.GetWithDefault("changeBody_4", changeBody_4);
-
-                changeHealth_0 = m_ResetParams.GetWithDefault("changeHealth_0", changeHealth_0);
-                changeHealth_1 = m_ResetParams.GetWithDefault("changeHealth_1", changeHealth_1);
-                changeHealth_2 = m_ResetParams.GetWithDefault("changeHealth_2", changeHealth_2);
-                changeHealth_3 = m_ResetParams.GetWithDefault("changeHealth_3", changeHealth_3);
-                changeHealth_4 = m_ResetParams.GetWithDefault("changeHealth_4", changeHealth_4);
-
-                maxHealth = m_ResetParams.GetWithDefault("maxHealth", maxHealth);
-                minHealth = m_ResetParams.GetWithDefault("minHealth", minHealth);
-                // changeHealth = m_ResetParams.GetWithDefault("changeHealth", changeHealth);
                 startHealthLevel = m_ResetParams.GetWithDefault("startHealthLevel", startHealthLevel);
                 raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
                 maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
                 radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
                 damageConstant = m_ResetParams.GetWithDefault("damageConstant", damageConstant);
-                isCollided = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isCollided", System.Convert.ToSingle(isCollided)));
-
         }
 }

@@ -1,11 +1,11 @@
 {
         "numberOfGridCubeX": 100,
         "numberOfGridCubeZ": 100,
-        "fieldDefaultTemp": -30.0,
-        "hotSpotTemp": 30.0,
-        "hotSpotCount": 10,
-        "hotSpotSize": 30,
-        "smoothingSigma": 10.0,
+        "fieldDefaultTemp": -20.0,
+        "hotSpotTemp": 20.0,
+        "hotSpotCount": 20,
+        "hotSpotSize": 20,
+        "smoothingSigma": 12.0,
         "useObjectHotSpot": true,
         "useRandomHotSpot": true,
         "gridCubeHeight": 2
