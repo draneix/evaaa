@@ -2,52 +2,68 @@
 using System.IO;
 using Assets.Scripts.Utility;
 
-
-// Agent의 하위 GameObject인 Camera에 부착함
-public class CameraFollow : MonoBehaviour
+[System.Serializable]
+public class CameraConfig
 {
-    // target에 GameObject인 Agent를 넣어줌
-    public string configFileName = "cameraConfig.json";
-    public GameObject agent;
-    // 카메라의 위치를 받기 위한 offset
-    // private Vector3 offset;
     public ThreeDVector initCameraPosition;
     public ThreeDVector initCameraAngle;
+}
 
-    private void LoadConfig()
+public class AgentFollowCamera : MonoBehaviour
+{
+    public string configFileName = "cameraConfig.json";
+    public GameObject agent;
+
+    private CameraConfig cameraConfig; // Camera configuration data
+    private ConfigLoader configLoader; // Reference to ConfigLoader
+
+    public void InitializeCamera(ConfigLoader loader)
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        configLoader = loader;
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string json = File.ReadAllText(configFilePath);
-        JsonUtility.FromJsonOverwrite(json, this);
+        LoadConfig();
 
+        if (cameraConfig == null)
+        {
+            Debug.LogError("Camera configuration is not loaded. Call ReloadConfig() before InitializeCamera().");
+            return;
+        }
+
+        transform.rotation = Quaternion.Euler(cameraConfig.initCameraAngle.ToVector3());
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void ReloadConfig()
     {
-        // GameObject인 Camera의 위치로 설정하고자 하는 값에서 this (CameraFollow) 클래스의 멤버변수 target의 위치를 빼서 offset에 넣어줌
-        // offset = transform.position - this.target.transform.position;
-        // offset = this.target.transform.position;
         LoadConfig();
-        transform.rotation = Quaternion.Euler(initCameraAngle.ToVector3());
+    }
+
+    private void LoadConfig()
+    {
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+
+        cameraConfig = configLoader.LoadConfig<CameraConfig>(configFileName);
+
+        if (cameraConfig == null)
+        {
+            Debug.LogError("Invalid camera configuration.");
+        }
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        // 위에서 정한 offset을 이용하여 다시 GameObject인 Camera의 위치에 우변의 값을 넣으면 원래 설정하고자 했던 값이 됨
-        // transform.position = this.target.transform.position + offset;
-        transform.position = this.agent.transform.position + initCameraPosition.ToVector3();
+        if (cameraConfig != null && agent != null)
+        {
+            transform.position = agent.transform.position + cameraConfig.initCameraPosition.ToVector3();
+        }
     }
 }

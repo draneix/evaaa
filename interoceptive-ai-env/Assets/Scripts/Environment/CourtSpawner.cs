@@ -19,16 +19,22 @@ public class CourtSpawner : MonoBehaviour
     private GameObject courtObject;  // Store the generated court
     private GameObject courtFloor;   // Store the generated court floor
 
+    private ConfigLoader configLoader; // Reference to ConfigLoader
+
     public Transform CourtTransform => courtObject != null ? courtObject.transform : null;
     public Transform CourtFloorTransform => courtFloor != null ? courtFloor.transform : null;
 
-    public void ReloadConfig()
+    public void InitializeCourt(ConfigLoader loader)
     {
-        LoadConfig();
-    }
+        configLoader = loader;
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
 
-    public void InitializeCourt()
-    {
+        LoadConfig();
+
         if (courtConfig == null)
         {
             Debug.LogError("Court configuration is not loaded. Call ReloadConfig() before InitializeCourt().");
@@ -38,22 +44,20 @@ public class CourtSpawner : MonoBehaviour
         GenerateCourt();
     }
 
+    public void ReloadConfig()
+    {
+        LoadConfig();
+    }
+
     private void LoadConfig()
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string jsonContent = File.ReadAllText(configFilePath);
-        courtConfig = JsonUtility.FromJson<CourtConfig>(jsonContent);
+        courtConfig = configLoader.LoadConfig<CourtConfig>(configFileName);
 
         if (courtConfig == null)
         {

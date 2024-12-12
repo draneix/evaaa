@@ -1,4 +1,3 @@
-// using SpawnerUtilities;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +8,7 @@ public class ResourceGroup
 {
     public string prefabName;
     public int count;
-    public AreaRange area;
+    public PositionRange position;
     public RotationRange rotationRange;
     public ScaleRange scaleRange;
 }
@@ -30,6 +29,20 @@ public class ResourceSpawner : MonoBehaviour
     private List<GameObject> spawnedResources = new List<GameObject>(); // Tracks generated resources
     private Transform courtTransform = null; // Reference to the court object for parenting resources
 
+    private ConfigLoader configLoader; // Reference to ConfigLoader
+
+    public void InitializeResourceSpawner(ConfigLoader loader)
+    {
+        configLoader = loader;
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+
+        LoadConfig();
+    }
+
     public void ReloadConfig()
     {
         LoadConfig();
@@ -49,20 +62,13 @@ public class ResourceSpawner : MonoBehaviour
 
     private void LoadConfig()
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string jsonContent = File.ReadAllText(configFilePath);
-        resourceConfig = JsonUtility.FromJson<ResourceConfig>(jsonContent);
+        resourceConfig = configLoader.LoadConfig<ResourceConfig>(configFileName);
 
         if (resourceConfig == null || resourceConfig.groups == null)
         {
@@ -110,7 +116,7 @@ public class ResourceSpawner : MonoBehaviour
 
         for (int i = 0; i < group.count; i++)
         {
-            Vector3 position = RandomPosition(group.area);
+            Vector3 position = RandomPosition(group.position);
             Quaternion rotation = RandomRotation(group.rotationRange);
             Vector3 scale = RandomScale(group.scaleRange);
 
@@ -133,11 +139,11 @@ public class ResourceSpawner : MonoBehaviour
         }
     }
 
-    private Vector3 RandomPosition(AreaRange area) =>
+    private Vector3 RandomPosition(PositionRange position) =>
         new Vector3(
-            Random.Range(area.xMin, area.xMax),
-            Random.Range(area.yMin, area.yMax),
-            Random.Range(area.zMin, area.zMax)
+            Random.Range(position.xMin, position.xMax),
+            Random.Range(position.yMin, position.yMax),
+            Random.Range(position.zMin, position.zMax)
         );
 
     private Quaternion RandomRotation(RotationRange rotationRange) =>
@@ -164,7 +170,7 @@ public class ResourceSpawner : MonoBehaviour
             return;
         }
 
-        Vector3 newPosition = RandomPosition(group.area);
+        Vector3 newPosition = RandomPosition(group.position);
         resource.transform.position = newPosition;
 
         ResourceProperty resourceProperty = resource.GetComponent<ResourceProperty>();

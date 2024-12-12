@@ -1,4 +1,3 @@
-// using SpawnerUtilities;
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +8,7 @@ public class ObstacleGroup
 {
     public string prefabName;
     public int count;
-    public AreaRange area;
+    public PositionRange position;
     public RotationRange rotationRange;
     public ScaleRange scaleRange;
 }
@@ -30,6 +29,20 @@ public class ObstacleSpawner : MonoBehaviour
     private List<GameObject> spawnedObstacles = new List<GameObject>(); // Tracks generated obstacles
     private Transform courtTransform; // Reference to dynamically generated court
 
+    private ConfigLoader configLoader; // Reference to ConfigLoader
+
+    public void InitializeObstacleSpawner(ConfigLoader loader)
+    {
+        configLoader = loader;
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+
+        LoadConfig();
+    }
+
     public void ReloadConfig()
     {
         LoadConfig();
@@ -49,20 +62,13 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void LoadConfig()
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string jsonContent = File.ReadAllText(configFilePath);
-        obstacleConfig = JsonUtility.FromJson<ObstacleConfig>(jsonContent);
+        obstacleConfig = configLoader.LoadConfig<ObstacleConfig>(configFileName);
 
         if (obstacleConfig == null || obstacleConfig.groups == null)
         {
@@ -110,7 +116,7 @@ public class ObstacleSpawner : MonoBehaviour
 
         for (int i = 0; i < group.count; i++)
         {
-            Vector3 position = RandomPosition(group.area);
+            Vector3 position = RandomPosition(group.position);
             Quaternion rotation = RandomRotation(group.rotationRange);
             Vector3 scale = RandomScale(group.scaleRange);
 
@@ -126,11 +132,11 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    private Vector3 RandomPosition(AreaRange area) =>
+    private Vector3 RandomPosition(PositionRange position) =>
         new Vector3(
-            Random.Range(area.xMin, area.xMax),
-            Random.Range(area.yMin, area.yMax),
-            Random.Range(area.zMin, area.zMax)
+            Random.Range(position.xMin, position.xMax),
+            Random.Range(position.yMin, position.yMax),
+            Random.Range(position.zMin, position.zMax)
         );
 
     private Quaternion RandomRotation(RotationRange rotationRange) =>

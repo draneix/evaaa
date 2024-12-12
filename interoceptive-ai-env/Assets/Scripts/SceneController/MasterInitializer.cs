@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class MasterInitializer : MonoBehaviour
 {
+    public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
     public InteroceptiveAgent agent; // Single agent reference
     public HeatMap heatMap;
+    public DayAndNight dayAndNight;
+    public AgentFollowCamera agentFollowCamera;
 
     private void Start()
     {
@@ -13,10 +16,22 @@ public class MasterInitializer : MonoBehaviour
 
     private void InitializeScene()
     {
-        // Step 1: Initialize SpawnerManager
+        // Step 1: Initialize ConfigLoader
+        if (configLoader != null)
+        {
+            configLoader.InitializeConfigLoader(); // Ensure the configuration folder is set
+            Debug.Log("MasterInitializer: ConfigLoader initialized.");
+        }
+        else
+        {
+            Debug.LogError("ConfigLoader is not assigned.");
+            return;
+        }
+
+        // Step 2: Initialize SpawnerManager
         if (spawnerManager != null)
         {
-            spawnerManager.InitializeSpawners();
+            spawnerManager.InitializeSpawners(configLoader);
         }
         else
         {
@@ -24,7 +39,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 2: Ensure ThermoGridSpawner is ready
+        // Step 3: Ensure ThermoGridSpawner is ready
         var thermoGridSpawner = FindObjectOfType<ThermoGridSpawner>();
         if (thermoGridSpawner == null || !thermoGridSpawner.isThermalGridReady)
         {
@@ -32,10 +47,11 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 3: Initialize Agent
+        // Step 4: Initialize Agent
         if (agent != null)
         {
-            agent.Initialize();
+            // agent.Initialize();
+            agent.InitializeAgent(configLoader);
             Debug.Log("MasterInitializer: agent initialized.");
         }
         else
@@ -44,7 +60,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 4: Initialize HeatMap
+        // Step 5: Initialize HeatMap
         if (heatMap != null)
         {
             heatMap.InitializeHeatMap();
@@ -58,6 +74,29 @@ public class MasterInitializer : MonoBehaviour
         else
         {
             Debug.LogError("HeatMap is not assigned.");
+            return;
+        }
+
+        // Step 6: Initialize DayAndNight
+        if (dayAndNight != null)
+        {
+            dayAndNight.InitializeDayAndNight(configLoader);
+            Debug.Log("MasterInitializer: DayAndNight initialized.");
+        }
+        else
+        {
+            Debug.LogError("DayAndNight is not assigned.");
+            return;
+        }
+        // Step 7: Initialize AgentFollowCamera
+        if (agentFollowCamera != null)
+        {
+            agentFollowCamera.InitializeCamera(configLoader);
+            Debug.Log("MasterInitializer: AgentFollowCamera initialized.");
+        }
+        else
+        {
+            Debug.LogError("AgentFollowCamera is not assigned.");
             return;
         }
 

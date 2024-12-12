@@ -45,7 +45,7 @@ namespace Assets.Scripts.Utility
         public float change_5;
     }
     [System.Serializable]
-    public class AreaRange
+    public class PositionRange
     {
         public float xMin = 0, xMax = 0, yMin = 0, yMax = 0, zMin = 0, zMax = 0;
     }

@@ -30,25 +30,37 @@ public class ThermoGridSpawner : MonoBehaviour
     private Vector3 floorSize;
     private Vector3 floorPosition;
 
+    private ConfigLoader configLoader; // Reference to ConfigLoader
+
     public int NumberOfGridCubeX => config.numberOfGridCubeX;
     public int NumberOfGridCubeZ => config.numberOfGridCubeZ;
 
-    public void ReloadConfig()
+    public void InitializeThermoGridSpawner(ConfigLoader loader)
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        configLoader = loader;
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string jsonContent = File.ReadAllText(configFilePath);
-        config = JsonUtility.FromJson<ThermoGridConfig>(jsonContent);
+        LoadConfig();
+    }
+
+    public void ReloadConfig()
+    {
+        LoadConfig();
+    }
+
+    private void LoadConfig()
+    {
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+
+        config = configLoader.LoadConfig<ThermoGridConfig>(configFileName);
 
         if (config == null)
         {
@@ -100,17 +112,6 @@ public class ThermoGridSpawner : MonoBehaviour
         {
             for (int z = 0; z < config.numberOfGridCubeZ; z++)
             {
-                // areaTemp[x, z] = config.fieldDefaultTemp;
-
-                // GameObject gridCube = new GameObject($"{x},0,{z}");
-                // gridCube.transform.position = CalculateGridCubePosition(x, z);
-                // gridCube.transform.localScale = CalculateGridCubeSize();
-                // gridCube.transform.SetParent(thermalGridParent.transform);
-
-                // BoxCollider boxCollider = gridCube.AddComponent<BoxCollider>();
-                // boxCollider.isTrigger = true;
-                // gridCube.tag = "thermalGridCube";
-
                 areaTemp[x, z] = config.fieldDefaultTemp;
                 GameObject gridCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 gridCube.transform.position = CalculateGridCubePosition(x, z);
@@ -118,7 +119,6 @@ public class ThermoGridSpawner : MonoBehaviour
                 gridCube.transform.SetParent(thermalGridParent.transform);
                 gridCube.name = $"{x},0,{z}";
                 gridCube.tag = "thermalGridCube";
-                // gridCube.layer = LayerMask.NameToLayer("Default");
                 gridCube.layer = LayerMask.NameToLayer("Player");
 
                 // Ensure the collider is set to trigger

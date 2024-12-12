@@ -232,6 +232,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configFileName: resourceConfig.json
   prefabFolder: Resources
+--- !u!1 &808919904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808919905}
+  - component: {fileID: 808919906}
+  m_Layer: 0
+  m_Name: ConfigManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808919905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808919904}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -4.6085634, y: 37.28237, z: -41.338837}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1417844879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808919906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808919904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b30023b532942509cbf9960f1650e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!850595691 &846166320
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -382,6 +426,7 @@ Transform:
   - {fileID: 1126164669}
   - {fileID: 1605100404}
   - {fileID: 2038372133}
+  - {fileID: 808919905}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1605100404 stripped
@@ -623,9 +668,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51b56cc8926be451c84ba1e30f96ae90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configLoader: {fileID: 808919906}
   spawnerManager: {fileID: 1683784373}
   agent: {fileID: 7819571294374217589}
   heatMap: {fileID: 4985382396085495230}
+  dayAndNight: {fileID: 3844737367945803569}
+  agentFollowCamera: {fileID: 108666491762309832}
 --- !u!114 &18838940711036596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,16 +701,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2962447d99e86400d929391bbcacbc0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 5859588403248960792}
-  initCameraPosition:
-    x: 0
-    y: 10
-    z: -10
-  initCameraAngle:
-    x: 30
-    y: 0
-    z: 0
   configFileName: cameraConfig.json
+  agent: {fileID: 5859588403248960792}
 --- !u!1001 &167681195713029639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1641,6 +1681,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8001727544138972044}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3844737367945803569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8001727544138972044}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa42205c8b8f747ff8e7a6d58e76ae6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3859100984690842525
 Transform:
   m_ObjectHideFlags: 0
@@ -2359,6 +2411,13 @@ MonoBehaviour:
   camareManager: {fileID: 1126164668}
   singleTrial: 0
   initRandomAgentPosition: 0
+  randomPositionRange:
+    xMin: 0
+    xMax: 0
+    yMin: 0
+    yMax: 0
+    zMin: 0
+    zMax: 0
   initAgentPosition:
     x: 0
     y: 1
@@ -2392,7 +2451,7 @@ MonoBehaviour:
   thermoSensorForwardRight: {fileID: 7190951127257110492}
   thermoSensorBackwardLeft: {fileID: 7063122545237043126}
   thermoSensorBackwardRight: {fileID: 4733450249297698145}
-  objectRaycast: {fileID: 0}
+  objectRaycast: {fileID: 8672109758227886932}
   isCollisionDetected: 0
   useCollisionObs: 1
   collisionObservation: []
@@ -2435,7 +2494,7 @@ MonoBehaviour:
     change_4: 0
     change_5: 0
   thermoCoefficient:
-    change_0: 0.01
+    change_0: 0.02
     change_1: 0
     change_2: 0
     change_3: 0

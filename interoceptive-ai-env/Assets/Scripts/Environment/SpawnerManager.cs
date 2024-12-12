@@ -8,13 +8,12 @@ public class SpawnerManager : MonoBehaviour
     public ResourceSpawner resourceSpawner;
     public ThermoGridSpawner thermoGridSpawner;
 
-    public void InitializeSpawners()
+    public void InitializeSpawners(ConfigLoader configLoader)
     {
-        // Step 1: Spawn the court
+        // Step 1: Initialize CourtSpawner
         if (courtSpawner != null)
         {
-            courtSpawner.ReloadConfig();
-            courtSpawner.InitializeCourt();
+            courtSpawner.InitializeCourt(configLoader);
             Debug.Log("CourtSpawner Initialized.");
         }
         else
@@ -23,10 +22,10 @@ public class SpawnerManager : MonoBehaviour
             return;
         }
 
-        // Step 2: Spawn obstacles
+        // Step 2: Initialize ObstacleSpawner
         if (obstacleSpawner != null)
         {
-            obstacleSpawner.ReloadConfig();
+            obstacleSpawner.InitializeObstacleSpawner(configLoader);
             obstacleSpawner.InitializeObstacles(courtSpawner.CourtTransform);
             Debug.Log("ObstacleSpawner Initialized.");
         }
@@ -35,10 +34,10 @@ public class SpawnerManager : MonoBehaviour
             Debug.LogError("ObstacleSpawner is not assigned.");
         }
 
-        // Step 3: Spawn resources
+        // Step 3: Initialize ResourceSpawner
         if (resourceSpawner != null)
         {
-            resourceSpawner.ReloadConfig();
+            resourceSpawner.InitializeResourceSpawner(configLoader);
             resourceSpawner.InitializeResources(courtSpawner.CourtTransform);
             Debug.Log("ResourceSpawner Initialized.");
         }
@@ -47,11 +46,11 @@ public class SpawnerManager : MonoBehaviour
             Debug.LogError("ResourceSpawner is not assigned.");
         }
 
-        // Step 4: Initialize the thermal grid
+        // Step 4: Initialize ThermoGridSpawner
         if (thermoGridSpawner != null)
         {
-            thermoGridSpawner.ReloadConfig(); // Load configuration
-            thermoGridSpawner.InitializeGrid(courtSpawner.CourtTransform); // Initialize based on court
+            thermoGridSpawner.InitializeThermoGridSpawner(configLoader);
+            thermoGridSpawner.InitializeGrid(courtSpawner.CourtTransform);
             Debug.Log("ThermoGridSpawner Initialized.");
         }
         else

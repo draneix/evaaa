@@ -11,6 +11,9 @@ public class InteroceptiveAgent : Agent
 {
         [Header("Configuration")]
         public string configFileName = "agentConfig.json";
+        private ConfigLoader configLoader;
+        private AgentConfig agentConfig;
+
         public static bool isEnvironmentReady = false; // Global readiness flag
         protected EnvironmentParameters m_ResetParams;
         protected ResourceProperty[] FoodObjects;
@@ -34,7 +37,7 @@ public class InteroceptiveAgent : Agent
         [Header("Environment settings")]
         public bool singleTrial;
         public bool initRandomAgentPosition;
-
+        public PositionRange randomPositionRange;
         public ThreeDVector initAgentPosition;
         public ThreeDVector initAgentAngle;
 
@@ -121,42 +124,88 @@ public class InteroceptiveAgent : Agent
         public float maxDistance;
         public float radialRange;
         public float damageConstant;
-        private void LoadConfig()
+
+        public void InitializeAgent(ConfigLoader loader)
         {
-                string configFolderPath = Application.isEditor
-                ? Path.Combine(Application.dataPath, "../Config")
-                : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-                string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-                if (!File.Exists(configFilePath))
+                configLoader = loader;
+                if (configLoader == null)
                 {
-                        Debug.LogError($"Config file not found: {configFilePath}");
-                        return;
+                Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+                return;
                 }
 
-                string json = File.ReadAllText(configFilePath);
-                JsonUtility.FromJsonOverwrite(json, this);
-        }       
-        public override void Initialize()
-        {
-                LoadConfig();
-                m_ResetParams = Academy.Instance.EnvironmentParameters;
-                // SetResetParameters();
-                                
+                // Load the agent configuration
+                agentConfig = configLoader.LoadConfig<AgentConfig>(configFileName);
+                if (agentConfig == null)
+                {
+                Debug.LogError("Failed to load AgentConfig.");
+                return;
+                }
+
+                // Use the loaded configuration
+                isAIControlled = agentConfig.isAIControlled;
+                singleTrial = agentConfig.singleTrial;
+                initRandomAgentPosition = agentConfig.initRandomAgentPosition;
+                initAgentPosition = agentConfig.initAgentPosition;
+                initAgentAngle = agentConfig.initAgentAngle;
+                randomPositionRange = agentConfig.randomPositionRange;
+                moveSpeed = agentConfig.moveSpeed;
+                turnSpeed = agentConfig.turnSpeed;
+                autoEat = agentConfig.autoEat;
+                eatingDistance = agentConfig.eatingDistance;
+                rewardWindowSize = agentConfig.rewardWindowSize;
+                averageReward = agentConfig.averageReward;
+                currentReward = agentConfig.currentReward;
+                countEV = agentConfig.countEV;
+                foodLevelRange = agentConfig.foodLevelRange;
+                resourceFoodValue = agentConfig.resourceFoodValue;
+                startFoodLevel = agentConfig.startFoodLevel;
+                waterLevelRange = agentConfig.waterLevelRange;
+                resourceWaterValue = agentConfig.resourceWaterValue;
+                startWaterLevel = agentConfig.startWaterLevel;
+                thermoLevelRange = agentConfig.thermoLevelRange;
+                startThermoLevel = agentConfig.startThermoLevel;
+                healthLevelRange = agentConfig.healthLevelRange;
+                startHealthLevel = agentConfig.startHealthLevel;
+                useTouchObs = agentConfig.useTouchObs;
+                useCollisionObs = agentConfig.useCollisionObs;
+                useOlfactoryObs = agentConfig.useOlfactoryObs;
+                olfactorySensorLength = agentConfig.olfactorySensorLength;
+                useThermalObs = agentConfig.useThermalObs;
+                relativeThermalObs = agentConfig.relativeThermalObs;
+                foodCoefficient = agentConfig.foodCoefficient;
+                waterCoefficient = agentConfig.waterCoefficient;
+                thermoCoefficient = agentConfig.thermoCoefficient;
+                healthCoefficient = agentConfig.healthCoefficient;
+                raysPerDirection = agentConfig.raysPerDirection;
+                maxDistance = agentConfig.maxDistance;
+                radialRange = agentConfig.radialRange;
+                damageConstant = agentConfig.damageConstant;
+
+                m_ResetParams = Academy.Instance.EnvironmentParameters;          
                 // Update the CameraSwitcher if available
                 if (camareManager != null)
                 {
                         camareManager.isAIControlled = isAIControlled;
                 }
                 // Set initial position and rotation
-                if (!initRandomAgentPosition)
+                if (initRandomAgentPosition)
+                {
+                        transform.position = RandomPosition(randomPositionRange);
+                        transform.eulerAngles = RandomRotation();
+                }
+                else
                 {
                         transform.position = initAgentPosition.ToVector3();
                         transform.eulerAngles = initAgentAngle.ToVector3();
                 }
 
                 m_AgentRb = GetComponent<Rigidbody>();
+                if (m_AgentRb == null)
+                {
+                        Debug.LogError("Rigidbody component not found.");
+                        return;
+                }
                 m_AgentRb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
                 eatenResource = false;
 
@@ -206,12 +255,45 @@ public class InteroceptiveAgent : Agent
                 {
                         Debug.LogError("SpawnerManager not found in the scene.");
                 }
+
+                var dayAndNight = FindObjectOfType<DayAndNight>();
+                var thermoGridSpawner = FindObjectOfType<ThermoGridSpawner>();
+                // Adjust temperature based on the current day/night state
+                if (dayAndNight != null)
+                {
+                        if (dayAndNight.GetIsNight())
+                        {
+                                float temperatureChange = dayAndNight.nightTemperatureChange;
+                                if (thermoGridSpawner != null)
+                                {
+                                        thermoGridSpawner.AdjustTemperature(temperatureChange);
+                                }
+                                else
+                                { 
+                                        Debug.LogError("ThermoGridSpawner not found in the scene.");
+                                }
+                        }
+                }
+                else
+                {
+                        Debug.LogError("DayAndNight not found in the scene.");
+                }
                 // Reset agent
                 m_AgentRb.velocity = Vector3.zero;
 
                 eatenResource = false;
 
-                // SetResetParameters();
+                // Set initial position and rotation
+                if (initRandomAgentPosition)
+                {
+                        transform.position = RandomPosition(randomPositionRange);
+                        transform.eulerAngles = RandomRotation();
+                }
+                else
+                {
+                        transform.position = initAgentPosition.ToVector3();
+                        transform.eulerAngles = initAgentAngle.ToVector3();
+                }
 
                 // Reset energy
                 for (int i = 0; i < this.countEV; i++)
@@ -349,7 +431,7 @@ public class InteroceptiveAgent : Agent
                 // EV (Food, Water, Thermo) Update
                 FoodUpdate(foodCoefficient.change_0, foodCoefficient.change_1, foodCoefficient.change_2, foodCoefficient.change_3, foodCoefficient.change_4, foodCoefficient.change_5);
                 WaterUpdate(waterCoefficient.change_0, waterCoefficient.change_1, waterCoefficient.change_2, waterCoefficient.change_3, waterCoefficient.change_4, waterCoefficient.change_5);
-                // HealthUpdate(changeHealth_0, changeHealth_1, changeHealth_2, changeHealth_3, changeHealth_4, changeHealth_5);
+                HealthUpdate(healthCoefficient.change_0, healthCoefficient.change_1, healthCoefficient.change_2, healthCoefficient.change_3, healthCoefficient.change_4, healthCoefficient.change_5);
 
                 // Olfactory Observation
                 if (this.useOlfactoryObs)
@@ -663,37 +745,63 @@ public class InteroceptiveAgent : Agent
                 return -reward;
         }
 
-        // public void SetResetParameters()
-        // {
-        //         isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
-        //         singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
-        //         initRandomAgentPosition = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("initRandomAgentPosition", System.Convert.ToSingle(initRandomAgentPosition)));
+        private Vector3 RandomPosition(PositionRange positionRange)
+        {
+        return new Vector3(
+                Random.Range(positionRange.xMin, positionRange.xMax),
+                Random.Range(positionRange.yMin, positionRange.yMax),
+                Random.Range(positionRange.zMin, positionRange.zMax)
+        );
+        }
 
-        //         moveSpeed = m_ResetParams.GetWithDefault("moveSpeed", moveSpeed);
-        //         turnSpeed = m_ResetParams.GetWithDefault("turnSpeed", turnSpeed);
-        //         autoEat = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("autoEat", System.Convert.ToSingle(autoEat)));
-        //         eatingDistance = m_ResetParams.GetWithDefault("eatingDistance", eatingDistance);
-
-        //         countEV = System.Convert.ToInt32(m_ResetParams.GetWithDefault("countEV", countEV));
-
-        //         resourceFoodValue = m_ResetParams.GetWithDefault("resourceFoodValue", resourceFoodValue);
-        //         startFoodLevel = m_ResetParams.GetWithDefault("startFoodLevel", startFoodLevel);
-
-        //         resourceWaterValue = m_ResetParams.GetWithDefault("resourceWaterValue", resourceWaterValue);
-        //         startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
-
-        //         useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
-        //         useCollisionObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useCollisionObs", System.Convert.ToSingle(useCollisionObs)));
-        //         useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
-        //         olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
-
-        //         useThermalObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useThermalObs", System.Convert.ToSingle(useThermalObs)));
-        //         startThermoLevel = m_ResetParams.GetWithDefault("startThermoLevel", startThermoLevel);
-
-        //         startHealthLevel = m_ResetParams.GetWithDefault("startHealthLevel", startHealthLevel);
-        //         raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
-        //         maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
-        //         radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
-        //         damageConstant = m_ResetParams.GetWithDefault("damageConstant", damageConstant);
-        // }
+        private Vector3 RandomRotation()
+        {
+        return new Vector3(
+                0, // Assuming we only want to randomize the y-axis rotation
+                Random.Range(0f, 360f),
+                0
+        );
+        }
+}
+[System.Serializable]
+public class AgentConfig
+{
+    public bool isAIControlled;
+    public bool singleTrial;
+    public bool initRandomAgentPosition;
+    public ThreeDVector initAgentPosition;
+    public ThreeDVector initAgentAngle;
+    public PositionRange randomPositionRange;
+    public float moveSpeed;
+    public float turnSpeed;
+    public bool autoEat;
+    public float eatingDistance;
+    public int rewardWindowSize;
+    public float averageReward;
+    public float currentReward;
+    public int countEV;
+    public EVRange foodLevelRange;
+    public float resourceFoodValue;
+    public float startFoodLevel;
+    public EVRange waterLevelRange;
+    public float resourceWaterValue;
+    public float startWaterLevel;
+    public EVRange thermoLevelRange;
+    public float startThermoLevel;
+    public EVRange healthLevelRange;
+    public float startHealthLevel;
+    public bool useTouchObs;
+    public bool useCollisionObs;
+    public bool useOlfactoryObs;
+    public float olfactorySensorLength;
+    public bool useThermalObs;
+    public bool relativeThermalObs;
+    public Coefficient foodCoefficient;
+    public Coefficient waterCoefficient;
+    public Coefficient thermoCoefficient;
+    public Coefficient healthCoefficient;
+    public float raysPerDirection;
+    public float maxDistance;
+    public float radialRange;
+    public float damageConstant;
 }

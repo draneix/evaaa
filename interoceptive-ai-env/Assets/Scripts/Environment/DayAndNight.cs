@@ -1,5 +1,4 @@
 ﻿using System.IO;
-// using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using Assets.Scripts.Utility;
@@ -29,11 +28,9 @@ public class DayAndNight : MonoBehaviour
 
     [Header("Fog Color Settings")]
     [Tooltip("Color of the fog during the day.")]
-    // public Color dayFogColor = new Color(0.0f, 0.0f, 0.0f, 1f);
     public ColorVector dayFogColor;
 
     [Tooltip("Color of the fog during the night.")]
-    // public Color nightFogColor = new Color(0.0f, 0.0f, 0.0f, 1f);
     public ColorVector nightFogColor;
     private Color targetFogColor;
 
@@ -50,42 +47,65 @@ public class DayAndNight : MonoBehaviour
     public float farClipTransitionSpeed;
     private float targetFarClip;
 
+    private ConfigLoader configLoader; // Reference to ConfigLoader
 
-    private void Start()
+    public void InitializeDayAndNight(ConfigLoader loader)
     {
-        string configFolderPath = Application.isEditor
-            ? Path.Combine(Application.dataPath, "../Config")
-            : Path.Combine(Directory.GetCurrentDirectory(), "Config");
-
-        string configFilePath = Path.Combine(configFolderPath, configFileName);
-
-        if (!File.Exists(configFilePath))
+        configLoader = loader;
+        if (configLoader == null)
         {
-            Debug.LogError($"Config file not found: {configFilePath}");
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
 
-        string json = File.ReadAllText(configFilePath);
-        JsonUtility.FromJsonOverwrite(json, this);
+        LoadConfig();
+    }
+
+    private void LoadConfig()
+    {
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+
+        DayAndNightConfig config = configLoader.LoadConfig<DayAndNightConfig>(configFileName);
+
+        if (config == null)
+        {
+            Debug.LogError("Invalid day and night configuration.");
+            return;
+        }
+
+        // Apply the loaded configuration
+        daySpeed = config.daySpeed;
+        nightSpeed = config.nightSpeed;
+        fogChangeSpeed = config.fogChangeSpeed;
+        dayFogDensity = config.dayFogDensity;
+        nightFogDensity = config.nightFogDensity;
+        dayFogColor = config.dayFogColor;
+        nightFogColor = config.nightFogColor;
+        dayTemperatureChange = config.dayTemperatureChange;
+        nightTemperatureChange = config.nightTemperatureChange;
+        dayFarClip = config.dayFarClip;
+        nightFarClip = config.nightFarClip;
+        farClipTransitionSpeed = config.farClipTransitionSpeed;
 
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         RenderSettings.fog = true;
         RenderSettings.fogDensity = currentFogDensity;
         RenderSettings.fogColor = dayFogColor.ToColor();
 
-        // Check if thermoGridSpawner is assigned
         if (thermoGridSpawner == null)
         {
             Debug.LogError("ThermoGridSpawner is not assigned.");
         }
 
-        // Check if heatMap is assigned
         if (heatMap == null)
         {
             Debug.LogError("HeatMap is not assigned.");
         }
 
-        // Check if mainCamera is assigned
         if (mainCamera == null)
         {
             Debug.LogError("MainCamera is not assigned.");
@@ -129,17 +149,7 @@ public class DayAndNight : MonoBehaviour
         if (mainCamera == null)
             return;
 
-        if (isNight)
-        {
-            // Set target far clip for night
-            targetFarClip = nightFarClip;
-        }
-        else
-        {
-            // Set target far clip for day
-            targetFarClip = dayFarClip;
-        }
-
+        targetFarClip = isNight ? nightFarClip : dayFarClip;
         // Smoothly interpolate the far clip plane
         mainCamera.farClipPlane = Mathf.Lerp(mainCamera.farClipPlane, targetFarClip, Time.deltaTime * farClipTransitionSpeed);
     }
@@ -160,7 +170,6 @@ public class DayAndNight : MonoBehaviour
             heatMap.SetDayNightTemperature(isNight);
         }
     }
-
     /// <summary>
     /// Returns whether it is currently night.
     /// </summary>
@@ -168,4 +177,21 @@ public class DayAndNight : MonoBehaviour
     {
         return isNight;
     }
+}
+
+[System.Serializable]
+public class DayAndNightConfig
+{
+    public float daySpeed;
+    public float nightSpeed;
+    public float fogChangeSpeed;
+    public float dayFogDensity;
+    public float nightFogDensity;
+    public ColorVector dayFogColor;
+    public ColorVector nightFogColor;
+    public float dayTemperatureChange;
+    public float nightTemperatureChange;
+    public float dayFarClip;
+    public float nightFarClip;
+    public float farClipTransitionSpeed;
 }
