@@ -142,7 +142,7 @@ public class InteroceptiveAgent : Agent
         {
                 LoadConfig();
                 m_ResetParams = Academy.Instance.EnvironmentParameters;
-                SetResetParameters();
+                // SetResetParameters();
                                 
                 // Update the CameraSwitcher if available
                 if (camareManager != null)
@@ -211,7 +211,7 @@ public class InteroceptiveAgent : Agent
 
                 eatenResource = false;
 
-                SetResetParameters();
+                // SetResetParameters();
 
                 // Reset energy
                 for (int i = 0; i < this.countEV; i++)
@@ -663,37 +663,37 @@ public class InteroceptiveAgent : Agent
                 return -reward;
         }
 
-        public void SetResetParameters()
-        {
-                isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
-                singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
-                initRandomAgentPosition = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("initRandomAgentPosition", System.Convert.ToSingle(initRandomAgentPosition)));
+        // public void SetResetParameters()
+        // {
+        //         isAIControlled = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("isAIControlled", System.Convert.ToSingle(isAIControlled)));
+        //         singleTrial = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("singleTrial", System.Convert.ToSingle(singleTrial)));
+        //         initRandomAgentPosition = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("initRandomAgentPosition", System.Convert.ToSingle(initRandomAgentPosition)));
 
-                moveSpeed = m_ResetParams.GetWithDefault("moveSpeed", moveSpeed);
-                turnSpeed = m_ResetParams.GetWithDefault("turnSpeed", turnSpeed);
-                autoEat = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("autoEat", System.Convert.ToSingle(autoEat)));
-                eatingDistance = m_ResetParams.GetWithDefault("eatingDistance", eatingDistance);
+        //         moveSpeed = m_ResetParams.GetWithDefault("moveSpeed", moveSpeed);
+        //         turnSpeed = m_ResetParams.GetWithDefault("turnSpeed", turnSpeed);
+        //         autoEat = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("autoEat", System.Convert.ToSingle(autoEat)));
+        //         eatingDistance = m_ResetParams.GetWithDefault("eatingDistance", eatingDistance);
 
-                countEV = System.Convert.ToInt32(m_ResetParams.GetWithDefault("countEV", countEV));
+        //         countEV = System.Convert.ToInt32(m_ResetParams.GetWithDefault("countEV", countEV));
 
-                resourceFoodValue = m_ResetParams.GetWithDefault("resourceFoodValue", resourceFoodValue);
-                startFoodLevel = m_ResetParams.GetWithDefault("startFoodLevel", startFoodLevel);
+        //         resourceFoodValue = m_ResetParams.GetWithDefault("resourceFoodValue", resourceFoodValue);
+        //         startFoodLevel = m_ResetParams.GetWithDefault("startFoodLevel", startFoodLevel);
 
-                resourceWaterValue = m_ResetParams.GetWithDefault("resourceWaterValue", resourceWaterValue);
-                startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
+        //         resourceWaterValue = m_ResetParams.GetWithDefault("resourceWaterValue", resourceWaterValue);
+        //         startWaterLevel = m_ResetParams.GetWithDefault("startWaterLevel", startWaterLevel);
 
-                useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
-                useCollisionObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useCollisionObs", System.Convert.ToSingle(useCollisionObs)));
-                useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
-                olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
+        //         useTouchObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useTouchObs", System.Convert.ToSingle(useTouchObs)));
+        //         useCollisionObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useCollisionObs", System.Convert.ToSingle(useCollisionObs)));
+        //         useOlfactoryObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useOlfactoryObs", System.Convert.ToSingle(useOlfactoryObs)));
+        //         olfactorySensorLength = m_ResetParams.GetWithDefault("olfactorySensorLength", olfactorySensorLength);
 
-                useThermalObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useThermalObs", System.Convert.ToSingle(useThermalObs)));
-                startThermoLevel = m_ResetParams.GetWithDefault("startThermoLevel", startThermoLevel);
+        //         useThermalObs = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("useThermalObs", System.Convert.ToSingle(useThermalObs)));
+        //         startThermoLevel = m_ResetParams.GetWithDefault("startThermoLevel", startThermoLevel);
 
-                startHealthLevel = m_ResetParams.GetWithDefault("startHealthLevel", startHealthLevel);
-                raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
-                maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
-                radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
-                damageConstant = m_ResetParams.GetWithDefault("damageConstant", damageConstant);
-        }
+        //         startHealthLevel = m_ResetParams.GetWithDefault("startHealthLevel", startHealthLevel);
+        //         raysPerDirection = m_ResetParams.GetWithDefault("raysPerDirection", raysPerDirection);
+        //         maxDistance = m_ResetParams.GetWithDefault("maxDistance", maxDistance);
+        //         radialRange = m_ResetParams.GetWithDefault("radialRange", radialRange);
+        //         damageConstant = m_ResetParams.GetWithDefault("damageConstant", damageConstant);
+        // }
 }

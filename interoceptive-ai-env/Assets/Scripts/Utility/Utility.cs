@@ -14,7 +14,19 @@ namespace Assets.Scripts.Utility
             return new Vector3(x, y, z);
         }
     }
+    [System.Serializable]
+    public class ColorVector
+    {
+        public float r;
+        public float g;
+        public float b;
+        public float a;
 
+        public Color ToColor()
+        {
+            return new Color(r, g, b, a);
+        }
+    }
     [System.Serializable]
     public class EVRange
     {
