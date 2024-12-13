@@ -102,7 +102,6 @@ public class MasterInitializer : MonoBehaviour
 
         // Mark environment as ready
         InteroceptiveAgent.isEnvironmentReady = true;
-        Debug.Log("MasterInitializer: All components initialized.");
     }
 
     private bool IsHeatMapReady()

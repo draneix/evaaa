@@ -44,7 +44,6 @@ public class ConfigLoader : MonoBehaviour
             ? Path.Combine(Application.dataPath, "../Config", folderName)
             : Path.Combine(Directory.GetCurrentDirectory(), "Config", folderName);
 
-        Debug.Log($"Config folder: {configFolderPath}");
         if (!Directory.Exists(configFolderPath))
         {
             Debug.LogError($"Config folder not found: {configFolderPath}");

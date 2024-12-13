@@ -159,7 +159,7 @@ public class ThermoGridSpawner : MonoBehaviour
 
         ApplyGaussianSmoothing();
 
-        Debug.Log("ThermoGridSpawner: Thermal grid has been reset.");
+        // Debug.Log("ThermoGridSpawner: Thermal grid has been reset.");
     }
 
     // Function to set the size of hot spots

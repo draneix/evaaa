@@ -61,14 +61,14 @@ public class SpawnerManager : MonoBehaviour
 
     public void ResetAllSpawners()
     {
-        if (courtSpawner != null)
-        {
-            courtSpawner.ReloadConfig();
-        }
-        else
-        {
-            Debug.LogError("CourtSpawner is not assigned.");
-        }
+        // if (courtSpawner != null)
+        // {
+        //     courtSpawner.ReloadConfig();
+        // }
+        // else
+        // {
+        //     Debug.LogError("CourtSpawner is not assigned.");
+        // }
 
         if (obstacleSpawner != null)
         {
@@ -90,7 +90,7 @@ public class SpawnerManager : MonoBehaviour
 
         if (thermoGridSpawner != null)
         {
-            thermoGridSpawner.ReloadConfig();
+            // thermoGridSpawner.ReloadConfig();
             thermoGridSpawner.ResetGrid();
         }
         else
