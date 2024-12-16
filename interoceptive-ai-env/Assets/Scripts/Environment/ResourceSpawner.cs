@@ -149,7 +149,7 @@ public class ResourceSpawner : MonoBehaviour
     private Quaternion RandomRotation(RotationRange rotationRange) =>
         Quaternion.Euler(
             rotationRange.x,
-            Random.Range(0, rotationRange.y),
+            Random.Range(rotationRange.y, rotationRange.y),
             rotationRange.z
         );
 
