@@ -61,14 +61,14 @@ public class SpawnerManager : MonoBehaviour
 
     public void ResetAllSpawners()
     {
-        // if (courtSpawner != null)
-        // {
-        //     courtSpawner.ReloadConfig();
-        // }
-        // else
-        // {
-        //     Debug.LogError("CourtSpawner is not assigned.");
-        // }
+        if (courtSpawner != null)
+        {
+            courtSpawner.ReloadConfig();
+        }
+        else
+        {
+            Debug.LogError("CourtSpawner is not assigned.");
+        }
 
         if (obstacleSpawner != null)
         {

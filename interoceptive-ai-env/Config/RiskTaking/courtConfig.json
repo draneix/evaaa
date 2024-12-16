@@ -1,0 +1,6 @@
+{
+        "floorSize": { "x": 30, "y": 1, "z": 30 },
+        "wallHeight": 5,
+        "position": { "x": 0, "y": 0, "z": 0 }
+    }
+    

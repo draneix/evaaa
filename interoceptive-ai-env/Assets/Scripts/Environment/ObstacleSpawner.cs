@@ -80,7 +80,14 @@ public class ObstacleSpawner : MonoBehaviour
     {
         ClearObstacles();
         GenerateObstacles();
+        // StartCoroutine(GenerateObstaclesWithDelay());
     }
+
+    // private IEnumerator GenerateObstaclesWithDelay()
+    // {
+    //     yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure objects are fully destroyed
+    //     GenerateObstacles();
+    // }
 
     private void GenerateObstacles()
     {
@@ -103,6 +110,8 @@ public class ObstacleSpawner : MonoBehaviour
             if (obstacle != null) Destroy(obstacle);
         }
         spawnedObstacles.Clear();
+        Resources.UnloadUnusedAssets(); // Ensure unused assets are unloaded
+        Debug.Log("ObstacleSpawner: Old obstacles cleared.");
     }
 
     private void SpawnObstacleGroup(ObstacleGroup group)

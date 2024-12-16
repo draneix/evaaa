@@ -134,6 +134,11 @@ public class ThermoGridSpawner : MonoBehaviour
         {
             SetHotSpotSize();
         }
+        if (config.useObjectHotSpot)
+        {
+            ApplyObstacleTemperatures();
+        }
+
         
         ApplyGaussianSmoothing();
 
@@ -152,14 +157,20 @@ public class ThermoGridSpawner : MonoBehaviour
             }
         }
 
+        Debug.Log("ThermoGridSpawner: Default temperatures reset.");
+
         if (config.useRandomHotSpot)
         {
             SetHotSpotSize();
         }
+        if (config.useObjectHotSpot)
+        {
+            ApplyObstacleTemperatures();
+        }
 
         ApplyGaussianSmoothing();
 
-        // Debug.Log("ThermoGridSpawner: Thermal grid has been reset.");
+        Debug.Log("ThermoGridSpawner: Thermal grid has been reset.");
     }
 
     // Function to set the size of hot spots
@@ -314,5 +325,49 @@ public class ThermoGridSpawner : MonoBehaviour
             }
         }
         Debug.Log($"ThermoGridSpawner: Temperature adjusted by {temperatureChange}.");
+    }
+
+    private void ApplyObstacleTemperatures()
+    {
+        var obstacles = FindObjectsOfType<ThermalObject>();
+        Debug.Log($"Found {obstacles.Length} ThermalObjects in the scene.");
+        foreach (var obstacle in obstacles)
+        {
+            if (obstacle == null || !obstacle.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
+            if (obstacle.temperature == 0)
+            {
+                continue;
+            }
+
+            Collider collider = obstacle.GetComponent<Collider>();
+            if (collider == null)
+            {
+                Debug.LogWarning($"Collider not found on obstacle: {obstacle.name}");
+                continue;
+            }
+
+            Vector3 obstaclePosition = obstacle.transform.position;
+            Vector3 obstacleSize = collider.bounds.size;
+
+            int minX = Mathf.FloorToInt((obstaclePosition.x - obstacleSize.x / 2 - floorPosition.x + floorSize.x / 2) / CalculateGridCubeSize().x);
+            int maxX = Mathf.FloorToInt((obstaclePosition.x + obstacleSize.x / 2 - floorPosition.x + floorSize.x / 2) / CalculateGridCubeSize().x);
+            int minZ = Mathf.FloorToInt((obstaclePosition.z - obstacleSize.z / 2 - floorPosition.z + floorSize.z / 2) / CalculateGridCubeSize().z);
+            int maxZ = Mathf.FloorToInt((obstaclePosition.z + obstacleSize.z / 2 - floorPosition.z + floorSize.z / 2) / CalculateGridCubeSize().z);
+
+            for (int x = minX; x <= maxX; x++)
+            {
+                for (int z = minZ; z <= maxZ; z++)
+                {
+                    if (x >= 0 && x < config.numberOfGridCubeX && z >= 0 && z < config.numberOfGridCubeZ)
+                    {
+                        areaTemp[x, z] = obstacle.temperature;
+                    }
+                }
+            }
+        }
     }
 }

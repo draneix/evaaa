@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 5945760199621254577}
   - component: {fileID: 8687782258325966212}
   - component: {fileID: 8039844977574196543}
+  - component: {fileID: 954859295276261798}
   m_Layer: 0
   m_Name: Bush2
   m_TagString: Untagged
@@ -199,6 +200,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &954859295276261798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293240237137392805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdfca8e2197241b596bb7945028116f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  temperature: 0
 --- !u!1 &4457043105383671057
 GameObject:
   m_ObjectHideFlags: 0
