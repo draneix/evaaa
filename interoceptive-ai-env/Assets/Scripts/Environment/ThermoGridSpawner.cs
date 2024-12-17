@@ -35,6 +35,9 @@ public class ThermoGridSpawner : MonoBehaviour
     public int NumberOfGridCubeX => config.numberOfGridCubeX;
     public int NumberOfGridCubeZ => config.numberOfGridCubeZ;
 
+    private float minTemp;
+    private float maxTemp;
+
     public void InitializeThermoGridSpawner(ConfigLoader loader)
     {
         configLoader = loader;
@@ -148,6 +151,9 @@ public class ThermoGridSpawner : MonoBehaviour
     // Function to reset the temperature of the grid cubes
     public void ResetGrid()
     {
+        minTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.min;
+        maxTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.max;
+
         // Reset default temperatures
         for (int x = 0; x < config.numberOfGridCubeX; x++)
         {
@@ -291,10 +297,13 @@ public class ThermoGridSpawner : MonoBehaviour
 
     public float GetNormalizedAreaTemp(int x, int z)
     {
+        // float minTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.min; 
+        // float maxTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.max;
+
         if (x >= 0 && x < config.numberOfGridCubeX && z >= 0 && z < config.numberOfGridCubeZ)
         {
-            float minTemp = config.fieldDefaultTemp;
-            float maxTemp = config.hotSpotTemp;
+            // float minTemp = config.fieldDefaultTemp;
+            // float maxTemp = config.hotSpotTemp;
             return Mathf.InverseLerp(minTemp, maxTemp, areaTemp[x, z]);
         }
         return 0f;

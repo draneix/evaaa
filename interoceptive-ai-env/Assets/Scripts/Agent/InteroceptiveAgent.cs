@@ -24,7 +24,7 @@ public class InteroceptiveAgent : Agent
         public bool EatenResource { get { return this.eatenResource; } set { this.eatenResource = value; } }
         protected string eatenResourceTag;
         public string EatenResourceTag { get { return this.eatenResourceTag; } set { this.eatenResourceTag = value; } }
-        protected float bodyTemp;
+        // protected float bodyTemp;
         protected GameObject[] agents;
 
         public bool isAIControlled; // Default to true for AI control
@@ -337,7 +337,8 @@ public class InteroceptiveAgent : Agent
                                 this.thermoObservation[i] = 0;
                         }
 
-                        bodyTemp = 0;
+                        // bodyTemp = 0;
+                        // bodyTemp = startThermoLevel;
 
                         // thermoSensorCenter.GetComponent<ThermalSensing>().SetThermalSense(0);
                         thermoSensorForward.GetComponent<ThermalSensing>().SetThermalSense(0);
@@ -461,7 +462,7 @@ public class InteroceptiveAgent : Agent
                 bool checkThermoLevel = false;
                 if (this.useThermalObs)
                 {
-                        checkThermoLevel = (this.thermoLevelRange.max < this.bodyTemp || this.bodyTemp < this.thermoLevelRange.min);
+                        checkThermoLevel = (this.thermoLevelRange.max < this.resourceLevels[2] || this.resourceLevels[2] < this.thermoLevelRange.min);
                 }
 
                 bool checkHealth = (this.resourceLevels[3] < this.healthLevelRange.min);
@@ -692,13 +693,13 @@ public class InteroceptiveAgent : Agent
 
                 }
 
-                bodyTemp = this.bodyTemp +
+                this.resourceLevels[2] = this.resourceLevels[2] +
                             changeBody_0 * surroundTemp * Time.fixedDeltaTime +
                             changeBody_1 * (this.oldResourceLevels[0] + 15) * Time.fixedDeltaTime +
                             changeBody_2 * (this.oldResourceLevels[1] + 15) * Time.fixedDeltaTime +
                             changeBody_3 * (this.oldResourceLevels[2] + 15) * Time.fixedDeltaTime +
                             changeBody_4 * (CalculateInteraction(oldResourceLevels[0], oldResourceLevels[1], oldResourceLevels[2])) * Time.fixedDeltaTime;
-                this.resourceLevels[2] = this.bodyTemp;
+                // this.resourceLevels[2] = this.bodyTemp;
         }
 
         public void HealthUpdate(float changeHealth_0, float changeHealth_1, float changeHealth_2, float changeHealth_3, float changeHealth_4, float changeHealth_5)
