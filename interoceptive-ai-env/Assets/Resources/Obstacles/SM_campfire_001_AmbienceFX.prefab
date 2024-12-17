@@ -4943,7 +4943,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6258991218409019183}
-  m_Mesh: {fileID: -6462314026198558789, guid: 7bdf6515110869142b46bac661edc2c4, type: 3}
+  m_Mesh: {fileID: -6462314026198558789, guid: 2f09db791faec411683375efebfefc12, type: 3}
 --- !u!23 &5610529841412617978
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4964,7 +4964,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2a968aa3406ef9441a14e5e68e2f7bab, type: 2}
+  - {fileID: 2100000, guid: 9f2dbe2e988164dd3bf7d26fd2ead038, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5019,7 +5019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdfca8e2197241b596bb7945028116f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperature: 300
+  temperature: 500
 --- !u!1 &6758277865997296888
 GameObject:
   m_ObjectHideFlags: 0

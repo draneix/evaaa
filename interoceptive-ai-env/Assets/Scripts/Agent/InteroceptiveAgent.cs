@@ -286,7 +286,8 @@ public class InteroceptiveAgent : Agent
                 // Set initial position and rotation
                 if (initRandomAgentPosition)
                 {
-                        transform.position = RandomPosition(randomPositionRange);
+                        // transform.position = RandomPosition(randomPositionRange);
+                        SetRandomPosition();
                         transform.eulerAngles = RandomRotation();
                 }
                 else
@@ -375,6 +376,30 @@ public class InteroceptiveAgent : Agent
                 }
 
                 Debug.Log("InteroceptiveAgent: OnEpisodeBegin");
+        }
+
+        private void SetRandomPosition()
+        {
+                Vector3 position;
+                int attempts = 0;
+                bool validPosition = false;
+
+                do
+                {
+                        position = RandomPosition(randomPositionRange);
+                        attempts++;
+                        validPosition = !OverlapUtility.IsOverlapping(position, gameObject, transform.localScale);
+                } while (!validPosition && attempts < 100);
+
+                if (validPosition)
+                {
+                        transform.position = position;
+                }
+                else
+                {
+                        Debug.LogWarning($"Could not find a valid position for agent after {attempts} attempts.");
+                        transform.position = initAgentPosition.ToVector3();
+                }
         }
 
         public override void CollectObservations(VectorSensor sensor)

@@ -119,19 +119,37 @@ public class ObstacleSpawner : MonoBehaviour
 
         for (int i = 0; i < group.count; i++)
         {
-            Vector3 position = RandomPosition(group.position);
-            Quaternion rotation = RandomRotation(group.rotationRange);
-            Vector3 scale = RandomScale(group.scaleRange);
+            Vector3 position;
+            Quaternion rotation;
+            Vector3 scale;
+            int attempts = 0;
+            bool validPosition = false;
 
-            GameObject obstacle = Instantiate(prefab, position, rotation);
-
-            if (courtTransform != null)
+            do
             {
-                obstacle.transform.SetParent(courtTransform);
-            }
+                position = RandomPosition(group.position);
+                rotation = RandomRotation(group.rotationRange);
+                scale = RandomScale(group.scaleRange);
+                attempts++;
+                validPosition = !OverlapUtility.IsOverlapping(position, prefab, scale);
+            } while (!validPosition && attempts < 10);
 
-            obstacle.transform.localScale = scale;
-            spawnedObstacles.Add(obstacle);
+            if (validPosition)
+            {
+                GameObject obstacle = Instantiate(prefab, position, rotation);
+
+                if (courtTransform != null)
+                {
+                    obstacle.transform.SetParent(courtTransform);
+                }
+
+                obstacle.transform.localScale = scale;
+                spawnedObstacles.Add(obstacle);
+            }
+            else
+            {
+                Debug.LogWarning($"Could not find a valid position for obstacle {group.prefabName} after {attempts} attempts.");
+            }
         }
     }
 

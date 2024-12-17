@@ -276,6 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b30023b532942509cbf9960f1650e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainConfigFileName: mainConfig.json
 --- !u!850595691 &846166320
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -815,7 +816,7 @@ GameObject:
   - component: {fileID: 7050879239872787164}
   m_Layer: 7
   m_Name: ThermalSensor_Center
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -916,7 +917,7 @@ GameObject:
   - component: {fileID: 8805094581784266980}
   m_Layer: 7
   m_Name: ThermalSensor_Forward
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1319,6 +1320,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5630299746545397095, guid: c06669275f6574d698fb75971dc82389,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6598162375528782840, guid: c06669275f6574d698fb75971dc82389,
         type: 3}
       propertyPath: m_Name
@@ -1444,7 +1450,7 @@ GameObject:
   - component: {fileID: 349176453143590536}
   m_Layer: 7
   m_Name: ThermalSensor_Left
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1815,7 +1821,7 @@ GameObject:
   - component: {fileID: 1259794939032616898}
   m_Layer: 7
   m_Name: ThermalSensor_Backward_Right
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1839,7 +1845,7 @@ GameObject:
   - component: {fileID: 5214971650512710126}
   m_Layer: 7
   m_Name: ThermalSensor_Right
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1944,7 +1950,7 @@ GameObject:
   - component: {fileID: 8880013272428707816}
   m_Layer: 7
   m_Name: FoodEatRange
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2092,7 +2098,7 @@ GameObject:
   - component: {fileID: 1470702817920811006}
   m_Layer: 7
   m_Name: ThermalSensor_Forward_Left
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2280,7 +2286,7 @@ GameObject:
   - component: {fileID: 5953041357913361151}
   m_Layer: 7
   m_Name: ThermalSensor_Backward_Left
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2298,7 +2304,7 @@ GameObject:
   - component: {fileID: 7424608636071095277}
   m_Layer: 7
   m_Name: ThermalSensor_Backward
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2328,7 +2334,7 @@ GameObject:
   - component: {fileID: 2919521646572893837}
   m_Layer: 7
   m_Name: ThermalSensor_Forward_Right
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2347,7 +2353,7 @@ GameObject:
   - component: {fileID: 2665979697930753836}
   m_Layer: 7
   m_Name: SensingRange
-  m_TagString: Untagged
+  m_TagString: sensor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

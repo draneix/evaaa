@@ -14,6 +14,7 @@ namespace Assets.Scripts.Utility
             return new Vector3(x, y, z);
         }
     }
+
     [System.Serializable]
     public class ColorVector
     {
@@ -27,6 +28,7 @@ namespace Assets.Scripts.Utility
             return new Color(r, g, b, a);
         }
     }
+
     [System.Serializable]
     public class EVRange
     {
@@ -44,6 +46,7 @@ namespace Assets.Scripts.Utility
         public float change_4;
         public float change_5;
     }
+
     [System.Serializable]
     public class PositionRange
     {
@@ -60,5 +63,40 @@ namespace Assets.Scripts.Utility
     public class ScaleRange
     {
         public float xMin = 1, xMax = 1, yMin = 1, yMax = 1, zMin = 1, zMax = 1;
+    }
+
+    public static class OverlapUtility
+    {
+        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale)
+        {
+            Collider prefabCollider = prefab.GetComponent<Collider>();
+            if (prefabCollider == null)
+            {
+                Debug.LogError($"Prefab {prefab.name} does not have a Collider component.");
+                return true;
+            }
+
+            Vector3 halfExtents = prefabCollider.bounds.extents;
+            halfExtents.Scale(scale);
+
+            Collider[] colliders = Physics.OverlapBox(position, halfExtents, Quaternion.identity);
+            foreach (Collider collider in colliders)
+            {
+                // Ignore specific game objects
+                if (collider.gameObject.name == "Court_Floor" ||
+                    collider.gameObject.tag == "sensor" ||
+                    collider.gameObject.tag == "thermalGridCube")
+                {
+                    continue;
+                }
+
+                if (collider.gameObject != prefab)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
