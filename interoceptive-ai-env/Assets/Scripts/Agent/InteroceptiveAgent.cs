@@ -245,15 +245,15 @@ public class InteroceptiveAgent : Agent
                         return;
                 }
 
-                // Find the SpawnerManager and reset all spawners
-                var spawnerManager = FindObjectOfType<SpawnerManager>();
-                if (spawnerManager != null)
+                // Find the MasterInitializer and reset the scene
+                var masterInitializer = FindObjectOfType<MasterInitializer>();
+                if (masterInitializer != null)
                 {
-                        spawnerManager.ResetAllSpawners();
+                        masterInitializer.ResetScene();
                 }
                 else
                 {
-                        Debug.LogError("SpawnerManager not found in the scene.");
+                        Debug.LogError("MasterInitializer not found in the scene.");
                 }
 
                 var dayAndNight = FindObjectOfType<DayAndNight>();
@@ -355,7 +355,7 @@ public class InteroceptiveAgent : Agent
                         //         spotlightHotzone.ApplySpotlightHotzone(); // Set hotzone for each spotlight
                         // }
                         // Reset heatmap
-                        heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
+                        // heatMap.GetComponent<HeatMap>().EpisodeHeatMap();
                 }
 
                 if (useCollisionObs)

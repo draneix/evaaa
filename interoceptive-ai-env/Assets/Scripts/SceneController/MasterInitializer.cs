@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class MasterInitializer : MonoBehaviour
 {
@@ -50,7 +51,6 @@ public class MasterInitializer : MonoBehaviour
         // Step 4: Initialize Agent
         if (agent != null)
         {
-            // agent.Initialize();
             agent.InitializeAgent(configLoader);
             Debug.Log("MasterInitializer: agent initialized.");
         }
@@ -88,6 +88,7 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("DayAndNight is not assigned.");
             return;
         }
+
         // Step 7: Initialize AgentFollowCamera
         if (agentFollowCamera != null)
         {
@@ -102,6 +103,36 @@ public class MasterInitializer : MonoBehaviour
 
         // Mark environment as ready
         InteroceptiveAgent.isEnvironmentReady = true;
+    }
+
+    public void ResetScene()
+    {
+        StartCoroutine(ResetSceneInOrder());
+    }
+
+    private IEnumerator ResetSceneInOrder()
+    {
+        // Step 1: Reset CourtSpawner
+        if (spawnerManager != null)
+        {
+            yield return StartCoroutine(spawnerManager.ResetAllSpawners());
+            Debug.Log("MasterInitializer: spawnerManager reset.");
+        }
+        else
+        {
+            Debug.LogError("spawnerManager is not assigned.");
+        }
+
+        // Step 2: Update HeatMap
+        if (heatMap != null)
+        {
+            heatMap.EpisodeHeatMap();
+            Debug.Log("MasterInitializer: HeatMap reset.");
+        }
+        else
+        {
+            Debug.LogError("HeatMap is not assigned.");
+        }
     }
 
     private bool IsHeatMapReady()

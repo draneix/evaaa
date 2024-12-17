@@ -80,14 +80,6 @@ public class ObstacleSpawner : MonoBehaviour
     public void ResetObstacles()
     {
         ClearObstacles();
-        StartCoroutine(GenerateObstaclesWithDelay());
-    }
-
-    // Coroutine to delay the generation of obstacles to ensure old obstacles are fully destroyed
-    private IEnumerator GenerateObstaclesWithDelay()
-    {
-        // Wait for the end of the frame to ensure objects are fully destroyed
-        yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure objects are fully destroyed
         GenerateObstacles();
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class SpawnerManager : MonoBehaviour
 {
@@ -59,45 +60,52 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
-    public void ResetAllSpawners()
+    public IEnumerator ResetAllSpawners()
     {
+        // Step 1: Reset CourtSpawner
         if (courtSpawner != null)
         {
             courtSpawner.ReloadConfig();
+            yield return null; // Wait for one frame to ensure the operation is completed
         }
         else
         {
             Debug.LogError("CourtSpawner is not assigned.");
         }
 
+        // Step 2: Reset ObstacleSpawner
         if (obstacleSpawner != null)
         {
             obstacleSpawner.ResetObstacles();
+            yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure obstacles are fully generated
         }
         else
         {
             Debug.LogError("ObstacleSpawner is not assigned.");
         }
 
+        // Step 3: Reset ResourceSpawner
         if (resourceSpawner != null)
         {
             resourceSpawner.ResetResources();
+            yield return null; // Wait for one frame to ensure the operation is completed
         }
         else
         {
             Debug.LogError("ResourceSpawner is not assigned.");
         }
 
+        // Step 4: Reset ThermoGridSpawner
         if (thermoGridSpawner != null)
         {
-            // thermoGridSpawner.ReloadConfig();
             thermoGridSpawner.ResetGrid();
+            yield return null; // Wait for one frame to ensure the operation is completed
         }
         else
         {
             Debug.LogError("ThermoGridSpawner is not assigned.");
         }
 
-        Debug.Log("All spawners reset.");
+        Debug.Log("SpawnerManager: All spawners reset.");
     }
 }

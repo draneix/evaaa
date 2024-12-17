@@ -34,10 +34,15 @@ public class HeatMap : MonoBehaviour
         numberOfCubeX = thermoGridSpawner.NumberOfGridCubeX;
         numberOfCubeZ = thermoGridSpawner.NumberOfGridCubeZ;
 
-        // Initialize the heatmap texture if thermal observations are enabled
+        // Initialize the texture
+        mapTexture = new Texture2D(numberOfCubeX, numberOfCubeZ);
+        heatMap.sprite = Sprite.Create(mapTexture, new Rect(0, 0, mapTexture.width, mapTexture.height), new Vector2(0.5f, 0.5f));
+
         if (agent.useThermalObs)
         {
-            mapTexture = new Texture2D(numberOfCubeX, numberOfCubeZ);
+            // Enable the heatmap and agent track if thermal observations are used
+            heatMap.enabled = true;
+            agentTrack.GetComponent<Image>().enabled = true;
         }
         else
         {
@@ -46,7 +51,19 @@ public class HeatMap : MonoBehaviour
             agentTrack.GetComponent<Image>().enabled = false;
         }
 
-        // Debug.Log("HeatMap initialized.");
+        // // Initialize the heatmap texture if thermal observations are enabled
+        // if (agent.useThermalObs)
+        // {
+        //     mapTexture = new Texture2D(numberOfCubeX, numberOfCubeZ);
+        // }
+        // else
+        // {
+        //     // Disable the heatmap and agent track if thermal observations are not used
+        //     heatMap.enabled = false;
+        //     agentTrack.GetComponent<Image>().enabled = false;
+        // }
+
+        Debug.Log("HeatMap initialized.");
         isInitialized = true;
     }
 
@@ -85,7 +102,9 @@ public class HeatMap : MonoBehaviour
         mapTexture.Apply();
 
         // Assign the updated texture to the heatmap material
-        heatMap.material.mainTexture = mapTexture;
+        // heatMap.material.mainTexture = mapTexture;
+        heatMap.sprite = Sprite.Create(mapTexture, new Rect(0, 0, mapTexture.width, mapTexture.height), new Vector2(0.5f, 0.5f));
+        Debug.Log("HeatMap texture updated.");
     }
 
     public void SetDayNightTemperature(bool isNight)
