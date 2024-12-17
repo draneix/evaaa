@@ -47,7 +47,7 @@
         },
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
-            "count": 10,
+            "count": 1,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0.5, "yMax": 0.5,

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Assets.Scripts.Utility;
@@ -79,15 +80,16 @@ public class ObstacleSpawner : MonoBehaviour
     public void ResetObstacles()
     {
         ClearObstacles();
-        GenerateObstacles();
-        // StartCoroutine(GenerateObstaclesWithDelay());
+        StartCoroutine(GenerateObstaclesWithDelay());
     }
 
-    // private IEnumerator GenerateObstaclesWithDelay()
-    // {
-    //     yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure objects are fully destroyed
-    //     GenerateObstacles();
-    // }
+    // Coroutine to delay the generation of obstacles to ensure old obstacles are fully destroyed
+    private IEnumerator GenerateObstaclesWithDelay()
+    {
+        // Wait for the end of the frame to ensure objects are fully destroyed
+        yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure objects are fully destroyed
+        GenerateObstacles();
+    }
 
     private void GenerateObstacles()
     {
