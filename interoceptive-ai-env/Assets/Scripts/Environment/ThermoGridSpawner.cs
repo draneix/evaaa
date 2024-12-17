@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
 
 [System.Serializable]
@@ -338,8 +339,15 @@ public class ThermoGridSpawner : MonoBehaviour
 
     private void ApplyObstacleTemperatures()
     {
-        var obstacles = FindObjectsOfType<ThermalObject>();
-        Debug.Log($"Found {obstacles.Length} ThermalObjects in the scene.");
+        // var obstacles = FindObjectsOfType<ThermalObject>();
+        // Debug.Log($"Found {obstacles.Length} ThermalObjects in the scene.");
+        // foreach (var obstacle in obstacles)
+        var obstacleSpawners = FindObjectsOfType<ObstacleSpawner>();
+        List<GameObject> obstacles = new List<GameObject>();
+        foreach (var spawner in obstacleSpawners)
+        {
+            obstacles.AddRange(spawner.GetSpawnedObstacles());
+        }
         foreach (var obstacle in obstacles)
         {
             if (obstacle == null || !obstacle.gameObject.activeInHierarchy)
@@ -347,10 +355,16 @@ public class ThermoGridSpawner : MonoBehaviour
                 continue;
             }
 
-            if (obstacle.temperature == 0)
+            ObstacleTemperature obstacleTemp = obstacle.GetComponent<ObstacleTemperature>();
+            if (obstacleTemp == null || obstacleTemp.temperature == 0)
             {
                 continue;
             }
+
+            // if (obstacle.temperature == 0)
+            // {
+            //     continue;
+            // }
 
             Collider collider = obstacle.GetComponent<Collider>();
             if (collider == null)
@@ -373,7 +387,8 @@ public class ThermoGridSpawner : MonoBehaviour
                 {
                     if (x >= 0 && x < config.numberOfGridCubeX && z >= 0 && z < config.numberOfGridCubeZ)
                     {
-                        areaTemp[x, z] = obstacle.temperature;
+                        // areaTemp[x, z] = obstacle.temperature;
+                        areaTemp[x, z] = obstacleTemp.temperature;
                     }
                 }
             }

@@ -9,9 +9,15 @@ public class ObstacleGroup
 {
     public string prefabName;
     public int count;
+    public float temperature;
     public PositionRange position;
     public RotationRange rotationRange;
     public ScaleRange scaleRange;
+}
+
+public class ObstacleTemperature : MonoBehaviour
+{
+    public float temperature;
 }
 
 [System.Serializable]
@@ -144,6 +150,7 @@ public class ObstacleSpawner : MonoBehaviour
                 }
 
                 obstacle.transform.localScale = scale;
+                obstacle.AddComponent<ObstacleTemperature>().temperature = group.temperature; // Add temperature component
                 spawnedObstacles.Add(obstacle);
             }
             else
@@ -151,6 +158,10 @@ public class ObstacleSpawner : MonoBehaviour
                 Debug.LogWarning($"Could not find a valid position for obstacle {group.prefabName} after {attempts} attempts.");
             }
         }
+    }
+    public List<GameObject> GetSpawnedObstacles()
+    {
+        return spawnedObstacles;
     }
 
     private Vector3 RandomPosition(PositionRange position) =>

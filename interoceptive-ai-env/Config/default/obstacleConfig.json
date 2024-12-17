@@ -2,7 +2,8 @@
     "groups": [
         {
             "prefabName": "Tree",
-            "count": 20,
+            "count": 10,
+            "temperature": 10.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -17,7 +18,8 @@
         },
         {
             "prefabName": "Bush2",
-            "count": 20,
+            "count": 10,
+            "temperature": 10.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -32,7 +34,8 @@
         },
         {
             "prefabName": "Small_Rock1",
-            "count": 30,
+            "count": 10,
+            "temperature": 10.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -47,7 +50,8 @@
         },
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
-            "count": 30,
+            "count": 20,
+            "temperature": 500.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0.5, "yMax": 0.5,
