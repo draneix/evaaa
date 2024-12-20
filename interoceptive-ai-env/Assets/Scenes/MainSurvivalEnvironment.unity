@@ -2785,6 +2785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 5859588403248960792}
   damage: 0
+  maxDamage: 80
   collisionObservation: []
 --- !u!4 &8683374961099706133
 Transform:

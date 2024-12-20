@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Unity.MLAgents.Sensors;
 
 public class ObjectRaycast : MonoBehaviour
 {
     public GameObject agent;
     public RaycastHit hit;
     public float damage;
+    public float maxDamage = 50f; // Maximum damage cap
     private float impulseMagnitude;
 
     public float[] collisionObservation;
@@ -65,6 +63,7 @@ public class ObjectRaycast : MonoBehaviour
         impulseMagnitude = collision.impulse.magnitude;
         // agent.GetComponent<InteroceptiveAgent>().isCollisionDetected = true;
         damage = Mathf.Exp(0.07f * (impulseMagnitude-60)) * agent.GetComponent<InteroceptiveAgent>().damageConstant;
+        damage = Mathf.Min(damage, maxDamage); // Cap the damage to maxDamage
         // agent.GetComponent<InteroceptiveAgent>().ApplyDamage(damage);
 
         InteroceptiveAgent agentScript = agent.GetComponent<InteroceptiveAgent>();

@@ -3,7 +3,7 @@
         {
             "prefabName": "Tree",
             "count": 10,
-            "temperature": 10.0,
+            "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -19,7 +19,7 @@
         {
             "prefabName": "Bush2",
             "count": 10,
-            "temperature": 10.0,
+            "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -35,7 +35,7 @@
         {
             "prefabName": "Small_Rock1",
             "count": 10,
-            "temperature": 10.0,
+            "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
