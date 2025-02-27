@@ -115,7 +115,9 @@ public class MasterInitializer : MonoBehaviour
         // Step 1: Reset CourtSpawner
         if (spawnerManager != null)
         {
-            yield return StartCoroutine(spawnerManager.ResetAllSpawners());
+            // Start the ResetAllSpawnersCoroutine and wait for it to complete
+            yield return StartCoroutine(spawnerManager.ResetAllSpawnersCoroutine());
+            // This line will only execute after ResetAllSpawnersCoroutine completes
             Debug.Log("MasterInitializer: spawnerManager reset.");
         }
         else
@@ -126,7 +128,9 @@ public class MasterInitializer : MonoBehaviour
         // Step 2: Update HeatMap
         if (heatMap != null)
         {
+            // This is a synchronous method call
             heatMap.EpisodeHeatMap();
+            // This line will only execute after EpisodeHeatMap completes
             Debug.Log("MasterInitializer: HeatMap reset.");
         }
         else

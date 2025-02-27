@@ -84,6 +84,8 @@ namespace Assets.Scripts.Utility
             {
                 // Ignore specific game objects
                 if (collider.gameObject.name == "Court_Floor" ||
+                    collider.gameObject.name.Contains("Court_Wall") ||
+                    collider.gameObject.name == "Block" ||
                     collider.gameObject.tag == "sensor" ||
                     collider.gameObject.tag == "thermalGridCube")
                 {
@@ -92,6 +94,7 @@ namespace Assets.Scripts.Utility
 
                 if (collider.gameObject != prefab)
                 {
+                    Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
                     return true;
                 }
             }
@@ -99,4 +102,14 @@ namespace Assets.Scripts.Utility
             return false;
         }
     }
+
+    // Wating specific time funtion
+    // public static class Wait
+    // {
+    //     public static void ForSeconds(float seconds)
+    //     {
+    //         System.Threading.Thread.Sleep((int)(seconds * 1000));
+    //     }
+    // }
+
 }

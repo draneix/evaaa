@@ -60,7 +60,12 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
-    public IEnumerator ResetAllSpawners()
+    public void ResetAllSpawners()
+    {
+        StartCoroutine(ResetAllSpawnersCoroutine());
+    }
+
+    public IEnumerator ResetAllSpawnersCoroutine()
     {
         // Step 1: Reset CourtSpawner
         if (courtSpawner != null)
@@ -76,8 +81,7 @@ public class SpawnerManager : MonoBehaviour
         // Step 2: Reset ObstacleSpawner
         if (obstacleSpawner != null)
         {
-            obstacleSpawner.ResetObstacles();
-            yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure obstacles are fully generated
+            yield return StartCoroutine(obstacleSpawner.ClearAndGenerateObstacles());
         }
         else
         {

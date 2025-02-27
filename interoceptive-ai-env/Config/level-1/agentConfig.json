@@ -34,7 +34,7 @@
         "useThermalObs": true,
         "relativeThermalObs": false,
         "foodCoefficient": {
-            "change_0": -0.15,
+            "change_0": -0.045,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -42,7 +42,7 @@
             "change_5": 0.0
         },
         "waterCoefficient": {
-            "change_0": -0.1,
+            "change_0": -0.03,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -50,14 +50,14 @@
             "change_5": 0.0
         },
         "thermoCoefficient": {
-            "change_0": 0.05,
+            "change_0": 0.02,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
             "change_4": 0.0
         },
         "healthCoefficient": {
-            "change_0": 0.05,
+            "change_0": 0.005,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,

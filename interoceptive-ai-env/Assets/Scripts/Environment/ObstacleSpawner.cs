@@ -83,10 +83,17 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    public void ResetObstacles()
+    // public void ResetObstacles()
+    // {
+    //     StartCoroutine(ClearAndGenerateObstacles());
+    // }
+
+    public IEnumerator ClearAndGenerateObstacles()
     {
         ClearObstacles();
+        yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds to ensure obstacles are cleared
         GenerateObstacles();
+        Debug.Log("ObstacleSpawner: New obstacles generated.");
     }
 
     private void GenerateObstacles()
@@ -111,7 +118,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
         spawnedObstacles.Clear();
         Resources.UnloadUnusedAssets(); // Ensure unused assets are unloaded
-        Debug.Log("ObstacleSpawner: Old obstacles cleared.");
+        Debug.Log("ObstacleSpawner: Old obstacles have been cleared.");
     }
 
     private void SpawnObstacleGroup(ObstacleGroup group)
@@ -152,6 +159,7 @@ public class ObstacleSpawner : MonoBehaviour
                 obstacle.transform.localScale = scale;
                 obstacle.AddComponent<ObstacleTemperature>().temperature = group.temperature; // Add temperature component
                 spawnedObstacles.Add(obstacle);
+                // Debug.Log($"Obstacle group {group.prefabName}: {obstacle.name} spawned at {position}.");
             }
             else
             {
@@ -159,6 +167,7 @@ public class ObstacleSpawner : MonoBehaviour
             }
         }
     }
+
     public List<GameObject> GetSpawnedObstacles()
     {
         return spawnedObstacles;
