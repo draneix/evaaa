@@ -15,12 +15,7 @@ public class ConfigLoader : MonoBehaviour
 
     private void LoadMainConfig()
     {
-        Debug.Log($"ConfigLoader: isEditor={Application.isEditor}");
-        string mainConfigPath = Application.isEditor
-        ? Path.Combine(Application.dataPath, "../Config", mainConfigFileName)  // Editor case
-        : Path.Combine(Application.dataPath, "..", "Config", mainConfigFileName); // Build case
-        // ? Path.Combine(Application.dataPath, "../Config", mainConfigFileName)
-        // : Path.Combine(Directory.GetCurrentDirectory(), "Config", mainConfigFileName);
+        string mainConfigPath = Path.Combine(Application.dataPath, "..", "Config", mainConfigFileName);
 
         if (!File.Exists(mainConfigPath))
         {
@@ -43,11 +38,7 @@ public class ConfigLoader : MonoBehaviour
 
     private void SetConfigFolder(string folderName)
     {
-        configFolderPath = Application.isEditor
-        ? Path.Combine(Application.dataPath, "../Config", folderName)  // Editor case
-        : Path.Combine(Application.dataPath, "..", "Config", folderName); // Build case
-        // ? Path.Combine(Application.dataPath, "../Config", folderName)
-        // : Path.Combine(Directory.GetCurrentDirectory(), "Config", folderName);
+        configFolderPath = Path.Combine(Application.dataPath, "..", "Config", folderName);
 
         if (!Directory.Exists(configFolderPath))
         {

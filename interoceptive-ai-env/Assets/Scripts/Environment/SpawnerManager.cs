@@ -11,6 +11,7 @@ public class SpawnerManager : MonoBehaviour
 
     public void InitializeSpawners(ConfigLoader configLoader)
     {
+        Debug.Log("SpawnerManager: Initializing spawners...");
         // Step 1: Initialize CourtSpawner
         if (courtSpawner != null)
         {
@@ -26,8 +27,7 @@ public class SpawnerManager : MonoBehaviour
         // Step 2: Initialize ObstacleSpawner
         if (obstacleSpawner != null)
         {
-            obstacleSpawner.InitializeObstacleSpawner(configLoader);
-            obstacleSpawner.InitializeObstacles(courtSpawner.CourtTransform);
+            obstacleSpawner.InitializeObstacleSpawner(configLoader, courtSpawner.CourtTransform);
             Debug.Log("ObstacleSpawner Initialized.");
         }
         else

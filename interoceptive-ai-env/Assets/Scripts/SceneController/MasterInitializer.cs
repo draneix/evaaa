@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using Unity.MLAgents;
 
 public class MasterInitializer : MonoBehaviour
 {
+    private Academy academy;
     public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
     public InteroceptiveAgent agent; // Single agent reference
@@ -10,13 +12,19 @@ public class MasterInitializer : MonoBehaviour
     public DayAndNight dayAndNight;
     public AgentFollowCamera agentFollowCamera;
 
+
+
     private void Start()
     {
+        academy = Academy.Instance;
         InitializeScene();
     }
 
     private void InitializeScene()
     {
+        // Pause the Academy/Agent updates
+        academy.AutomaticSteppingEnabled = false;
+
         // Step 1: Initialize ConfigLoader
         if (configLoader != null)
         {
@@ -103,6 +111,8 @@ public class MasterInitializer : MonoBehaviour
 
         // Mark environment as ready
         InteroceptiveAgent.isEnvironmentReady = true;
+        academy.AutomaticSteppingEnabled = true;
+        Debug.Log("MasterInitializer: Scene fully initialized, ML-Agents enabled.");
     }
 
     public void ResetScene()
@@ -112,6 +122,8 @@ public class MasterInitializer : MonoBehaviour
 
     private IEnumerator ResetSceneInOrder()
     {
+        // Pause the Academy/Agent updates during reset
+        academy.AutomaticSteppingEnabled = false;
         // Step 1: Reset CourtSpawner
         if (spawnerManager != null)
         {
@@ -137,6 +149,9 @@ public class MasterInitializer : MonoBehaviour
         {
             Debug.LogError("HeatMap is not assigned.");
         }
+
+        academy.AutomaticSteppingEnabled = true;
+        Debug.Log("MasterInitializer: Scene reset complete, ML-Agents enabled.");
     }
 
     private bool IsHeatMapReady()

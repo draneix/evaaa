@@ -38,7 +38,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private ConfigLoader configLoader; // Reference to ConfigLoader
 
-    public void InitializeObstacleSpawner(ConfigLoader loader)
+    public void InitializeObstacleSpawner(ConfigLoader loader, Transform court)
     {
         configLoader = loader;
         if (configLoader == null)
@@ -48,15 +48,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
 
         LoadConfig();
-    }
 
-    public void ReloadConfig()
-    {
-        LoadConfig();
-    }
-
-    public void InitializeObstacles(Transform court)
-    {
         if (obstacleConfig == null)
         {
             Debug.LogError("Obstacle configuration is not loaded. Call ReloadConfig() before InitializeObstacles().");

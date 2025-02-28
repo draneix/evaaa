@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 39
+    VectorObservationSize: 42
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -2472,15 +2472,18 @@ MonoBehaviour:
     max: 15
   resourceFoodValue: 3
   startFoodLevel: 0
+  countFood: 0
   waterLevelRange:
     min: -15
     max: 15
   resourceWaterValue: 0.5
   startWaterLevel: 0
+  countWater: 0
   thermoLevelRange:
     min: -15
     max: 15
   startThermoLevel: 0
+  countCollision: 0
   healthLevelRange:
     min: 0
     max: 100
