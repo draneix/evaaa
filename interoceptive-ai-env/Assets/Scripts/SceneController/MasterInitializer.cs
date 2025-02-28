@@ -7,6 +7,7 @@ public class MasterInitializer : MonoBehaviour
     private Academy academy;
     public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
+    public ThermoGridSpawner thermoGridSpawner;
     public InteroceptiveAgent agent; // Single agent reference
     public HeatMap heatMap;
     public DayAndNight dayAndNight;
@@ -49,10 +50,18 @@ public class MasterInitializer : MonoBehaviour
         }
 
         // Step 3: Ensure ThermoGridSpawner is ready
-        var thermoGridSpawner = FindObjectOfType<ThermoGridSpawner>();
-        if (thermoGridSpawner == null || !thermoGridSpawner.isThermalGridReady)
+        if (thermoGridSpawner != null)
         {
-            Debug.LogError("ThermoGridSpawner is not ready. Initialization failed.");
+            thermoGridSpawner.InitializeThermoGridSpawner(configLoader);
+            if (thermoGridSpawner == null || !thermoGridSpawner.isThermalGridReady)
+            {
+                Debug.LogError("ThermoGridSpawner is not ready. Initialization failed.");
+                return;
+            }
+        }
+        else
+        {
+            Debug.LogError("ThermoGridSpawner is not assigned.");
             return;
         }
 
