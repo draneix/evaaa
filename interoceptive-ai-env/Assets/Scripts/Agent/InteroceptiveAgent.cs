@@ -88,17 +88,20 @@ public class InteroceptiveAgent : Agent
         public EVRange foodLevelRange;
         public float resourceFoodValue;
         public float startFoodLevel;
+        public float countFood;
 
         // blue
         [Header("Water")]
         public EVRange waterLevelRange;
         public float resourceWaterValue;
         public float startWaterLevel;
+        public float countWater;
 
         // yellow
         [Header("Temperature")]
         public EVRange thermoLevelRange;
         public float startThermoLevel;
+        public float countCollision;
 
         // hp
         [Header("Health")]
@@ -424,11 +427,24 @@ public class InteroceptiveAgent : Agent
                 }
                 sensor.AddObservation(agentPosition);
                 sensor.AddObservation(agentRotation);
+                
+                // Debug.Log("Eat Food : " + countFood);
+                sensor.AddObservation(countFood);
+                
+                // Debug.Log("Drink Water : " + countWater);
+                sensor.AddObservation(countWater);
+
+                // Debug.Log("Collide Obstacle : " + countCollision);
+                sensor.AddObservation(countCollision);
         }
 
         //브레인(정책)으로 부터 전달 받은 행동을 실행하는 메소드
         public override void OnActionReceived(ActionBuffers actions)
         {
+                countFood = 0.0f;
+                countWater = 0.0f;
+                countCollision = 0.0f;
+
                 if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
                 {
                         playRecorder.GetComponent<CaptureScreenShot>().CaptureImage();
@@ -442,10 +458,12 @@ public class InteroceptiveAgent : Agent
                         if (eatenResourceTag.ToLower() == "food")
                         {
                                 foodCoefficient.change_5 = 1.0f;
+                                countFood = 1.0f;
                         }
                         if (eatenResourceTag.ToLower() == "water" || eatenResourceTag.ToLower() == "pond")
                         {
                                 waterCoefficient.change_5 = 1.0f;
+                                countWater = 1.0f;
                         }
 
                         if (singleTrial)
