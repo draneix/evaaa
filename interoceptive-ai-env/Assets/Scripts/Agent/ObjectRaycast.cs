@@ -55,8 +55,9 @@ public class ObjectRaycast : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {   
-        int agentLayer = LayerMask.NameToLayer("Court");
-        if (collision.gameObject.layer == agentLayer)
+        int courtLayer = LayerMask.NameToLayer("Court");
+        // if (collision.gameObject.layer == courtLayer || collision.gameObject.name == "Court_Floor")
+        if (collision.gameObject.layer == courtLayer)
         {
             return;
         }
@@ -68,10 +69,18 @@ public class ObjectRaycast : MonoBehaviour
 
         InteroceptiveAgent agentScript = agent.GetComponent<InteroceptiveAgent>();
         agentScript.resourceLevels[3] -= damage;
+        // Debug.Log("damage : " + damage);
+        if (damage > 0.5)
+        {
+            agentScript.countCollision = 1.0f;
+        }
+        Debug.Log("Collided with: " + collision.gameObject.name);
     }
 
     void OnCollisionExit(Collision collision)
     {
         damage = 0;
+        InteroceptiveAgent agentScript = agent.GetComponent<InteroceptiveAgent>();
+        agentScript.countCollision = 0;
     }
 }

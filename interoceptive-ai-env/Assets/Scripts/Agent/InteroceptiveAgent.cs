@@ -88,12 +88,18 @@ public class InteroceptiveAgent : Agent
         public EVRange foodLevelRange;
         public float resourceFoodValue;
         public float startFoodLevel;
+        public float countFood;
+        public float sumFood;
+
 
         // blue
         [Header("Water")]
         public EVRange waterLevelRange;
         public float resourceWaterValue;
         public float startWaterLevel;
+        public float countWater;
+        public float sumWater;
+
 
         // yellow
         [Header("Temperature")]
@@ -104,6 +110,8 @@ public class InteroceptiveAgent : Agent
         [Header("Health")]
         public EVRange healthLevelRange;
         public float startHealthLevel;
+        public float countCollision;
+        public float sumCollision;
 
         // Food Function Coefficient
         // Index 0 : Constant Decay
@@ -424,10 +432,49 @@ public class InteroceptiveAgent : Agent
                 }
                 sensor.AddObservation(agentPosition);
                 sensor.AddObservation(agentRotation);
+                sensor.AddObservation(foodCoefficient.change_5);
+                
+                if (countFood == 1)
+                {
+                        Debug.Log("Eat Food : " + countFood);
+                        sensor.AddObservation(countFood);
+                        countFood = 0;
+                }
+                
+                if (countWater == 1)
+                {
+                        Debug.Log("Drink Water : " + countWater);
+                        Debug.Log(this.resourceLevels[0]);
+                        sensor.AddObservation(countWater);
+                        countWater = 0;
+                }
+
+                // for counting result
+                // if (this.resourceLevels[0] < this.resourceLevels[1] & countFood == 1)
+                // {
+                //         sumFood += 1;
+                //         Debug.Log("When Food < Water, Eat Food : " + sumFood);
+                //         countFood = 0;
+                // }
+
+                // if (this.resourceLevels[1] < this.resourceLevels[0] & countWater == 1)
+                // {
+                //         sumWater += 1;
+                //         Debug.Log("When Water < Food, Drink Water : " + sumWater);
+                //         countWater = 0;
+                // }
+
+                if (countCollision == 1)
+                {
+                        Debug.Log("Collide Obstacle : " + countCollision);
+                        sensor.AddObservation(countCollision);
+                        countCollision = 0;
+                }
+
         }
 
         //브레인(정책)으로 부터 전달 받은 행동을 실행하는 메소드
-        public override void OnActionReceived(ActionBuffers actions)
+        public override void OnActionReceived(ActionBuffers actions) 
         {
                 if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
                 {
@@ -442,10 +489,13 @@ public class InteroceptiveAgent : Agent
                         if (eatenResourceTag.ToLower() == "food")
                         {
                                 foodCoefficient.change_5 = 1.0f;
+                                countFood = 1.0f;
+
                         }
                         if (eatenResourceTag.ToLower() == "water" || eatenResourceTag.ToLower() == "pond")
                         {
                                 waterCoefficient.change_5 = 1.0f;
+                                countWater = 1.0f;
                         }
 
                         if (singleTrial)
