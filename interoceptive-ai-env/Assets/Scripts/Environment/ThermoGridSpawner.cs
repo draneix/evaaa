@@ -106,7 +106,7 @@ public class ThermoGridSpawner : MonoBehaviour
 
     public void GenerateGrid()
     {
-        ClearGrid();
+        // ClearGrid();
 
         // Initialize the temperature array
         areaTemp = new float[config.numberOfGridCubeX, config.numberOfGridCubeZ];
@@ -142,7 +142,6 @@ public class ThermoGridSpawner : MonoBehaviour
         {
             ApplyObstacleTemperatures();
         }
-
         
         ApplyGaussianSmoothing();
 

@@ -15,6 +15,8 @@ public class InteroceptiveAgent : Agent
         private AgentConfig agentConfig;
 
         public static bool isEnvironmentReady = false; // Global readiness flag
+        private bool isFirstEpisode = true;
+
         protected EnvironmentParameters m_ResetParams;
         protected ResourceProperty[] FoodObjects;
         protected Rigidbody m_AgentRb;
@@ -237,14 +239,21 @@ public class InteroceptiveAgent : Agent
                 }
                 
                 recentRewards = new Queue<float>(rewardWindowSize);
+                
+                ResetAgent();
         }
-
         public override void OnEpisodeBegin()
         {
-
                 if (!isEnvironmentReady)
                 {
                         Debug.LogWarning("Environment is not ready. Skipping OnEpisodeBegin.");
+                        return;
+                }
+
+                if (isFirstEpisode)
+                {
+                        isFirstEpisode = false;
+                        Debug.Log("First episode - skipping reset.");
                         return;
                 }
 
@@ -281,7 +290,13 @@ public class InteroceptiveAgent : Agent
                 {
                         Debug.LogError("DayAndNight not found in the scene.");
                 }
-                // Reset agent
+
+                ResetAgent();
+                Debug.Log("InteroceptiveAgent: OnEpisodeBegin");
+        }
+        public void ResetAgent()
+        {
+                 // Reset agent
                 m_AgentRb.velocity = Vector3.zero;
 
                 eatenResource = false;
@@ -377,8 +392,6 @@ public class InteroceptiveAgent : Agent
                 {
                         this.touchObservation = 0.0f;
                 }
-
-                Debug.Log("InteroceptiveAgent: OnEpisodeBegin");
         }
 
         private void SetRandomPosition()

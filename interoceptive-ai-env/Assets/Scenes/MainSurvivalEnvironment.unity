@@ -391,7 +391,6 @@ Transform:
   - {fileID: 5331082243850555884}
   - {fileID: 3844737367945803567}
   - {fileID: 299459156706153904}
-  - {fileID: 1683784372}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1417844878
@@ -426,8 +425,9 @@ Transform:
   - {fileID: 79528130}
   - {fileID: 1126164669}
   - {fileID: 1605100404}
-  - {fileID: 2038372133}
   - {fileID: 808919905}
+  - {fileID: 2038372133}
+  - {fileID: 1683784372}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1605100404 stripped
@@ -504,7 +504,7 @@ Transform:
   - {fileID: 1850279993}
   - {fileID: 685796459}
   - {fileID: 1975835201}
-  m_Father: {fileID: 1359072464}
+  m_Father: {fileID: 1417844879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1683784373
 MonoBehaviour:
@@ -671,6 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configLoader: {fileID: 808919906}
   spawnerManager: {fileID: 1683784373}
+  thermoGridSpawner: {fileID: 1975835202}
   agent: {fileID: 7819571294374217589}
   heatMap: {fileID: 4985382396085495230}
   dayAndNight: {fileID: 3844737367945803569}

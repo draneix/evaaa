@@ -13,8 +13,6 @@ public class MasterInitializer : MonoBehaviour
     public DayAndNight dayAndNight;
     public AgentFollowCamera agentFollowCamera;
 
-
-
     private void Start()
     {
         academy = Academy.Instance;
@@ -86,6 +84,7 @@ public class MasterInitializer : MonoBehaviour
                 Debug.Log("HeatMap failed to initialize.");
                 return;
             }
+            heatMap.EpisodeHeatMap();
             Debug.Log("MasterInitializer: heatmap initialized.");
         }
         else

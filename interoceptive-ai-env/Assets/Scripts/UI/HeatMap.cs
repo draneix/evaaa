@@ -104,7 +104,7 @@ public class HeatMap : MonoBehaviour
         // Assign the updated texture to the heatmap material
         // heatMap.material.mainTexture = mapTexture;
         heatMap.sprite = Sprite.Create(mapTexture, new Rect(0, 0, mapTexture.width, mapTexture.height), new Vector2(0.5f, 0.5f));
-        Debug.Log("HeatMap texture updated.");
+        // Debug.Log("HeatMap texture updated.");
     }
 
     public void SetDayNightTemperature(bool isNight)
