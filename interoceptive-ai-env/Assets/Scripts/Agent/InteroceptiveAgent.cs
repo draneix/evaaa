@@ -16,6 +16,8 @@ public class InteroceptiveAgent : Agent
 
         public static bool isEnvironmentReady = false; // Global readiness flag
         private bool isFirstEpisode = true;
+        private Academy academy;
+        public int episodeCount;
 
         protected EnvironmentParameters m_ResetParams;
         protected ResourceProperty[] FoodObjects;
@@ -132,6 +134,8 @@ public class InteroceptiveAgent : Agent
 
         public void InitializeAgent(ConfigLoader loader)
         {
+                academy = Academy.Instance;
+
                 configLoader = loader;
                 if (configLoader == null)
                 {
@@ -241,9 +245,11 @@ public class InteroceptiveAgent : Agent
                 recentRewards = new Queue<float>(rewardWindowSize);
                 
                 ResetAgent();
+                // Debug.Log("InteroceptiveAgent: InitializeAgent");
         }
         public override void OnEpisodeBegin()
         {
+                episodeCount = academy.EpisodeCount;
                 if (!isEnvironmentReady)
                 {
                         Debug.LogWarning("Environment is not ready. Skipping OnEpisodeBegin.");
@@ -252,8 +258,8 @@ public class InteroceptiveAgent : Agent
 
                 if (isFirstEpisode)
                 {
-                        isFirstEpisode = false;
-                        Debug.Log("First episode - skipping reset.");
+                        isFirstEpisode = false;  
+                        // Debug.Log("InteroceptiveAgent: The First Episode Started.");
                         return;
                 }
 
@@ -293,6 +299,7 @@ public class InteroceptiveAgent : Agent
 
                 ResetAgent();
                 Debug.Log("InteroceptiveAgent: OnEpisodeBegin");
+                // Debug.Log("InteroceptiveAgent: " + episodeCount + " Episode Started.");
         }
         public void ResetAgent()
         {
@@ -524,8 +531,10 @@ public class InteroceptiveAgent : Agent
                 bool checkHealth = (this.resourceLevels[3] < this.healthLevelRange.min);
 
                 if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
+                {        
+                        // Debug.Log("InteroceptiveAgent: " + episodeCount + " Episode Ended.");
                         EndEpisode();
-
+                }
                 if (this.resourceLevels[3] > healthLevelRange.max)
                 {
                         this.resourceLevels[3] = healthLevelRange.max;

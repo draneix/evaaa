@@ -762,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1699568242032636, guid: b59e4a7fd76af471cadd16e90133a084, type: 3}
       propertyPath: m_Name
-      value: 'PondWater '
+      value: Pond
       objectReference: {fileID: 0}
     - target: {fileID: 1699568242032636, guid: b59e4a7fd76af471cadd16e90133a084, type: 3}
       propertyPath: m_Layer

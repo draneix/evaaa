@@ -163,6 +163,12 @@ public class ResourceSpawner : MonoBehaviour
     public void RelocateResource(Collider resource)
     {
         string resourceName = resource.name.Replace("(Clone)", "").Trim();
+        if (resourceName == "Pond")
+        {
+            // Debug.Log($"Resource {resourceName} will not be relocated.");
+            return;
+        }
+
         ResourceGroup group = resourceConfig.groups.Find(g => g.prefabName == resourceName);
         if (group == null)
         {

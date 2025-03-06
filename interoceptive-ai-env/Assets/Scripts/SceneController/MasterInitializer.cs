@@ -79,13 +79,16 @@ public class MasterInitializer : MonoBehaviour
         if (heatMap != null)
         {
             heatMap.InitializeHeatMap();
-            if (!IsHeatMapReady())
+            if (heatMap.isInitialized)
             {
-                Debug.Log("HeatMap failed to initialize.");
-                return;
+                Debug.Log("MasterInitializer: heatmap initialized.");
+            }
+            else
+            {
+                Debug.LogError("MasterInitializer: HeatMap failed to initialize.");
+                // return;
             }
             heatMap.EpisodeHeatMap();
-            Debug.Log("MasterInitializer: heatmap initialized.");
         }
         else
         {

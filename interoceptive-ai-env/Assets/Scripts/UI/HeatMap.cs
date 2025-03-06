@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +16,12 @@ public class HeatMap : MonoBehaviour
     private int numberOfCubeX;
     private int numberOfCubeZ;
 
-    private bool isInitialized = false;
+    public bool isInitialized = false;
 
     // Call this explicitly to initialize the heatmap
     public void InitializeHeatMap()
     {
-        if (isInitialized) return;
+        // if (isInitialized) return;
 
         // Find ThermoGridSpawner in the scene
         thermoGridSpawner = FindObjectOfType<ThermoGridSpawner>();
@@ -51,20 +52,8 @@ public class HeatMap : MonoBehaviour
             agentTrack.GetComponent<Image>().enabled = false;
         }
 
-        // // Initialize the heatmap texture if thermal observations are enabled
-        // if (agent.useThermalObs)
-        // {
-        //     mapTexture = new Texture2D(numberOfCubeX, numberOfCubeZ);
-        // }
-        // else
-        // {
-        //     // Disable the heatmap and agent track if thermal observations are not used
-        //     heatMap.enabled = false;
-        //     agentTrack.GetComponent<Image>().enabled = false;
-        // }
-
-        Debug.Log("HeatMap initialized.");
         isInitialized = true;
+        // Debug.Log("HeatMap initialized.");
     }
 
     public void EpisodeHeatMap()
@@ -95,6 +84,9 @@ public class HeatMap : MonoBehaviour
                 float normalizedTemp = thermoGridSpawner.GetNormalizedAreaTemp(x, z);
                 Color color = gradient.Evaluate(1 - normalizedTemp);
                 mapTexture.SetPixel(x, z, color);
+                
+                // float areaTemp = thermoGridSpawner.GetAreaTemp(x, z);
+                // Debug.Log("ModifyPixels: x: " + x + ", z: " + z + ", areaTemp" + areaTemp + " normalizedTemp: " + normalizedTemp);
             }
         }
 

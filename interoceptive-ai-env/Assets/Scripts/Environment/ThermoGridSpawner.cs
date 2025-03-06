@@ -136,7 +136,7 @@ public class ThermoGridSpawner : MonoBehaviour
 
         if (config.useRandomHotSpot)
         {
-            SetHotSpotSize();
+            SetHotSpotWithSize();
         }
         if (config.useObjectHotSpot)
         {
@@ -167,7 +167,7 @@ public class ThermoGridSpawner : MonoBehaviour
 
         if (config.useRandomHotSpot)
         {
-            SetHotSpotSize();
+            SetHotSpotWithSize();
         }
         if (config.useObjectHotSpot)
         {
@@ -180,7 +180,7 @@ public class ThermoGridSpawner : MonoBehaviour
     }
 
     // Function to set the size of hot spots
-    public void SetHotSpotSize()
+    public void SetHotSpotWithSize()
     {
         for (int i = 0; i < config.hotSpotCount; i++)
         {
@@ -297,8 +297,8 @@ public class ThermoGridSpawner : MonoBehaviour
 
     public float GetNormalizedAreaTemp(int x, int z)
     {
-        // float minTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.min; 
-        // float maxTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.max;
+        float minTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.min; 
+        float maxTemp = FindAnyObjectByType<InteroceptiveAgent>().thermoLevelRange.max;
 
         if (x >= 0 && x < config.numberOfGridCubeX && z >= 0 && z < config.numberOfGridCubeZ)
         {
