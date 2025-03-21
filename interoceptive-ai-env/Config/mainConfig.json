@@ -1,3 +1,5 @@
 {
-        "configFolderName": "level-1-pond"
+    "configFolderName": "level-3-Bush400Rock40",
+    "recordingFolderName": "SampleRecording-debug",
+    "recordEnable": "true"
 }

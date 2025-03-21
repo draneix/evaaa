@@ -6,7 +6,8 @@ public class ConfigLoader : MonoBehaviour
     [Header("Configuration")]
     public string mainConfigFileName = "mainConfig.json"; // Public variable for main config file name
 
-    private string configFolderPath;
+    public MainConfig mainConfig;
+    public string configFolderPath;
 
     public void InitializeConfigLoader()
     {
@@ -24,7 +25,7 @@ public class ConfigLoader : MonoBehaviour
         }
 
         string jsonContent = File.ReadAllText(mainConfigPath);
-        MainConfig mainConfig = JsonUtility.FromJson<MainConfig>(jsonContent);
+        mainConfig = JsonUtility.FromJson<MainConfig>(jsonContent);
 
         if (mainConfig == null || string.IsNullOrEmpty(mainConfig.configFolderName))
         {
@@ -72,4 +73,6 @@ public class ConfigLoader : MonoBehaviour
 public class MainConfig
 {
     public string configFolderName;
+    public string recordingFolderName;
+    public string recordEnable;
 }

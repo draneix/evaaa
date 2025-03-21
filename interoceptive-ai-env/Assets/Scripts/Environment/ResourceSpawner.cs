@@ -7,6 +7,7 @@ using Assets.Scripts.Utility;
 public class ResourceGroup
 {
     public string prefabName;
+    public string prefabLabel;
     public int count;
     public PositionRange position;
     public RotationRange rotationRange;
@@ -108,6 +109,12 @@ public class ResourceSpawner : MonoBehaviour
     private void SpawnResourceGroup(ResourceGroup group)
     {
         GameObject prefab = Resources.Load<GameObject>($"{prefabFolder}/{group.prefabName}");
+
+        if (string.IsNullOrEmpty(group.prefabLabel))
+        {
+            group.prefabLabel = group.prefabName;
+            // Debug.LogWarning($"Prefab label not found for {group.prefabName}. Using prefab name as label.");
+        }
         if (prefab == null)
         {
             Debug.LogError($"Prefab not found: {group.prefabName}");
@@ -121,6 +128,8 @@ public class ResourceSpawner : MonoBehaviour
             Vector3 scale = RandomScale(group.scaleRange);
 
             GameObject resource = Instantiate(prefab, position, rotation);
+            // Change name of resource
+            resource.name = $"{group.prefabLabel}(Clone)";
 
             if (courtTransform != null)
             {
@@ -163,13 +172,14 @@ public class ResourceSpawner : MonoBehaviour
     public void RelocateResource(Collider resource)
     {
         string resourceName = resource.name.Replace("(Clone)", "").Trim();
-        if (resourceName == "Pond")
+                
+        if (resource.CompareTag("pond"))
         {
             // Debug.Log($"Resource {resourceName} will not be relocated.");
             return;
         }
 
-        ResourceGroup group = resourceConfig.groups.Find(g => g.prefabName == resourceName);
+        ResourceGroup group = resourceConfig.groups.Find(g => g.prefabLabel == resourceName);
         if (group == null)
         {
             Debug.LogError($"Resource {resourceName} configuration not found.");

@@ -77,7 +77,7 @@ namespace Assets.Scripts.Utility
             }
 
             Vector3 halfExtents = prefabCollider.bounds.extents;
-            halfExtents.Scale(scale);
+            halfExtents.Scale(scale * 0.5f);
 
             Collider[] colliders = Physics.OverlapBox(position, halfExtents, Quaternion.identity);
             foreach (Collider collider in colliders)
@@ -94,7 +94,7 @@ namespace Assets.Scripts.Utility
 
                 if (collider.gameObject != prefab)
                 {
-                    Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
+                    // Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
                     return true;
                 }
             }

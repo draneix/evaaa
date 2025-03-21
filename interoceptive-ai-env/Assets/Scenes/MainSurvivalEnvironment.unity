@@ -2412,6 +2412,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   configFileName: agentConfig.json
+  episodeCount: 0
   isAIControlled: 1
   heatMap: {fileID: 1926882518980410240}
   playRecorder: {fileID: 79528128}

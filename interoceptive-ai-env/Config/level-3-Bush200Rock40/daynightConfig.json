@@ -1,0 +1,13 @@
+{
+        "daySpeed": 0,
+        "nightSpeed": 0,
+        "fogChangeSpeed": 0.1,
+        "dayFogDensity": 0,
+        "nightFogDensity": 0.1,
+        "currentFogDensity": 0.01,
+        "dayTemperatureChange": 0,
+        "nightTemperatureChange": 0,
+        "dayFarClip": 1000,
+        "nightFarClip": 500,
+        "farClipTransitionSpeed": 5
+}

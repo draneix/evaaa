@@ -191,7 +191,12 @@ public class InteroceptiveAgent : Agent
                 radialRange = agentConfig.radialRange;
                 damageConstant = agentConfig.damageConstant;
 
-                m_ResetParams = Academy.Instance.EnvironmentParameters;          
+                m_ResetParams = Academy.Instance.EnvironmentParameters; 
+                if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
+                {
+                        playRecorder.GetComponent<CaptureScreenShot>().CreateRecordDirectory();
+                }
+
                 // Update the CameraSwitcher if available
                 if (camareManager != null)
                 {
