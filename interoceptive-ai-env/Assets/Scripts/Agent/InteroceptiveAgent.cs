@@ -192,10 +192,10 @@ public class InteroceptiveAgent : Agent
                 damageConstant = agentConfig.damageConstant;
 
                 m_ResetParams = Academy.Instance.EnvironmentParameters; 
-                if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
-                {
-                        playRecorder.GetComponent<CaptureScreenShot>().CreateRecordDirectory();
-                }
+                // if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
+                // {
+                //         playRecorder.GetComponent<CaptureScreenShot>().CreateRecordDirectory();
+                // }
 
                 // Update the CameraSwitcher if available
                 if (camareManager != null)

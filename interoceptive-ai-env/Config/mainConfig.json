@@ -1,5 +1,5 @@
 {
-    "configFolderName": "level-3-Bush400Rock40",
+    "configFolderName": "damage",
     "recordingFolderName": "SampleRecording-debug",
-    "recordEnable": "true"
+    "recordEnable": "false"
 }
