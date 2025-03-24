@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5222310848746605839}
   m_Layer: 0
-  m_Name: MESH_Tree4
+  m_Name: MESH_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2379157192005479369}
   m_Layer: 0
-  m_Name: MESH_Tree3
+  m_Name: MESH_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,7 +408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9082279328011834398}
   m_Layer: 0
-  m_Name: MESH_Tree2
+  m_Name: MESH_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -607,7 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434420530973412727}
   m_Layer: 0
-  m_Name: MESH_Tree1
+  m_Name: MESH_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
