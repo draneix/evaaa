@@ -2,7 +2,7 @@
     "groups": [
         {
             "prefabName": "Tree",
-            "count": 10,
+            "count": 0,
             "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 45,

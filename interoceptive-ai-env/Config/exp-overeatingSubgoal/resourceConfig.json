@@ -2,9 +2,9 @@
     "groups": [
         {
             "prefabName": "Food",
-            "count": 10,
+            "count": 5,
             "position": {
-                "xMin": -57, "xMax": -57.5,
+                "xMin": -66, "xMax": -66.5,
                 "yMin": 2, "yMax": 2,
                 "zMin": 2.2, "zMax": 1.9
             },
@@ -19,11 +19,11 @@
         },
         {
             "prefabName": "Water",
-            "count": 10,
+            "count": 5,
             "position": {
                 "xMin": 66, "xMax": 66.5,
                 "yMin": 2, "yMax": 2,
-                "zMin": 1, "zMax": 1
+                "zMin": 2.2, "zMax": 1.9
             },
             "rotationRange": {
                 "x": 0, "y": 0, "z": 0
