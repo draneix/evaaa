@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 [System.Serializable]
 public class ObstaclePositionRange
@@ -56,9 +57,12 @@ public class ObstacleCollector : MonoBehaviour
         {
             if (string.IsNullOrEmpty(obstacleNameFilter) || obj.name.Contains(obstacleNameFilter))
             {
+                string prefabName = Regex.Replace(obj.name, @"\(Clone\).*", "").Trim();
+
                 CollectedObstacleGroup group = new CollectedObstacleGroup
                 {
-                    prefabName = obj.name.Replace("(Clone)", "").Trim(),
+                    // prefabName = obj.name.Replace("(Clone)", "").Trim(),
+                    prefabName = prefabName,
                     count = 1,
                     temperature = 0.0f,
                     position = new ObstaclePositionRange
