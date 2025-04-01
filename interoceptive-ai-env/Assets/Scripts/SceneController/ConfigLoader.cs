@@ -34,7 +34,7 @@ public class ConfigLoader : MonoBehaviour
         }
 
         SetConfigFolder(mainConfig.configFolderName);
-        Debug.Log($"ConfigLoader: SetConfigFodler as {configFolderPath}.");
+        Debug.Log($"ConfigLoader: SetConfigFolder as {configFolderPath}.");
     }
 
     private void SetConfigFolder(string folderName)
@@ -66,6 +66,18 @@ public class ConfigLoader : MonoBehaviour
         string jsonContent = File.ReadAllText(configFilePath);
         T config = JsonUtility.FromJson<T>(jsonContent);
         return config;
+    }
+
+    // New method to get the full path of a configuration file
+    public string GetFullPath(string configFileName)
+    {
+        if (string.IsNullOrEmpty(configFolderPath))
+        {
+            Debug.LogError("Config folder is not set. Call SetConfigFolder() first.");
+            return string.Empty;
+        }
+
+        return Path.Combine(configFolderPath, configFileName);
     }
 }
 
