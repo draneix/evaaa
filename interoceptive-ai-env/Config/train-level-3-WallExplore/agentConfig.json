@@ -21,7 +21,7 @@
         "resourceFoodValue": 3.0,
         "startFoodLevel": 0.0,
         "waterLevelRange": { "min": -15.0, "max": 15.0 },
-        "resourceWaterValue": 3.0,
+        "resourceWaterValue": 1.0,
         "startWaterLevel": 0.0,
         "thermoLevelRange": { "min": -15.0, "max": 15.0 },
         "startThermoLevel": 0.0,

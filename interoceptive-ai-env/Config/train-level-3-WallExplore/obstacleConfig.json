@@ -496,7 +496,7 @@
         },
         {
             "prefabName": "Bush2",
-            "count": 50,
+            "count": 200,
             "temperature": 0.0,
             "position": {
                 "xMin": -48, "xMax": 48,
@@ -512,7 +512,7 @@
         },
         {
             "prefabName": "Small_Rock1",
-            "count": 10,
+            "count": 40,
             "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 10,

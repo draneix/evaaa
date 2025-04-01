@@ -22,7 +22,7 @@
                 "prefabName": "Apple",
                 "prefabLabel": "FoodGroupA",
                 "resourceType": "GroupedRandom",
-                "count": 2,
+                "count": 3,
                 "position": { "xMin": -30, "xMax": -40, "yMin": 1, "yMax": 1, "zMin": 20, "zMax": 40 },
                 "rotationRange": { "x": 0, "y": 0, "z": 0 },
                 "scaleRange": { "xMin": 7, "xMax": 7, "yMin": 7, "yMax": 7, "zMin": 7, "zMax": 7 }
@@ -31,7 +31,7 @@
                 "prefabName": "Apple",
                 "prefabLabel": "FoodGroupB",
                 "resourceType": "GroupedRandom",
-                "count": 2,
+                "count": 3,
                 "position": { "xMin": -35, "xMax": -30, "yMin": 1, "yMax": 1, "zMin": -35, "zMax": -30 },
                 "rotationRange": { "x": 0, "y": 0, "z": 0 },
                 "scaleRange": { "xMin": 7, "xMax": 7, "yMin": 7, "yMax": 7, "zMin": 7, "zMax": 7 }
@@ -40,7 +40,7 @@
                 "prefabName": "Apple",
                 "prefabLabel": "FoodGroupC",
                 "resourceType": "GroupedRandom",
-                "count": 2,
+                "count": 3,
                 "position": { "xMin": 27, "xMax": 28, "yMin": 1, "yMax": 1, "zMin": -28, "zMax": -29 },
                 "rotationRange": { "x": 0, "y": 0, "z": 0 },
                 "scaleRange": { "xMin": 7, "xMax": 7, "yMin": 7, "yMax": 7, "zMin": 7, "zMax": 7 }
