@@ -83,32 +83,6 @@
             "count": 1,
             "temperature": 0.0,
             "position": {
-                "xMin": 8.770000457763672,
-                "xMax": 8.770000457763672,
-                "yMin": 0.5,
-                "yMax": 0.5,
-                "zMin": -34.66999816894531,
-                "zMax": -34.66999816894531
-            },
-            "rotationRange": {
-                "x": 270.0,
-                "y": 245.63916015625,
-                "z": 0.0
-            },
-            "scaleRange": {
-                "xMin": 100.0,
-                "xMax": 100.0,
-                "yMin": 100.0,
-                "yMax": 100.0,
-                "zMin": 100.0,
-                "zMax": 100.0
-            }
-        },
-        {
-            "prefabName": "RockWall",
-            "count": 1,
-            "temperature": 0.0,
-            "position": {
                 "xMin": 8.449999809265137,
                 "xMax": 8.449999809265137,
                 "yMin": 0.5,
@@ -239,12 +213,12 @@
             "count": 1,
             "temperature": 0.0,
             "position": {
-                "xMin": -11.500001907348633,
-                "xMax": -11.500001907348633,
+                "xMin": -11,
+                "xMax": -11,
                 "yMin": 0.5,
                 "yMax": 0.5,
-                "zMin": -34.80000305175781,
-                "zMax": -34.80000305175781
+                "zMin": -32.5,
+                "zMax": -32.5
             },
             "rotationRange": {
                 "x": 270.0,
@@ -252,8 +226,8 @@
                 "z": 0.0
             },
             "scaleRange": {
-                "xMin": 100.0,
-                "xMax": 100.0,
+                "xMin": 60.0,
+                "xMax": 60.0,
                 "yMin": 100.0,
                 "yMax": 100.0,
                 "zMin": 100.0,
@@ -496,7 +470,7 @@
         },
         {
             "prefabName": "Bush2",
-            "count": 200,
+            "count": 70,
             "temperature": 0.0,
             "position": {
                 "xMin": -48, "xMax": 48,
@@ -512,7 +486,7 @@
         },
         {
             "prefabName": "Small_Rock1",
-            "count": 40,
+            "count": 20,
             "temperature": 0.0,
             "position": {
                 "xMin": -45, "xMax": 10,
