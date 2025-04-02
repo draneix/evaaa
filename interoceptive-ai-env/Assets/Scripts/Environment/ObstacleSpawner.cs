@@ -137,7 +137,7 @@ public class ObstacleSpawner : MonoBehaviour
                 scale = RandomScale(group.scaleRange);
                 attempts++;
                 validPosition = !OverlapUtility.IsOverlapping(position, prefab, scale);
-            } while (!validPosition && attempts < 10);
+            } while (!validPosition && attempts < 100);
 
             if (validPosition)
             {

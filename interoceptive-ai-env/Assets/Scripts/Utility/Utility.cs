@@ -67,7 +67,7 @@ namespace Assets.Scripts.Utility
 
     public static class OverlapUtility
     {
-        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale)
+        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale, float boxSizeMultiplier = 1.0f)
         {
             Collider prefabCollider = prefab.GetComponent<Collider>();
             if (prefabCollider == null)
@@ -76,10 +76,12 @@ namespace Assets.Scripts.Utility
                 return true;
             }
 
-            Vector3 halfExtents = prefabCollider.bounds.extents;
-            halfExtents.Scale(scale * 0.5f);
+            float padding = 2.0f; // Padding to avoid overlap
+            // Calculate the scaled bounds
+            Vector3 extentBound = Vector3.Scale(prefabCollider.bounds.extents, scale) * boxSizeMultiplier;
+            extentBound += Vector3.one * padding; // Add padding to all dimensions
 
-            Collider[] colliders = Physics.OverlapBox(position, halfExtents, Quaternion.identity);
+            Collider[] colliders = Physics.OverlapBox(position, extentBound, Quaternion.identity);
             foreach (Collider collider in colliders)
             {
                 // Ignore specific game objects
@@ -94,7 +96,7 @@ namespace Assets.Scripts.Utility
 
                 if (collider.gameObject != prefab)
                 {
-                    // Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
+                    Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
                     return true;
                 }
             }

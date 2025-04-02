@@ -55,7 +55,7 @@ public class Predator : MonoBehaviour
             case PredatorState.Searching:
                 if (View())
                 {
-                    Debug.Log("Agent detected! Switching to Chasing state."); // Debug message for detection
+                    // Debug.Log("Agent detected! Switching to Chasing state."); // Debug message for detection
                     ChangeState(PredatorState.Chasing);
                 }
                 break;
@@ -63,7 +63,7 @@ public class Predator : MonoBehaviour
             case PredatorState.Chasing:
                 if (!View())
                 {
-                    Debug.Log("Agent lost! Switching to Searching state."); // Debug message for losing the agent
+                    // Debug.Log("Agent lost! Switching to Searching state."); // Debug message for losing the agent
                     ChangeState(PredatorState.Searching);
                 }
                 break;
@@ -106,7 +106,7 @@ public class Predator : MonoBehaviour
         anim.SetBool("Walking", isWalking);
         nav.ResetPath(); // Stop the NavMeshAgent from moving
         nav.isStopped = true; // Disable movement
-        Debug.Log("Movement stopped!"); // Debug message for stopping movement
+        // Debug.Log("Movement stopped!"); // Debug message for stopping movement
     }
 
     private void ResumeMovement()
@@ -153,14 +153,14 @@ public class Predator : MonoBehaviour
 
         if (currentChaseTime >= totalChaseTime)
         {
-            Debug.Log("Chase time expired! Switching to Searching state."); // Debug message for chase timeout
+            // Debug.Log("Chase time expired! Switching to Searching state."); // Debug message for chase timeout
             ChangeState(PredatorState.Searching);
         }
     }
 
     private IEnumerator AttackCoroutine()
     {
-        Debug.Log("Attacking the agent!"); // Debug message for attacking
+        // Debug.Log("Attacking the agent!"); // Debug message for attacking
 
         // Lock the state for a minimum duration
         isAttackStateLocked = true;
@@ -177,7 +177,7 @@ public class Predator : MonoBehaviour
             // If the agent is no longer detected, switch states
             if (detectedAgent == null && !isAttackStateLocked)
             {
-                Debug.Log("Agent moved out of attack area! Switching to Searching state."); // Debug message for losing the agent
+                // Debug.Log("Agent moved out of attack area! Switching to Searching state."); // Debug message for losing the agent
                 ResumeMovement(); // Re-enable movement
                 ChangeState(PredatorState.Searching);
                 yield break;
@@ -189,7 +189,7 @@ public class Predator : MonoBehaviour
             {
                 float damage = Mathf.Min(damageAmount, maxDamage); // Cap the damage
                 agentScript.resourceLevels[3] -= damage; // Apply damage to the agent's health
-                Debug.Log($"Applied {damage} damage to the agent.");
+                // Debug.Log($"Applied {damage} damage to the agent.");
             }
 
             yield return new WaitForSeconds(attackInterval);
@@ -261,7 +261,7 @@ public class Predator : MonoBehaviour
         // Use Box Collider for the initial collision to change to Attacking state
         if (collision.collider is BoxCollider && collision.gameObject.CompareTag("player"))
         {
-            Debug.Log("Box Collider triggered collision! Switching to Attacking state."); // Debug message for collision
+            // Debug.Log("Box Collider triggered collision! Switching to Attacking state."); // Debug message for collision
             detectedAgent = collision.transform;
             ChangeState(PredatorState.Attacking);
         }
@@ -272,7 +272,7 @@ public class Predator : MonoBehaviour
         // Use Box Collider to detect when the agent moves out of collision
         if (collision.collider is BoxCollider && collision.gameObject.CompareTag("player"))
         {
-            Debug.Log("Agent moved out of Box Collider! Switching to Searching state."); // Debug message for collision exit
+            // Debug.Log("Agent moved out of Box Collider! Switching to Searching state."); // Debug message for collision exit
             detectedAgent = null;
             ResumeMovement(); // Re-enable movement
             ChangeState(PredatorState.Searching);
