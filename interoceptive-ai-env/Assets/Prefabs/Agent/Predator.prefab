@@ -645,8 +645,7 @@ GameObject:
   - component: {fileID: 3517703424481123069}
   - component: {fileID: 2826133080539883561}
   - component: {fileID: 774899360800691659}
-  - component: {fileID: 1542353183150663337}
-  - component: {fileID: 5933569027085062042}
+  - component: {fileID: 2883030134952638624}
   - component: {fileID: 1491964478393577432}
   - component: {fileID: 920194783323159198}
   m_Layer: 0
@@ -716,11 +715,11 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1.5893432, y: 2.0225868, z: 1.6139085}
   m_Center: {x: -0.15471964, y: 0.7061672, z: 0.11813146}
---- !u!114 &1542353183150663337
+--- !u!114 &2883030134952638624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -729,51 +728,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 2742721018132081762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9040ed297b63c41ceb9c54bd6cb13dc1, type: 3}
+  m_Script: {fileID: 11500000, guid: dd0d05d0ba7da4d3d8cb780880e0b61e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewAngle: 130
+  currentState: 0
+  walkSpeed: 2
+  restDuration: 5
+  totalChaseTime: 0
+  viewAngle: 120
   viewDistance: 20
   targetMask:
     serializedVersion: 2
     m_Bits: 128
-  Agent: {fileID: 0}
---- !u!114 &5933569027085062042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2742721018132081762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad020bb5f2f2467da16e5bfeea3b668, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animalName: lion
-  hp: 5
-  walkSpeed: 2
-  runSpeed: 4
-  turningSpeed: 2
-  walkTime: 3
-  waitTime: 0
-  runTime: 8
+  damageAmount: 1
+  maxDamage: 5
+  attackInterval: 1
+  attackStateLockDuration: 2
   anim: {fileID: 6132214288904182638}
-  rigid: {fileID: 2826133080539883561}
-  boxcol: {fileID: 774899360800691659}
-  AgentStatus: {fileID: 0}
-  sound_Normal: []
-  sound_Hurt: {fileID: 0}
-  sound_Dead: {fileID: 0}
-  attackDamage: 0
-  agent: {fileID: 0}
-  attackDelay: 0
-  attackDistance: 1
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 128
-  ChaseTime: 3
-  ChaseDelayTime: 2
 --- !u!195 &1491964478393577432
 NavMeshAgent:
   m_ObjectHideFlags: 0
