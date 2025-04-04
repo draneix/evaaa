@@ -96,7 +96,7 @@ namespace Assets.Scripts.Utility
 
                 if (collider.gameObject != prefab)
                 {
-                    Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
+                    // Debug.Log($"{prefab.name} object's overlap detected: {collider.gameObject.name}");
                     return true;
                 }
             }

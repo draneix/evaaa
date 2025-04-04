@@ -548,6 +548,13 @@ public class InteroceptiveAgent : Agent
                 int action = actions.DiscreteActions[0];
                 MoveAgent(action);
 
+                // Synchronize Predator's action
+                Predator predator = FindObjectOfType<Predator>();
+                if (predator != null)
+                {
+                        predator.TakeAction();
+                }
+
                 // Calculate reward
                 currentReward = CalculateReward();
                 // Track recent rewards for moving average

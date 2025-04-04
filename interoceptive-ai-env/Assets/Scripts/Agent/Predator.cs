@@ -38,64 +38,135 @@ public class Predator : MonoBehaviour
     [SerializeField] private Animator anim;
     private NavMeshAgent nav;
 
+    // Add step counters for Resting and Searching states
+    private int restingStepCounter = 0; // Counter for steps in Resting state
+    private int searchingStepCounter = 0; // Counter for steps in Searching state
+    [SerializeField] private int maxRestingSteps = 50; // Maximum steps to stay in Resting state
+    [SerializeField] private int maxSearchingSteps = 100; // Maximum steps to stay in Searching state
+
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
         ChangeState(PredatorState.Searching); // Start in the Searching state
     }
 
-    void Update()
+    // This method will be called explicitly to take one action
+    public void TakeAction()
     {
         switch (currentState)
         {
             case PredatorState.Resting:
-                // Do nothing, waiting for the rest duration to end
+                // Increment the resting step counter
+                restingStepCounter++;
+
+                // Check if an agent is in view
+                if (View())
+                {
+                    ChangeState(PredatorState.Chasing);
+                }
+                else if (restingStepCounter >= maxRestingSteps)
+                {
+                    // Transition to Searching state after max resting steps
+                    restingStepCounter = 0; // Reset the counter
+                    ChangeState(PredatorState.Searching);
+                }
                 break;
 
             case PredatorState.Searching:
+                // Increment the searching step counter
+                searchingStepCounter++;
+
+                // Perform random actions at intervals
+                if (searchingStepCounter % 20 == 0) // Perform random action every 20 steps
+                {
+                    RandomAction();
+                }
+
+                // Check if an agent is in view
                 if (View())
                 {
-                    // Debug.Log("Agent detected! Switching to Chasing state."); // Debug message for detection
                     ChangeState(PredatorState.Chasing);
+                }
+                else if (searchingStepCounter >= maxSearchingSteps)
+                {
+                    // Transition to Resting state after max searching steps
+                    searchingStepCounter = 0; // Reset the counter
+                    ChangeState(PredatorState.Resting);
                 }
                 break;
 
             case PredatorState.Chasing:
-                if (!View())
+                if (detectedAgent != null && nav.enabled)
                 {
-                    // Debug.Log("Agent lost! Switching to Searching state."); // Debug message for losing the agent
+                    nav.speed = walkSpeed;
+                    nav.SetDestination(detectedAgent.position);
+
+                    // If the agent is no longer in view, transition to Searching
+                    if (!View())
+                    {
+                        Debug.Log("Agent moved out of view! Switching to Searching state."); // Log message
+                        detectedAgent = null;
+                        ChangeState(PredatorState.Searching);
+                    }
+                }
+                else
+                {
                     ChangeState(PredatorState.Searching);
                 }
                 break;
 
             case PredatorState.Attacking:
-                // Attacking logic is handled in the coroutine
+                if (detectedAgent != null)
+                {
+                    ApplyDamage();
+
+                    // If the agent is no longer in view, transition to Searching
+                    if (!View())
+                    {
+                        Debug.Log("Agent moved out of view during attack! Switching to Searching state."); // Log message
+                        detectedAgent = null;
+                        ChangeState(PredatorState.Searching);
+                    }
+                }
+                else
+                {
+                    ChangeState(PredatorState.Searching);
+                }
                 break;
+        }
+    }
+
+    private void ApplyDamage()
+    {
+        InteroceptiveAgent agentScript = detectedAgent.GetComponent<InteroceptiveAgent>();
+        if (agentScript != null)
+        {
+            float damage = Mathf.Min(damageAmount, maxDamage); // Cap the damage
+            agentScript.resourceLevels[3] -= damage; // Apply damage to the agent's health
         }
     }
 
     private void ChangeState(PredatorState newState)
     {
-        StopAllCoroutines();
         currentState = newState;
-
         switch (newState)
         {
             case PredatorState.Resting:
-                StartCoroutine(RestCoroutine());
+                StopMovement();
+                restingStepCounter = 0; // Reset the resting counter
                 break;
 
             case PredatorState.Searching:
-                StartCoroutine(SearchCoroutine());
+                ResumeMovement();
+                searchingStepCounter = 0; // Reset the searching counter
                 break;
 
             case PredatorState.Chasing:
-                StartCoroutine(ChaseCoroutine());
+                ResumeMovement();
                 break;
 
             case PredatorState.Attacking:
-                StopMovement(); // Stop the predator's movement
-                StartCoroutine(AttackCoroutine());
+                StopMovement();
                 break;
         }
     }
@@ -104,107 +175,32 @@ public class Predator : MonoBehaviour
     {
         isWalking = false;
         anim.SetBool("Walking", isWalking);
-        nav.ResetPath(); // Stop the NavMeshAgent from moving
-        nav.isStopped = true; // Disable movement
-        // Debug.Log("Movement stopped!"); // Debug message for stopping movement
+        nav.ResetPath();
+        nav.isStopped = true;
     }
 
     private void ResumeMovement()
     {
-        nav.isStopped = false; // Re-enable movement
+        nav.isStopped = false;
     }
 
     private IEnumerator RestCoroutine()
     {
-        isWalking = false;
-        anim.SetBool("Walking", isWalking);
-        nav.ResetPath();
-
         yield return new WaitForSeconds(restDuration);
-
         ChangeState(PredatorState.Searching);
-    }
-
-    private IEnumerator SearchCoroutine()
-    {
-        while (currentState == PredatorState.Searching)
-        {
-            RandomAction();
-            yield return new WaitForSeconds(Random.Range(1f, 2f)); // Wait for a random duration before the next action
-        }
-    }
-
-    private IEnumerator ChaseCoroutine()
-    {
-        currentChaseTime = 0f;
-        isWalking = true;
-        anim.SetBool("Walking", isWalking);
-
-        while (currentState == PredatorState.Chasing && currentChaseTime < totalChaseTime)
-        {
-            if (detectedAgent != null && nav.enabled)
-            {
-                nav.speed = walkSpeed;
-                nav.SetDestination(detectedAgent.position);
-            }
-            currentChaseTime += Time.deltaTime;
-            yield return null;
-        }
-
-        if (currentChaseTime >= totalChaseTime)
-        {
-            // Debug.Log("Chase time expired! Switching to Searching state."); // Debug message for chase timeout
-            ChangeState(PredatorState.Searching);
-        }
-    }
-
-    private IEnumerator AttackCoroutine()
-    {
-        // Debug.Log("Attacking the agent!"); // Debug message for attacking
-
-        // Lock the state for a minimum duration
-        isAttackStateLocked = true;
-        float lockEndTime = Time.time + attackStateLockDuration;
-
-        while (currentState == PredatorState.Attacking)
-        {
-            // Check if the lock duration has expired
-            if (Time.time >= lockEndTime)
-            {
-                isAttackStateLocked = false;
-            }
-
-            // If the agent is no longer detected, switch states
-            if (detectedAgent == null && !isAttackStateLocked)
-            {
-                // Debug.Log("Agent moved out of attack area! Switching to Searching state."); // Debug message for losing the agent
-                ResumeMovement(); // Re-enable movement
-                ChangeState(PredatorState.Searching);
-                yield break;
-            }
-
-            // Apply damage to the agent
-            InteroceptiveAgent agentScript = detectedAgent.GetComponent<InteroceptiveAgent>();
-            if (agentScript != null)
-            {
-                float damage = Mathf.Min(damageAmount, maxDamage); // Cap the damage
-                agentScript.resourceLevels[3] -= damage; // Apply damage to the agent's health
-                // Debug.Log($"Applied {damage} damage to the agent.");
-            }
-
-            yield return new WaitForSeconds(attackInterval);
-        }
     }
 
     private void RandomAction()
     {
-        int random = Random.Range(0, 2);
+        int random = Random.Range(0, 2); // Randomly decide to stop or walk
         if (random == 0)
         {
-            Wait();
+            Debug.Log("RandomAction: Stopping movement.");
+            StopMovement();
         }
         else
         {
+            Debug.Log("RandomAction: Trying to walk.");
             TryWalk();
         }
     }
@@ -213,25 +209,27 @@ public class Predator : MonoBehaviour
     {
         isWalking = true;
         anim.SetBool("Walking", isWalking);
-        destination.Set(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)); // Random destination within a range
+
+        // Set a random destination within a certain range
+        destination.Set(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f));
+        Debug.Log($"TryWalk: Setting destination to {destination}");
+
         if (nav.enabled)
         {
             nav.speed = walkSpeed;
             nav.SetDestination(transform.position + destination);
-        }
-    }
 
-    private void Wait()
-    {
-        isWalking = false;
-        anim.SetBool("Walking", isWalking);
-        if (nav.enabled)
+            if (!nav.hasPath)
+            {
+                Debug.LogWarning("TryWalk: NavMeshAgent has no path. Check NavMesh or destination.");
+            }
+        }
+        else
         {
-            nav.ResetPath();
+            Debug.LogError("TryWalk: NavMeshAgent is not enabled.");
         }
     }
 
-    // Field of View Logic
     private bool View()
     {
         Collider[] targetsInView = Physics.OverlapSphere(transform.position, viewDistance, targetMask);
@@ -261,7 +259,7 @@ public class Predator : MonoBehaviour
         // Use Box Collider for the initial collision to change to Attacking state
         if (collision.collider is BoxCollider && collision.gameObject.CompareTag("player"))
         {
-            // Debug.Log("Box Collider triggered collision! Switching to Attacking state."); // Debug message for collision
+            Debug.Log("Box Collider triggered collision! Switching to Attacking state."); // Debug message for collision
             detectedAgent = collision.transform;
             ChangeState(PredatorState.Attacking);
         }
@@ -272,7 +270,7 @@ public class Predator : MonoBehaviour
         // Use Box Collider to detect when the agent moves out of collision
         if (collision.collider is BoxCollider && collision.gameObject.CompareTag("player"))
         {
-            // Debug.Log("Agent moved out of Box Collider! Switching to Searching state."); // Debug message for collision exit
+            Debug.Log("Agent moved out of Box Collider! Switching to Searching state."); // Debug message for collision exit
             detectedAgent = null;
             ResumeMovement(); // Re-enable movement
             ChangeState(PredatorState.Searching);

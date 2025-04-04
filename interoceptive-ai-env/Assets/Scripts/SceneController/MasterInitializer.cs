@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using System.Collections;
 using Unity.MLAgents;
 
@@ -7,6 +8,8 @@ public class MasterInitializer : MonoBehaviour
     private Academy academy;
     public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
+    public NavMeshSurface navMeshSurface; // Reference to the NavMeshSurface component
+    
     public ThermoGridSpawner thermoGridSpawner;
     public InteroceptiveAgent agent; // Single agent reference
     public HeatMap heatMap;
@@ -21,10 +24,10 @@ public class MasterInitializer : MonoBehaviour
 
     private void InitializeScene()
     {
-        // Pause the Academy/Agent updates
+        // Step 1: Pause ML-Agents Academy
         academy.AutomaticSteppingEnabled = false;
 
-        // Step 1: Initialize ConfigLoader
+        // Step 2: Load Configuration
         if (configLoader != null)
         {
             configLoader.InitializeConfigLoader(); // Ensure the configuration folder is set
@@ -36,7 +39,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 2: Initialize SpawnerManager
+        // Step 3: Initialize Spawners
         if (spawnerManager != null)
         {
             spawnerManager.InitializeSpawners(configLoader);
@@ -47,7 +50,19 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 3: Ensure ThermoGridSpawner is ready
+        // Step 4: Bake NavMesh
+        if (navMeshSurface != null)
+        {
+            Debug.Log("MasterInitializer: Baking NavMesh...");
+            navMeshSurface.BuildNavMesh(); // Dynamically bake the NavMesh
+            Debug.Log("MasterInitializer: NavMesh baked successfully.");
+        }
+        else
+        {
+            Debug.LogError("NavMeshSurface is not assigned. NavMesh cannot be baked.");
+        }
+
+        // Step 5: Initialize ThermoGridSpawner
         if (thermoGridSpawner != null)
         {
             thermoGridSpawner.InitializeThermoGridSpawner(configLoader);
@@ -63,11 +78,11 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 4: Initialize Agent
+        // Step 6: Initialize Agent
         if (agent != null)
         {
             agent.InitializeAgent(configLoader);
-            Debug.Log("MasterInitializer: agent initialized.");
+            Debug.Log("MasterInitializer: Agent initialized.");
         }
         else
         {
@@ -75,18 +90,17 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 5: Initialize HeatMap
+        // Step 7: Initialize HeatMap
         if (heatMap != null)
         {
             heatMap.InitializeHeatMap();
             if (heatMap.isInitialized)
             {
-                Debug.Log("MasterInitializer: heatmap initialized.");
+                Debug.Log("MasterInitializer: HeatMap initialized.");
             }
             else
             {
                 Debug.LogError("MasterInitializer: HeatMap failed to initialize.");
-                // return;
             }
             heatMap.EpisodeHeatMap();
         }
@@ -96,7 +110,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 6: Initialize DayAndNight
+        // Step 8: Initialize Day/Night Cycle
         if (dayAndNight != null)
         {
             dayAndNight.InitializeDayAndNight(configLoader);
@@ -108,7 +122,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 7: Initialize AgentFollowCamera
+        // Step 9: Initialize Camera
         if (agentFollowCamera != null)
         {
             agentFollowCamera.InitializeCamera(configLoader);
@@ -120,7 +134,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Mark environment as ready
+        // Step 10: Resume ML-Agents Academy
         InteroceptiveAgent.isEnvironmentReady = true;
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene fully initialized, ML-Agents enabled.");
@@ -133,27 +147,37 @@ public class MasterInitializer : MonoBehaviour
 
     private IEnumerator ResetSceneInOrder()
     {
-        // Pause the Academy/Agent updates during reset
+        // Step 1: Pause the Academy/Agent updates during reset
         academy.AutomaticSteppingEnabled = false;
-        // Step 1: Reset CourtSpawner
+
+        // Step 2: Reset Spawners
         if (spawnerManager != null)
         {
             // Start the ResetAllSpawnersCoroutine and wait for it to complete
             yield return StartCoroutine(spawnerManager.ResetAllSpawnersCoroutine());
-            // This line will only execute after ResetAllSpawnersCoroutine completes
-            Debug.Log("MasterInitializer: spawnerManager reset.");
+            Debug.Log("MasterInitializer: SpawnerManager reset.");
         }
         else
         {
-            Debug.LogError("spawnerManager is not assigned.");
+            Debug.LogError("SpawnerManager is not assigned.");
         }
 
-        // Step 2: Update HeatMap
+        // Step 3: Bake the NavMesh again
+        if (navMeshSurface != null)
+        {
+            Debug.Log("MasterInitializer: Baking NavMesh after reset...");
+            navMeshSurface.BuildNavMesh(); // Dynamically bake the NavMesh
+            Debug.Log("MasterInitializer: NavMesh baked successfully after reset.");
+        }
+        else
+        {
+            Debug.LogError("NavMeshSurface is not assigned. NavMesh cannot be baked after reset.");
+        }
+
+        // Step 4: Update HeatMap
         if (heatMap != null)
         {
-            // This is a synchronous method call
-            heatMap.EpisodeHeatMap();
-            // This line will only execute after EpisodeHeatMap completes
+            heatMap.EpisodeHeatMap(); // Reset the heatmap for the new episode
             Debug.Log("MasterInitializer: HeatMap reset.");
         }
         else
@@ -161,6 +185,7 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("HeatMap is not assigned.");
         }
 
+        // Step 5: Resume the Academy/Agent updates
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene reset complete, ML-Agents enabled.");
     }

@@ -4913,6 +4913,7 @@ GameObject:
   - component: {fileID: 5610529841412617978}
   - component: {fileID: 1321370045949150063}
   - component: {fileID: 491265428431799078}
+  - component: {fileID: -3869232136018673543}
   m_Layer: 0
   m_Name: SM_campfire_001_AmbienceFX
   m_TagString: Untagged
@@ -5028,6 +5029,22 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.7497457
   m_Center: {x: 0.01, y: 0.3115525, z: -0.09}
+--- !u!208 &-3869232136018673543
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258991218409019183}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.74200004, y: 0.314, z: 0.75000006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.048, y: 0.312, z: 0.031000001}
+  m_TimeToStationary: 0.5
 --- !u!1 &6758277865997296888
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
         "isAIControlled": true,
         "singleTrial": false,
         "initRandomAgentPosition": true,
-        "initAgentPosition": { "x": 10.0, "y": 1.0, "z": 0.0 },
+        "initAgentPosition": { "x": 0.0, "y": 1.0, "z": 0.0 },
         "initAgentAngle": { "x": 0.0, "y": 0.0, "z": 0.0 },
         "randomPositionRange": {
             "xMin": -50.0, "xMax": 50.0,
@@ -21,7 +21,7 @@
         "resourceFoodValue": 3.0,
         "startFoodLevel": 0.0,
         "waterLevelRange": { "min": -15.0, "max": 15.0 },
-        "resourceWaterValue": 3.0,
+        "resourceWaterValue": 1.0,
         "startWaterLevel": 0.0,
         "thermoLevelRange": { "min": -15.0, "max": 15.0 },
         "startThermoLevel": 0.0,
@@ -32,9 +32,9 @@
         "useOlfactoryObs": true,
         "olfactorySensorLength": 100.0,
         "useThermalObs": true,
-        "relativeThermalObs": true,
+        "relativeThermalObs": false,
         "foodCoefficient": {
-            "change_0": -0.15,
+            "change_0": -0.045,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -42,7 +42,7 @@
             "change_5": 0.0
         },
         "waterCoefficient": {
-            "change_0": -0.1,
+            "change_0": -0.03,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -50,14 +50,14 @@
             "change_5": 0.0
         },
         "thermoCoefficient": {
-            "change_0": 0.05,
+            "change_0": 0.02,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
             "change_4": 0.0
         },
         "healthCoefficient": {
-            "change_0": 0.05,
+            "change_0": 0.005,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,

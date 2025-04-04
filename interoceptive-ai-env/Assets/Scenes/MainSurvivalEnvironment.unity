@@ -282,6 +282,67 @@ MonoBehaviour:
     recordingFolderName: 
     recordEnable: 
   configFolderPath: 
+--- !u!1 &835159715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 835159716}
+  - component: {fileID: 835159717}
+  m_Layer: 0
+  m_Name: NavMesh Surface
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &835159716
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835159715}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.3894224, y: -0.91576767, z: 9.453552}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1417844879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &835159717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835159715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c086ba393cfe843d6acb336e2a83125c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
 --- !u!850595691 &846166320
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -465,6 +526,7 @@ Transform:
   - {fileID: 808919905}
   - {fileID: 2038372133}
   - {fileID: 1683784372}
+  - {fileID: 835159716}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572892461
@@ -618,6 +680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Predator
+      objectReference: {fileID: 0}
+    - target: {fileID: 2742721018132081762, guid: b80541d830afd4004941a278d45ae448,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
         type: 3}
@@ -889,6 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configLoader: {fileID: 808919906}
   spawnerManager: {fileID: 1683784373}
+  navMeshSurface: {fileID: 835159717}
   thermoGridSpawner: {fileID: 1975835202}
   agent: {fileID: 7819571294374217589}
   heatMap: {fileID: 4985382396085495230}

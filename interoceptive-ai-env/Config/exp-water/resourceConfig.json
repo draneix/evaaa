@@ -2,6 +2,8 @@
     "groups": [
         {
             "prefabName": "Food",
+            "prefabLabel": "Food",
+            "resourceType": "Random",
             "count": 1,
             "position": {
                 "xMin": -7, "xMax": -7,
@@ -19,6 +21,8 @@
         },
         {
             "prefabName": "Water",
+            "prefabLabel": "Water",
+            "resourceType": "Random",
             "count": 1,
             "position": {
                 "xMin": 7, "xMax": 7,
@@ -36,6 +40,8 @@
         },
         {
             "prefabName": "Pond",
+            "prefabLabel": "Pond",
+            "resourceType": "Static",
             "count": 0,
             "position": {
                 "xMin": -40, "xMax": -40,

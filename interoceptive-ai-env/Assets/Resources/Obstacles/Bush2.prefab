@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 8687782258325966212}
   - component: {fileID: 8039844977574196543}
   - component: {fileID: 2635582366194257037}
+  - component: {fileID: 4277790373559299271}
   m_Layer: 0
   m_Name: Bush2
   m_TagString: Untagged
@@ -221,6 +222,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.43, y: 0.16, z: 0.38}
   m_Center: {x: 0, y: 0.69, z: 0}
+--- !u!208 &4277790373559299271
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293240237137392805}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4457043105383671057
 GameObject:
   m_ObjectHideFlags: 0

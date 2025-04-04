@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 6400000}
   - component: {fileID: 8353422255810518882}
+  - component: {fileID: 2136870559336782869}
   m_Layer: 0
   m_Name: Small_Rock1
   m_TagString: Untagged
@@ -128,3 +129,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2.0284193
   m_Center: {x: 0.53080344, y: 0.5099547, z: -0.14}
+--- !u!208 &2136870559336782869
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.9120001, y: 0.99600005, z: 1.733}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.41500002, y: 0.51000005, z: 0.008}
+  m_TimeToStationary: 0.5
