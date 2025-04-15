@@ -1,7 +1,7 @@
 {
         "numberOfGridCubeX": 100,
         "numberOfGridCubeZ": 100,
-        "fieldDefaultTemp": -13.0,
+        "fieldDefaultTemp": -20.0,
         "hotSpotTemp": 20.0,
         "hotSpotCount": 0,
         "hotSpotSize": 20,

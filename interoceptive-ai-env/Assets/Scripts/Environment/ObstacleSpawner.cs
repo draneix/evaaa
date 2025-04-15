@@ -13,6 +13,7 @@ public class ObstacleGroup
     public PositionRange position;
     public RotationRange rotationRange;
     public ScaleRange scaleRange;
+    public float padding = 2.0f; // Default padding value
 }
 
 public class ObstacleTemperature : MonoBehaviour
@@ -136,7 +137,7 @@ public class ObstacleSpawner : MonoBehaviour
                 rotation = RandomRotation(group.rotationRange);
                 scale = RandomScale(group.scaleRange);
                 attempts++;
-                validPosition = !OverlapUtility.IsOverlapping(position, prefab, scale);
+                validPosition = !OverlapUtility.IsOverlapping(position, prefab, scale, 1.0f, group.padding);
             } while (!validPosition && attempts < 100);
 
             if (validPosition)

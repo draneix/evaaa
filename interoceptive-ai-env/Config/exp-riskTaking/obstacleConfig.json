@@ -4,6 +4,7 @@
             "prefabName": "Tree",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -20,6 +21,7 @@
             "prefabName": "Bush2",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -36,6 +38,7 @@
             "prefabName": "Small_Rock1",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -52,6 +55,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 0, "xMax": 0,
                 "yMin": 2, "yMax": 2,
@@ -67,49 +71,109 @@
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 1,
-            "temperature": 500.0,
+            "temperature": 10000.0,
+            "padding": 2.0,
             "position": {
-                "xMin": -2.5, "xMax": -2.5,
-                "yMin": 0.5, "yMax": 0.5,
-                "zMin": -5, "zMax": -5
+                "xMin": -6.150000095367432,
+                "xMax": -6.150000095367432,
+                "yMin": 0.5,
+                "yMax": 0.5,
+                "zMin": -5.0,
+                "zMax": -5.0
             },
-            "rotationRange": { "x": 0, "y": 360, "z": 0 },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
             "scaleRange": {
-                "xMin": 1.5, "xMax": 1.5,
-                "yMin": 1.5, "yMax": 1.5,
-                "zMin": 1.5, "zMax": 1.5
+                "xMin": 1.5,
+                "xMax": 1.5,
+                "yMin": 1.5,
+                "yMax": 1.5,
+                "zMin": 1.5,
+                "zMax": 1.5
             }
         },
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 1,
-            "temperature": 500.0,
+            "temperature": 10000.0,
+            "padding": 2.0,
             "position": {
-                "xMin": -7.5, "xMax": -7.5,
-                "yMin": 0.5, "yMax": 0.5,
-                "zMin": -5, "zMax":-5
+                "xMin": -13.0,
+                "xMax": -13.0,
+                "yMin": 0.5,
+                "yMax": 0.5,
+                "zMin": -5.0,
+                "zMax": -5.0
             },
-            "rotationRange": { "x": 0, "y": 360, "z": 0 },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
             "scaleRange": {
-                "xMin": 1.5, "xMax": 1.5,
-                "yMin": 1.5, "yMax": 1.5,
-                "zMin": 1.5, "zMax": 1.5
+                "xMin": 1.5,
+                "xMax": 1.5,
+                "yMin": 1.5,
+                "yMax": 1.5,
+                "zMin": 1.5,
+                "zMax": 1.5
             }
         },
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 1,
-            "temperature": 500.0,
+            "temperature": 10000.0,
+            "padding": 2.0,
             "position": {
-                "xMin": -13, "xMax": -13,
-                "yMin": 0.5, "yMax": 0.5,
-                "zMin": -5, "zMax":-5
+                "xMin": -9.59000015258789,
+                "xMax": -9.59000015258789,
+                "yMin": 0.5,
+                "yMax": 0.5,
+                "zMin": -5.0,
+                "zMax": -5.0
             },
-            "rotationRange": { "x": 0, "y": 360, "z": 0 },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
             "scaleRange": {
-                "xMin": 1.5, "xMax": 1.5,
-                "yMin": 1.5, "yMax": 1.5,
-                "zMin": 1.5, "zMax": 1.5
+                "xMin": 1.5,
+                "xMax": 1.5,
+                "yMin": 1.5,
+                "yMax": 1.5,
+                "zMin": 1.5,
+                "zMax": 1.5
+            }
+        },
+        {
+            "prefabName": "SM_campfire_001_AmbienceFX",
+            "count": 1,
+            "temperature": 10000.0,
+            "padding": 2.0,
+            "position": {
+                "xMin": -2.5,
+                "xMax": -2.5,
+                "yMin": 0.5,
+                "yMax": 0.5,
+                "zMin": -5.0,
+                "zMax": -5.0
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.5,
+                "xMax": 1.5,
+                "yMin": 1.5000001192092896,
+                "yMax": 1.5000001192092896,
+                "zMin": 1.5,
+                "zMax": 1.5
             }
         }
     ]

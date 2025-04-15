@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System;
 
 [System.Serializable]
 public class ObstaclePositionRange
@@ -31,6 +32,7 @@ public class CollectedObstacleGroup
     public string prefabName;
     public int count;
     public float temperature;
+    public float padding;
     public ObstaclePositionRange position;
     public ObstacleRotationRange rotationRange;
     public ObstacleScaleRange scaleRange;
@@ -47,6 +49,14 @@ public class ObstacleCollector : MonoBehaviour
     public string outputFileName = "generatedObstacleConfig.json";
     public string prefabFolder = "Obstacles";
     public string obstacleNameFilter = ""; // New field for obstacle name filter
+    public float defaultPadding = 2.0f; // Default padding value
+    [Range(0, 6)]
+    public int decimalPlaces = 2; // Number of decimal places to maintain
+
+    private float RoundToDecimalPlaces(float value)
+    {
+        return (float)Math.Round(value, decimalPlaces);
+    }
 
     public void CollectObstacles()
     {
@@ -61,33 +71,33 @@ public class ObstacleCollector : MonoBehaviour
 
                 CollectedObstacleGroup group = new CollectedObstacleGroup
                 {
-                    // prefabName = obj.name.Replace("(Clone)", "").Trim(),
                     prefabName = prefabName,
                     count = 1,
-                    temperature = 0.0f,
+                    temperature = RoundToDecimalPlaces(0.0f),
+                    padding = RoundToDecimalPlaces(defaultPadding),
                     position = new ObstaclePositionRange
                     {
-                        xMin = obj.transform.localPosition.x,
-                        xMax = obj.transform.localPosition.x,
-                        yMin = obj.transform.localPosition.y,
-                        yMax = obj.transform.localPosition.y,
-                        zMin = obj.transform.localPosition.z,
-                        zMax = obj.transform.localPosition.z
+                        xMin = RoundToDecimalPlaces(obj.transform.localPosition.x),
+                        xMax = RoundToDecimalPlaces(obj.transform.localPosition.x),
+                        yMin = RoundToDecimalPlaces(obj.transform.localPosition.y),
+                        yMax = RoundToDecimalPlaces(obj.transform.localPosition.y),
+                        zMin = RoundToDecimalPlaces(obj.transform.localPosition.z),
+                        zMax = RoundToDecimalPlaces(obj.transform.localPosition.z)
                     },
                     rotationRange = new ObstacleRotationRange
                     {
-                        x = obj.transform.localEulerAngles.x,
-                        y = obj.transform.localEulerAngles.y,
-                        z = obj.transform.localEulerAngles.z
+                        x = RoundToDecimalPlaces(obj.transform.localEulerAngles.x),
+                        y = RoundToDecimalPlaces(obj.transform.localEulerAngles.y),
+                        z = RoundToDecimalPlaces(obj.transform.localEulerAngles.z)
                     },
                     scaleRange = new ObstacleScaleRange
                     {
-                        xMin = obj.transform.localScale.x,
-                        xMax = obj.transform.localScale.x,
-                        yMin = obj.transform.localScale.y,
-                        yMax = obj.transform.localScale.y,
-                        zMin = obj.transform.localScale.z,
-                        zMax = obj.transform.localScale.z
+                        xMin = RoundToDecimalPlaces(obj.transform.localScale.x),
+                        xMax = RoundToDecimalPlaces(obj.transform.localScale.x),
+                        yMin = RoundToDecimalPlaces(obj.transform.localScale.y),
+                        yMax = RoundToDecimalPlaces(obj.transform.localScale.y),
+                        zMin = RoundToDecimalPlaces(obj.transform.localScale.z),
+                        zMax = RoundToDecimalPlaces(obj.transform.localScale.z)
                     }
                 };
                 config.groups.Add(group);

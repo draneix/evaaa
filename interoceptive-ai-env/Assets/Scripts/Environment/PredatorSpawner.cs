@@ -6,6 +6,7 @@ using Assets.Scripts.Utility;
 [System.Serializable]
 public class PredatorGroup
 {
+    public string prefabName;
     public int count;
     public PositionRange position;
     public RotationRange rotationRange;
@@ -19,6 +20,7 @@ public class PredatorGroup
     public float attackInterval;
     public int maxRestingSteps;
     public int maxSearchingSteps;
+    public float padding = 2.0f; // Default padding value
 }
 
 [System.Serializable]
@@ -137,7 +139,7 @@ public class PredatorSpawner : MonoBehaviour
                 rotation = RandomRotation(group.rotationRange);
                 scale = RandomScale(group.scaleRange);
                 attempts++;
-                validPosition = !OverlapUtility.IsOverlapping(position, predatorPrefab, scale);
+                validPosition = !OverlapUtility.IsOverlapping(position, predatorPrefab, scale, 1.0f, group.padding);
             } while (!validPosition && attempts < 100);
 
             if (validPosition)

@@ -67,7 +67,7 @@ namespace Assets.Scripts.Utility
 
     public static class OverlapUtility
     {
-        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale, float boxSizeMultiplier = 1.0f)
+        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale, float boxSizeMultiplier = 1.0f, float padding = 2.0f)
         {
             Collider prefabCollider = prefab.GetComponent<Collider>();
             if (prefabCollider == null)
@@ -76,7 +76,6 @@ namespace Assets.Scripts.Utility
                 return true;
             }
 
-            float padding = 2.0f; // Padding to avoid overlap
             // Calculate the scaled bounds
             Vector3 extentBound = Vector3.Scale(prefabCollider.bounds.extents, scale) * boxSizeMultiplier;
             extentBound += Vector3.one * padding; // Add padding to all dimensions

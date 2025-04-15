@@ -4,6 +4,7 @@
             "prefabName": "Tree",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 27.299999237060548,
                 "xMax": 27.299999237060548,
@@ -30,6 +31,7 @@
             "prefabName": "Tree",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -29.999874114990236,
                 "xMax": -29.999874114990236,
@@ -56,6 +58,7 @@
             "prefabName": "Tree",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -29.999874114990236,
                 "xMax": -29.999874114990236,
@@ -472,6 +475,7 @@
             "prefabName": "Bush2",
             "count": 70,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -48, "xMax": 48,
                 "yMin": 0, "yMax": 0,
@@ -488,6 +492,7 @@
             "prefabName": "Small_Rock1",
             "count": 20,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -504,6 +509,7 @@
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 10,
             "temperature": 10000.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0.5, "yMax": 0.5,

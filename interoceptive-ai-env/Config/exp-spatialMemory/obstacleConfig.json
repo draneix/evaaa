@@ -4,6 +4,7 @@
             "prefabName": "Tree",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -17, "xMax": -17,
                 "yMin": 0, "yMax": 0,
@@ -20,6 +21,7 @@
             "prefabName": "Bush2",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -36,6 +38,7 @@
             "prefabName": "Small_Rock1",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -52,6 +55,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -18, "xMax": -18,
                 "yMin": 0, "yMax": 0,
@@ -68,6 +72,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -11, "xMax": -11,
                 "yMin": 0, "yMax": 0,
@@ -84,6 +89,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -0.5, "xMax": -0.5,
                 "yMin": 0, "yMax": 0,
@@ -100,6 +106,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 4, "xMax": 4,
                 "yMin": 0, "yMax": 0,
@@ -116,6 +123,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -9, "xMax": -9,
                 "yMin": 0, "yMax": 0,
@@ -132,6 +140,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -1, "xMax": -1,
                 "yMin": 0, "yMax": 0,
@@ -148,6 +157,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 7, "xMax": 7,
                 "yMin": 0, "yMax": 0,
@@ -164,6 +174,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 14, "xMax": 14,
                 "yMin": 0, "yMax": 0,
@@ -180,6 +191,7 @@
             "prefabName": "Block",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 15, "xMax": 15,
                 "yMin": 0, "yMax": 0,
@@ -191,7 +203,12 @@
                 "yMin": 4, "yMax": 4,
                 "zMin": 20, "zMax": 20
             }
+        },
+        {
+            "prefabName": "SM_campfire_001_AmbienceFX",
+            "count": 10,
+            "temperature": 10000.0,
+            "padding": 2.0
         }
-
     ]
 }

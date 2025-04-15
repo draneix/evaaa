@@ -5,7 +5,7 @@
         "hotSpotTemp": 20.0,
         "hotSpotCount": 0,
         "hotSpotSize": 20,
-        "smoothingSigma": 3.0,
+        "smoothingSigma": 10.0,
         "useObjectHotSpot": true,
         "useRandomHotSpot": true,
         "gridCubeHeight": 2

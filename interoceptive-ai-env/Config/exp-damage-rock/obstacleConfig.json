@@ -4,6 +4,7 @@
             "prefabName": "Tree",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -45, "xMax": 45,
                 "yMin": 0, "yMax": 0,
@@ -20,6 +21,7 @@
             "prefabName": "Bush2",
             "count": 0,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -15, "xMax": 15,
                 "yMin": 0, "yMax": 0,
@@ -36,6 +38,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 9.699999809265137,
                 "xMax": 9.699999809265137,
@@ -62,6 +65,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 9.600000381469727,
                 "xMax": 9.600000381469727,
@@ -88,6 +92,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 4.320000171661377,
                 "xMax": 4.320000171661377,
@@ -114,6 +119,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -2.0,
                 "xMax": -2.0,
@@ -140,6 +146,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -11.65999984741211,
                 "xMax": -11.65999984741211,
@@ -166,6 +173,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -7.699999809265137,
                 "xMax": -7.699999809265137,
@@ -192,6 +200,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -1.7000000476837159,
                 "xMax": -1.7000000476837159,
@@ -218,6 +227,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 3.200000047683716,
                 "xMax": 3.200000047683716,
@@ -244,6 +254,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 4.0,
                 "xMax": 4.0,
@@ -270,6 +281,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -7.239999771118164,
                 "xMax": -7.239999771118164,
@@ -296,6 +308,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": -1.4700000286102296,
                 "xMax": -1.4700000286102296,
@@ -322,6 +335,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 4.320000171661377,
                 "xMax": 4.320000171661377,
@@ -348,6 +362,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 9.600000381469727,
                 "xMax": 9.600000381469727,
@@ -374,6 +389,7 @@
             "prefabName": "Small_Rock1",
             "count": 1,
             "temperature": 0.0,
+            "padding": 2.0,
             "position": {
                 "xMin": 9.699999809265137,
                 "xMax": 9.699999809265137,
