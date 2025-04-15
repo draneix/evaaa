@@ -14,9 +14,9 @@
                 "x": 0, "y": 0, "z": 0
             },
             "scaleRange": {
-                "xMin": 0.6, "xMax": 0.6,
-                "yMin": 0.6, "yMax": 0.6,
-                "zMin": 0.6, "zMax": 0.6
+                "xMin": 2.6, "xMax": 2.6,
+                "yMin": 2.6, "yMax": 2.6,
+                "zMin": 2.6, "zMax": 2.6
             }
         },
         {
