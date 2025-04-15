@@ -9,6 +9,7 @@ public class MasterInitializer : MonoBehaviour
     public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
     public NavMeshSurface navMeshSurface; // Reference to the NavMeshSurface component
+    public PredatorSpawner predatorSpawner; // Reference to the PredatorSpawner component
     
     public ThermoGridSpawner thermoGridSpawner;
     public InteroceptiveAgent agent; // Single agent reference
@@ -62,7 +63,18 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("NavMeshSurface is not assigned. NavMesh cannot be baked.");
         }
 
-        // Step 5: Initialize ThermoGridSpawner
+        // Step 5: Initialize PredatorSpawner
+        if (predatorSpawner != null)
+        {
+            predatorSpawner.InitializePredatorSpawner(configLoader, spawnerManager.courtSpawner.CourtTransform);
+            Debug.Log("MasterInitializer: PredatorSpawner initialized.");
+        }
+        else
+        {
+            Debug.LogError("PredatorSpawner is not assigned.");
+        }
+
+        // Step 6: Initialize ThermoGridSpawner
         if (thermoGridSpawner != null)
         {
             thermoGridSpawner.InitializeThermoGridSpawner(configLoader);
@@ -78,7 +90,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 6: Initialize Agent
+        // Step 7: Initialize Agent
         if (agent != null)
         {
             agent.InitializeAgent(configLoader);
@@ -90,7 +102,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 7: Initialize HeatMap
+        // Step 8: Initialize HeatMap
         if (heatMap != null)
         {
             heatMap.InitializeHeatMap();
@@ -110,7 +122,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 8: Initialize Day/Night Cycle
+        // Step 9: Initialize Day/Night Cycle
         if (dayAndNight != null)
         {
             dayAndNight.InitializeDayAndNight(configLoader);
@@ -122,7 +134,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 9: Initialize Camera
+        // Step 10: Initialize Camera
         if (agentFollowCamera != null)
         {
             agentFollowCamera.InitializeCamera(configLoader);
@@ -134,7 +146,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 10: Resume ML-Agents Academy
+        // Step 11: Resume ML-Agents Academy
         InteroceptiveAgent.isEnvironmentReady = true;
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene fully initialized, ML-Agents enabled.");

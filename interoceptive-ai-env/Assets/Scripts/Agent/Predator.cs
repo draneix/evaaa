@@ -9,9 +9,9 @@ public class Predator : MonoBehaviour
     public PredatorState currentState;
 
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float restDuration = 5f;
-    [SerializeField] private float totalChaseTime;
+    [SerializeField] public float walkSpeed;
+    [SerializeField] public float restDuration = 5f;
+    [SerializeField] public float totalChaseTime;
 
     private Vector3 destination;
     private float currentChaseTime;
@@ -19,18 +19,18 @@ public class Predator : MonoBehaviour
     private bool isWalking;
 
     [Header("Field of View Settings")]
-    [SerializeField] private float viewAngle = 120f; // Field of view angle
-    [SerializeField] private float viewDistance = 10f; // Field of view distance
+    [SerializeField] public float viewAngle = 120f; // Field of view angle
+    [SerializeField] public float viewDistance = 10f; // Field of view distance
     [SerializeField] private LayerMask targetMask; // Layer mask for detecting the agent
     private Transform detectedAgent;
 
     [Header("Damage Settings")]
-    [SerializeField] private float damageAmount = 1f; // Damage to apply to the agent
-    [SerializeField] private float maxDamage = 5f; // Maximum damage cap
-    [SerializeField] private float attackInterval = 1f; // Time between damage applications
+    [SerializeField] public float damageAmount = 1f; // Damage to apply to the agent
+    [SerializeField] public float maxDamage = 5f; // Maximum damage cap
+    [SerializeField] public float attackInterval = 1f; // Time between damage applications
 
     [Header("Attack State Settings")]
-    [SerializeField] private float attackStateLockDuration = 2f; // Minimum time to stay in Attacking state
+    [SerializeField] public float attackStateLockDuration = 2f; // Minimum time to stay in Attacking state
 
     private bool isAttackStateLocked = false; // Prevents immediate state switching
 
@@ -41,8 +41,8 @@ public class Predator : MonoBehaviour
     // Add step counters for Resting and Searching states
     private int restingStepCounter = 0; // Counter for steps in Resting state
     private int searchingStepCounter = 0; // Counter for steps in Searching state
-    [SerializeField] private int maxRestingSteps = 50; // Maximum steps to stay in Resting state
-    [SerializeField] private int maxSearchingSteps = 100; // Maximum steps to stay in Searching state
+    [SerializeField] public int maxRestingSteps = 50; // Maximum steps to stay in Resting state
+    [SerializeField] public int maxSearchingSteps = 100; // Maximum steps to stay in Searching state
 
     void Start()
     {

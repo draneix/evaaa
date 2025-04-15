@@ -1,0 +1,400 @@
+{
+    "groups": [
+        {
+            "prefabName": "Tree",
+            "count": 0,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -45, "xMax": 45,
+                "yMin": 0, "yMax": 0,
+                "zMin": -45, "zMax": 45
+            },
+            "rotationRange": { "x": 0, "y": 0, "z": 0 },
+            "scaleRange": {
+                "xMin": 0.8, "xMax": 1.2,
+                "yMin": 0.8, "yMax": 1.2,
+                "zMin": 0.8, "zMax": 1.2
+            }
+        },
+        {
+            "prefabName": "Bush2",
+            "count": 0,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -15, "xMax": 15,
+                "yMin": 0, "yMax": 0,
+                "zMin": -15, "zMax": 15
+            },
+            "rotationRange": { "x": 0, "y": 0, "z": 0 },
+            "scaleRange": {
+                "xMin": 1.5, "xMax": 2.0,
+                "yMin": 1.5, "yMax": 2.0,
+                "zMin": 1.5, "zMax": 2.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 9.699999809265137,
+                "xMax": 9.699999809265137,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 6.5,
+                "zMax": 6.5
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 9.600000381469727,
+                "xMax": 9.600000381469727,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 0.10000000149011612,
+                "zMax": 0.10000000149011612
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 4.320000171661377,
+                "xMax": 4.320000171661377,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -4.539999961853027,
+                "zMax": -4.539999961853027
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -2.0,
+                "xMax": -2.0,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -2.799999952316284,
+                "zMax": -2.799999952316284
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -11.65999984741211,
+                "xMax": -11.65999984741211,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -5.060000419616699,
+                "zMax": -5.060000419616699
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -7.699999809265137,
+                "xMax": -7.699999809265137,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -0.20000000298023225,
+                "zMax": -0.20000000298023225
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -1.7000000476837159,
+                "xMax": -1.7000000476837159,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 3.700000047683716,
+                "zMax": 3.700000047683716
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 3.200000047683716,
+                "xMax": 3.200000047683716,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 7.899999618530273,
+                "zMax": 7.899999618530273
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 4.0,
+                "xMax": 4.0,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 1.2000000476837159,
+                "zMax": 1.2000000476837159
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -7.239999771118164,
+                "xMax": -7.239999771118164,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -7.529999732971191,
+                "zMax": -7.529999732971191
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": -1.4700000286102296,
+                "xMax": -1.4700000286102296,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -8.220000267028809,
+                "zMax": -8.220000267028809
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 4.320000171661377,
+                "xMax": 4.320000171661377,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": -4.539999961853027,
+                "zMax": -4.539999961853027
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 9.600000381469727,
+                "xMax": 9.600000381469727,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 0.10000000149011612,
+                "zMax": 0.10000000149011612
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        },
+        {
+            "prefabName": "Small_Rock1",
+            "count": 1,
+            "temperature": 0.0,
+            "position": {
+                "xMin": 9.699999809265137,
+                "xMax": 9.699999809265137,
+                "yMin": 0.0,
+                "yMax": 0.0,
+                "zMin": 6.5,
+                "zMax": 6.5
+            },
+            "rotationRange": {
+                "x": 0.0,
+                "y": 0.00001001791224553017,
+                "z": 0.0
+            },
+            "scaleRange": {
+                "xMin": 1.0,
+                "xMax": 1.0,
+                "yMin": 1.0,
+                "yMax": 1.0,
+                "zMin": 1.0,
+                "zMax": 1.0
+            }
+        }
+    ]
+}
