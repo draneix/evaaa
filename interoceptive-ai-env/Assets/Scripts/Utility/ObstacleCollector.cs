@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class ObstaclePositionRange
@@ -53,9 +54,9 @@ public class ObstacleCollector : MonoBehaviour
     [Range(0, 6)]
     public int decimalPlaces = 2; // Number of decimal places to maintain
 
-    private float RoundToDecimalPlaces(float value)
+    private string FormatFloat(float value)
     {
-        return (float)Math.Round(value, decimalPlaces);
+        return value.ToString($"F{decimalPlaces}");
     }
 
     public void CollectObstacles()
@@ -73,38 +74,44 @@ public class ObstacleCollector : MonoBehaviour
                 {
                     prefabName = prefabName,
                     count = 1,
-                    temperature = RoundToDecimalPlaces(0.0f),
-                    padding = RoundToDecimalPlaces(defaultPadding),
+                    temperature = float.Parse(FormatFloat(0.0f)),
+                    padding = float.Parse(FormatFloat(defaultPadding)),
                     position = new ObstaclePositionRange
                     {
-                        xMin = RoundToDecimalPlaces(obj.transform.localPosition.x),
-                        xMax = RoundToDecimalPlaces(obj.transform.localPosition.x),
-                        yMin = RoundToDecimalPlaces(obj.transform.localPosition.y),
-                        yMax = RoundToDecimalPlaces(obj.transform.localPosition.y),
-                        zMin = RoundToDecimalPlaces(obj.transform.localPosition.z),
-                        zMax = RoundToDecimalPlaces(obj.transform.localPosition.z)
+                        xMin = float.Parse(FormatFloat(obj.transform.localPosition.x)),
+                        xMax = float.Parse(FormatFloat(obj.transform.localPosition.x)),
+                        yMin = float.Parse(FormatFloat(obj.transform.localPosition.y)),
+                        yMax = float.Parse(FormatFloat(obj.transform.localPosition.y)),
+                        zMin = float.Parse(FormatFloat(obj.transform.localPosition.z)),
+                        zMax = float.Parse(FormatFloat(obj.transform.localPosition.z))
                     },
                     rotationRange = new ObstacleRotationRange
                     {
-                        x = RoundToDecimalPlaces(obj.transform.localEulerAngles.x),
-                        y = RoundToDecimalPlaces(obj.transform.localEulerAngles.y),
-                        z = RoundToDecimalPlaces(obj.transform.localEulerAngles.z)
+                        x = float.Parse(FormatFloat(obj.transform.localEulerAngles.x)),
+                        y = float.Parse(FormatFloat(obj.transform.localEulerAngles.y)),
+                        z = float.Parse(FormatFloat(obj.transform.localEulerAngles.z))
                     },
                     scaleRange = new ObstacleScaleRange
                     {
-                        xMin = RoundToDecimalPlaces(obj.transform.localScale.x),
-                        xMax = RoundToDecimalPlaces(obj.transform.localScale.x),
-                        yMin = RoundToDecimalPlaces(obj.transform.localScale.y),
-                        yMax = RoundToDecimalPlaces(obj.transform.localScale.y),
-                        zMin = RoundToDecimalPlaces(obj.transform.localScale.z),
-                        zMax = RoundToDecimalPlaces(obj.transform.localScale.z)
+                        xMin = float.Parse(FormatFloat(obj.transform.localScale.x)),
+                        xMax = float.Parse(FormatFloat(obj.transform.localScale.x)),
+                        yMin = float.Parse(FormatFloat(obj.transform.localScale.y)),
+                        yMax = float.Parse(FormatFloat(obj.transform.localScale.y)),
+                        zMin = float.Parse(FormatFloat(obj.transform.localScale.z)),
+                        zMax = float.Parse(FormatFloat(obj.transform.localScale.z))
                     }
                 };
                 config.groups.Add(group);
             }
         }
 
-        string json = JsonUtility.ToJson(config, true);
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            FloatFormatHandling = FloatFormatHandling.String
+        };
+
+        string json = JsonConvert.SerializeObject(config, settings);
         string outputPath = Path.Combine(Application.dataPath, outputFileName);
         File.WriteAllText(outputPath, json);
         Debug.Log($"Obstacle configuration saved to {outputPath}");
