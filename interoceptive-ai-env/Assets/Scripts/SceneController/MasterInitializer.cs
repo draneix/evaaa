@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using Unity.MLAgents;
+// using Assets.Scripts.Utility;
 
 public class MasterInitializer : MonoBehaviour
 {
@@ -146,10 +147,29 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 11: Resume ML-Agents Academy
+        // Step 11: Initialize Systems
+        InitializeSystems();
+
+        // Step 12: Resume ML-Agents Academy
         InteroceptiveAgent.isEnvironmentReady = true;
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene fully initialized, ML-Agents enabled.");
+    }
+
+    private void InitializeSystems()
+    {
+        // Initialize the experiment system
+        ExperimentManager experimentManager = FindObjectOfType<ExperimentManager>();
+        if (experimentManager != null)
+        {
+            experimentManager.Initialize(agent);
+        }
+        else
+        {
+            Debug.LogWarning("ExperimentManager not found in the scene. Experiment metrics will not be recorded.");
+        }
+
+        // Initialize other systems...
     }
 
     public void ResetScene()

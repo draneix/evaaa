@@ -1,0 +1,4 @@
+Episode,Need_Food,Need_Water,Offered,Chosen,Correct,TotalSteps,AvgReward,MaxReward,MinReward,FinalFood,FinalWater,FinalHealth,Collisions,FoodConsumed,WaterConsumed,Forward%,Backward%,Left%,Right%,Eat%,Drink%
+1,0,0,,,False,39,-0.02,0.00,-0.03,-7.26,6.83,100.00,0,1,0,0.00,0.00,0.00,0.00,0.00,0.00
+2,0,0,,,False,29,-0.01,0.00,-0.03,-7.19,6.87,100.00,0,0,1,0.00,0.00,0.00,0.00,0.00,0.00
+3,0,0,,,False,29,-0.01,0.00,-0.02,-7.19,6.87,100.00,0,1,0,0.00,0.00,0.00,0.00,0.00,0.00

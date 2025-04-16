@@ -37,6 +37,7 @@ public class InteroceptiveAgent : Agent
         public GameObject heatMap;
         public GameObject playRecorder;
         public CameraSwitcher camareManager;
+        private ExperimentManager experimentManager;
 
         [Header("Environment settings")]
         public bool singleTrial;
@@ -141,6 +142,18 @@ public class InteroceptiveAgent : Agent
                 {
                 Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
                 return;
+                }
+
+                // Initialize ExperimentManager
+                experimentManager = FindObjectOfType<ExperimentManager>();
+                if (experimentManager != null)
+                {
+                        Debug.Log("InteroceptiveAgent: ExperimentManager found.");
+                        experimentManager.targetAgent = this;
+                        string configFolderName = FindObjectOfType<ConfigLoader>().mainConfig.configFolderName;
+                        Debug.Log("InteroceptiveAgent: configFolderName: " + configFolderName);
+                        experimentManager.experimentType = configFolderName;
+                        experimentManager.episodeNumber = episodeCount;
                 }
 
                 // Load the agent configuration
@@ -254,6 +267,10 @@ public class InteroceptiveAgent : Agent
         }
         public override void OnEpisodeBegin()
         {
+                if (experimentManager != null)
+                {
+                        experimentManager.OnEpisodeBegin();
+                }
                 episodeCount = academy.EpisodeCount;
                 if (!isEnvironmentReady)
                 {
@@ -484,15 +501,29 @@ public class InteroceptiveAgent : Agent
                         {
                                 foodCoefficient.change_5 = 1.0f;
                                 countFood = 1.0f;
+                                if (experimentManager != null)
+                                {
+                                        experimentManager.RecordAction("Eat_Food");
+                                        experimentManager.RecordFoodConsumed();
+                                }
                         }
                         if (eatenResourceTag.ToLower() == "water" || eatenResourceTag.ToLower() == "pond")
                         {
                                 waterCoefficient.change_5 = 1.0f;
                                 countWater = 1.0f;
+                                if (experimentManager != null)
+                                {
+                                        experimentManager.RecordAction("Drink_Water");
+                                        experimentManager.RecordWaterConsumed();
+                                }
                         }
 
                         if (singleTrial)
                         {
+                                if (experimentManager != null)
+                                {
+                                        experimentManager.OnEpisodeEnd();
+                                }
                                 EndEpisode();
                         }
                 }
@@ -537,7 +568,10 @@ public class InteroceptiveAgent : Agent
 
                 if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
                 {        
-                        // Debug.Log("InteroceptiveAgent: " + episodeCount + " Episode Ended.");
+                        if (experimentManager != null)
+                        {
+                                experimentManager.OnEpisodeEnd();
+                        }
                         EndEpisode();
                 }
                 if (this.resourceLevels[3] > healthLevelRange.max)
@@ -547,6 +581,22 @@ public class InteroceptiveAgent : Agent
 
                 int action = actions.DiscreteActions[0];
                 MoveAgent(action);
+
+                // Record action in metrics
+                if (experimentManager != null)
+                {
+                        string actionName = action switch
+                        {
+                                0 => "None",
+                                1 => "Forward",
+                                2 => "Left",
+                                3 => "Right",
+                                4 => "Eat",
+                                _ => "Unknown"
+                        };
+                        experimentManager.RecordAction($"Move_{actionName}");
+                        experimentManager.RecordStep(); // Record the step after all updates
+                }
 
                 // Synchronize Predator's action
                 Predator predator = FindObjectOfType<Predator>();

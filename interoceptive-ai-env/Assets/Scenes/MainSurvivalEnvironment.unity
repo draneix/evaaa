@@ -407,6 +407,53 @@ LightingSettings:
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!1 &951111360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951111361}
+  - component: {fileID: 951111362}
+  m_Layer: 0
+  m_Name: PredatorSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &951111361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951111360}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.5517929, y: -2.1574993, z: -0.64914703}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1683784372}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &951111362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951111360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdede5c48bb444ce5b8c5657be11e39a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  configFileName: predatorConfig.json
+  predatorPrefab: {fileID: 7097910595545325753, guid: e5149582c6c03481398d1aead386b5dc,
+    type: 3}
 --- !u!114 &1126164668 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1539676751118379520, guid: 0338d45b34b8a42fc913b1916f8baec9,
@@ -576,6 +623,8 @@ MonoBehaviour:
   outputFileName: generatedObstacleConfig.json
   prefabFolder: Obstacles
   obstacleNameFilter: Tree
+  defaultPadding: 2
+  decimalPlaces: 0
 --- !u!4 &1605100404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6777497943377502258, guid: 6d7c774f1f0a04c67bca7229517e51e4,
@@ -650,6 +699,7 @@ Transform:
   - {fileID: 1850279993}
   - {fileID: 685796459}
   - {fileID: 1975835201}
+  - {fileID: 951111361}
   m_Father: {fileID: 1417844879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1683784373
@@ -668,114 +718,6 @@ MonoBehaviour:
   obstacleSpawner: {fileID: 1850279994}
   resourceSpawner: {fileID: 685796460}
   thermoGridSpawner: {fileID: 1975835202}
---- !u!1001 &1744088872
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2742721018132081762, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_Name
-      value: Predator
-      objectReference: {fileID: 0}
-    - target: {fileID: 2742721018132081762, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: maxDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: walkSpeed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: areaCenter
-      value: 
-      objectReference: {fileID: 1923067524}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: areaRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: attackRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: damageAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2883030134952638624, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: totalChaseTime
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3517703424481123069, guid: b80541d830afd4004941a278d45ae448,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b80541d830afd4004941a278d45ae448, type: 3}
 --- !u!1 &1850279992
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,6 +899,7 @@ MonoBehaviour:
   configLoader: {fileID: 808919906}
   spawnerManager: {fileID: 1683784373}
   navMeshSurface: {fileID: 835159717}
+  predatorSpawner: {fileID: 951111362}
   thermoGridSpawner: {fileID: 1975835202}
   agent: {fileID: 7819571294374217589}
   heatMap: {fileID: 4985382396085495230}
@@ -3266,4 +3209,3 @@ SceneRoots:
   - {fileID: 1359072464}
   - {fileID: 1266033381}
   - {fileID: 1923067524}
-  - {fileID: 1744088872}
