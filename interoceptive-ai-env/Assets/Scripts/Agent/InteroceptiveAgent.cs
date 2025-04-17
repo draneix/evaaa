@@ -135,6 +135,9 @@ public class InteroceptiveAgent : Agent
         public float radialRange;
         public float damageConstant;
 
+        private int maxSteps;
+        private int stepsTaken = 0;
+
         public void InitializeAgent(ConfigLoader loader)
         {
                 academy = Academy.Instance;
@@ -142,8 +145,8 @@ public class InteroceptiveAgent : Agent
                 configLoader = loader;
                 if (configLoader == null)
                 {
-                Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
-                return;
+                        Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+                        return;
                 }
 
                 // Initialize ExperimentManager
@@ -162,8 +165,8 @@ public class InteroceptiveAgent : Agent
                 agentConfig = configLoader.LoadConfig<AgentConfig>(configFileName);
                 if (agentConfig == null)
                 {
-                Debug.LogError("Failed to load AgentConfig.");
-                return;
+                        Debug.LogError("Failed to load AgentConfig.");
+                        return;
                 }
 
                 // Use the loaded configuration
@@ -205,6 +208,7 @@ public class InteroceptiveAgent : Agent
                 maxDistance = agentConfig.maxDistance;
                 radialRange = agentConfig.radialRange;
                 damageConstant = agentConfig.damageConstant;
+                maxSteps = agentConfig.maxSteps;  // Set the maximum number of steps per episode
 
                 m_ResetParams = Academy.Instance.EnvironmentParameters; 
                 // if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
@@ -269,6 +273,7 @@ public class InteroceptiveAgent : Agent
         }
         public override void OnEpisodeBegin()
         {
+                stepsTaken = 0;
                 if (experimentManager != null)
                 {
                         experimentManager.OnEpisodeBegin();
@@ -484,7 +489,8 @@ public class InteroceptiveAgent : Agent
 
         //브레인(정책)으로 부터 전달 받은 행동을 실행하는 메소드
         public override void OnActionReceived(ActionBuffers actions)
-        {
+        {       
+                stepsTaken++;
                 countFood = 0.0f;
                 countWater = 0.0f;
                 countCollision = 0.0f;
@@ -646,6 +652,17 @@ public class InteroceptiveAgent : Agent
                         oldResourceLevels[i] = resourceLevels[i];
                 }
 
+                if (stepsTaken >= maxSteps)
+                {
+                        EndEpisode();
+                        if (experimentManager != null)
+                        {
+                                experimentManager.SetEpisodeEndType("MaxStepReached");
+                        experimentManager.RecordFinalStep();
+                        experimentManager.OnEpisodeEnd();
+                        }
+                        Debug.Log("MaxStep reached");
+                }
         }
 
         public override void Heuristic(in ActionBuffers actionsOut)
@@ -908,6 +925,7 @@ public class InteroceptiveAgent : Agent
         );
         }
 }
+
 [System.Serializable]
 public class AgentConfig
 {
@@ -949,4 +967,5 @@ public class AgentConfig
     public float maxDistance;
     public float radialRange;
     public float damageConstant;
+    public int maxSteps;  // Maximum number of steps per episode
 }
