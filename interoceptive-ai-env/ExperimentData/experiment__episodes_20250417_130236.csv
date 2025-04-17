@@ -1,3 +1,0 @@
-Episode,Need_Food,Need_Water,Offered,Chosen,Correct,TotalSteps,AvgReward,MaxReward,MinReward,FinalFood,FinalWater,FinalHealth,Collisions,FoodConsumed,WaterConsumed,Forward%,Backward%,Left%,Right%,Eat%,Drink%
-1,31,-0.01,0.00,-0.03,1,0,-7.20,6.87,100.00,0,0.00,0.00,0.00,0.00,0.00,0.00
-2,31,-0.01,0.00,-0.03,0,1,-7.20,6.87,100.00,0,0.00,0.00,0.00,0.00,0.00,0.00

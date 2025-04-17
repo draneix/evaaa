@@ -37,7 +37,7 @@ public class InteroceptiveAgent : Agent
         public GameObject heatMap;
         public GameObject playRecorder;
         public CameraSwitcher camareManager;
-        private ExperimentManager experimentManager;
+        public ExperimentManager experimentManager;
 
         [Header("Environment settings")]
         public bool singleTrial;
@@ -595,7 +595,7 @@ public class InteroceptiveAgent : Agent
                                 _ => "Unknown"
                         };
                         experimentManager.RecordAction($"Move_{actionName}");
-                        experimentManager.RecordStep(); // Record the step after all updates
+                        // experimentManager.RecordStep(); // Record the step after all updates
                 }
 
                 // Synchronize Predator's action

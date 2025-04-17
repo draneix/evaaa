@@ -48,11 +48,29 @@ public class ExperimentManager : MonoBehaviour
         }
     }
 
-    public void RecordStep()
+    public void RecordFoodConsumed()
     {
         if (metrics != null)
         {
-            metrics.RecordStep(); // Record step without action (for steps where no action was taken)
+            metrics.RecordFoodConsumed();
+            metrics.RecordAction("Eat_Food");
+        }
+    }
+
+    public void RecordWaterConsumed()
+    {
+        if (metrics != null)
+        {
+            metrics.RecordWaterConsumed();
+            metrics.RecordAction("Drink_Water");
+        }
+    }
+
+    public void RecordFinalStep()
+    {
+        if (metrics != null)
+        {
+            metrics.CalculateFinalMetrics();
         }
     }
 
@@ -105,24 +123,6 @@ public class ExperimentManager : MonoBehaviour
             metrics.CalculateFinalMetrics();
             metrics.RecordFinalStep(); // Record final step
             metrics.ExportEpisodeSummary();
-        }
-    }
-
-    public void RecordFoodConsumed()
-    {
-        if (metrics != null)
-        {
-            metrics.RecordFoodConsumed();
-            metrics.RecordAction("Eat_Food");
-        }
-    }
-
-    public void RecordWaterConsumed()
-    {
-        if (metrics != null)
-        {
-            metrics.RecordWaterConsumed();
-            metrics.RecordAction("Drink_Water");
         }
     }
 }

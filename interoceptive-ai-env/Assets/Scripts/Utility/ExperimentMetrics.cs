@@ -37,6 +37,7 @@ public class ExperimentMetrics : MonoBehaviour
         public float reward;
         public float distanceTraveled;
         public bool isEpisodeEnd;  // Flag to indicate if this step ended the episode
+        public bool hasCollision;  // New field to track collision in each step
     }
 
     public class EpisodeData
@@ -117,7 +118,8 @@ public class ExperimentMetrics : MonoBehaviour
                 "Action," +
                 "Reward," +
                 "DistanceTraveled," +
-                "IsEpisodeEnd");
+                "IsEpisodeEnd," +
+                "HasCollision");
         }
 
         // Initialize episode data file header
@@ -176,7 +178,8 @@ public class ExperimentMetrics : MonoBehaviour
             distanceTraveled = Vector3.Distance(targetAgent.transform.position, 
                 stepData.Count > 0 ? stepData[stepData.Count - 1].position : targetAgent.transform.position),
             action = action,
-            isEpisodeEnd = isFinalStep
+            isEpisodeEnd = isFinalStep,
+            hasCollision = targetAgent.countCollision > 0  // Record collision state for this step
         };
 
         // Add to step data list
@@ -199,7 +202,8 @@ public class ExperimentMetrics : MonoBehaviour
                     $"{step.action}," +
                     $"{step.reward:F2}," +
                     $"{step.distanceTraveled:F2}," +
-                    $"{step.isEpisodeEnd}");
+                    $"{step.isEpisodeEnd}," +
+                    $"{step.hasCollision}");  // Add collision state to CSV
             }
         }
         catch (Exception e)
