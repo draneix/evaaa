@@ -7,13 +7,15 @@ public class CourtConfig
     public Vector3 floorSize;    // Size of the floor (X, Y, Z)
     public float wallHeight;     // Height of the walls
     public Vector3 position;     // Position of the Court
+    public string floorMaterialName; // Name of the floor material in Resources/Materials
+    public string wallMaterialName;  // Name of the wall material in Resources/Materials
 }
 
 public class CourtSpawner : MonoBehaviour
 {
     public string configFileName = "courtConfig.json";
-    public Material floorMaterial;
-    public Material wallMaterial;
+    private Material floorMaterial;
+    private Material wallMaterial;
 
     public CourtConfig courtConfig; // Court configuration data
     private GameObject courtObject;  // Store the generated court
@@ -41,6 +43,7 @@ public class CourtSpawner : MonoBehaviour
             return;
         }
 
+        LoadMaterials();
         GenerateCourt();
     }
 
@@ -62,6 +65,35 @@ public class CourtSpawner : MonoBehaviour
         if (courtConfig == null)
         {
             Debug.LogError("Invalid court configuration.");
+        }
+    }
+
+    private void LoadMaterials()
+    {
+        if (!string.IsNullOrEmpty(courtConfig.floorMaterialName))
+        {
+            floorMaterial = Resources.Load<Material>($"Materials/{courtConfig.floorMaterialName}");
+            if (floorMaterial == null)
+            {
+                Debug.LogError($"Floor material not found: {courtConfig.floorMaterialName}");
+            }
+        }
+        else
+        {
+            Debug.LogError("Floor material name is not specified in configuration.");
+        }
+
+        if (!string.IsNullOrEmpty(courtConfig.wallMaterialName))
+        {
+            wallMaterial = Resources.Load<Material>($"Materials/{courtConfig.wallMaterialName}");
+            if (wallMaterial == null)
+            {
+                Debug.LogError($"Wall material not found: {courtConfig.wallMaterialName}");
+            }
+        }
+        else
+        {
+            Debug.LogError("Wall material name is not specified in configuration.");
         }
     }
 

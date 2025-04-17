@@ -1,0 +1,7 @@
+Episode,Step,FoodLevel,WaterLevel,ThermoLevel,HealthLevel,PositionX,PositionY,PositionZ,Action,Reward,DistanceTraveled,IsEpisodeEnd,HasCollision,ResourceConsumed,ConsumedResourceType
+1,1,-0.01,-0.01,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
+1,2,-0.02,-0.02,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
+1,3,-0.03,-0.03,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
+1,4,-0.04,-0.04,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
+1,5,-0.05,-0.05,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
+1,6,-0.05,-0.05,0.00,100.00,-14.00,1.00,-20.00,None,0.00,0.00,False,False,False,none
