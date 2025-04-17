@@ -6,16 +6,16 @@
       "temperature": 0.0,
       "padding": 0.0,
       "position": {
-        "xMin": -6.0,
-        "xMax": -6.0,
+        "xMin": -10.2,
+        "xMax": -10.2,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": 26.6,
-        "zMax": 26.6
+        "zMin": 23.8,
+        "zMax": 23.8
       },
       "rotationRange": {
         "x": 0.0,
-        "y": 335.0,
+        "y": 320.0,
         "z": 0.0
       },
       "scaleRange": {
@@ -23,8 +23,8 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 30.0,
-        "zMax": 30.0
+        "zMin": 32.0,
+        "zMax": 32.0
       }
     },
     {
@@ -33,16 +33,16 @@
       "temperature": 0.0,
       "padding": 0.0,
       "position": {
-        "xMin": -13.5,
-        "xMax": -13.5,
+        "xMin": -16.0,
+        "xMax": -16.0,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": 15.5,
-        "zMax": 15.5
+        "zMin": 15.2,
+        "zMax": 15.2
       },
       "rotationRange": {
         "x": 0.0,
-        "y": 335.0,
+        "y": 320.0,
         "z": 0.0
       },
       "scaleRange": {
@@ -50,8 +50,8 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 40.0,
-        "zMax": 40.0
+        "zMin": 35.0,
+        "zMax": 35.0
       }
     },
     {
@@ -60,16 +60,16 @@
       "temperature": 0.0,
       "padding": 0.0,
       "position": {
-        "xMin": 6.6,
-        "xMax": 6.6,
+        "xMin": 10.2,
+        "xMax": 10.2,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": 26.3,
-        "zMax": 26.3
+        "zMin": 23.8,
+        "zMax": 23.8
       },
       "rotationRange": {
         "x": 0.0,
-        "y": 25.0,
+        "y": 40.0,
         "z": 0.0
       },
       "scaleRange": {
@@ -77,8 +77,8 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 30.0,
-        "zMax": 30.0
+        "zMin": 32.0,
+        "zMax": 32.0
       }
     },
     {
@@ -87,16 +87,16 @@
       "temperature": 0.0,
       "padding": 0.0,
       "position": {
-        "xMin": 13.5,
-        "xMax": 13.5,
+        "xMin": 16.0,
+        "xMax": 16.0,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": 15.5,
-        "zMax": 15.5
+        "zMin": 15.2,
+        "zMax": 15.2
       },
       "rotationRange": {
         "x": 0.0,
-        "y": 25.0,
+        "y": 40.0,
         "z": 0.0
       },
       "scaleRange": {
@@ -104,8 +104,8 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 40.0,
-        "zMax": 40.0
+        "zMin": 35.0,
+        "zMax": 35.0
       }
     },
     {
@@ -118,8 +118,8 @@
         "xMax": -5.0,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": -22.0,
-        "zMax": -22.0
+        "zMin": -16.2,
+        "zMax": -16.2
       },
       "rotationRange": {
         "x": 0.0,
@@ -131,8 +131,8 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 40.0,
-        "zMax": 40.0
+        "zMin": 37.0,
+        "zMax": 37.0
       }
     },
     {
@@ -145,8 +145,8 @@
         "xMax": 5.0,
         "yMin": 2.0,
         "yMax": 2.0,
-        "zMin": -22.0,
-        "zMax": -22.0
+        "zMin": -16.2,
+        "zMax": -16.2
       },
       "rotationRange": {
         "x": 0.0,
@@ -158,8 +158,89 @@
         "xMax": 1.0,
         "yMin": 5.0,
         "yMax": 5.0,
-        "zMin": 40.0,
-        "zMax": 40.0
+        "zMin": 37.0,
+        "zMax": 37.0
+      }
+    },
+    {
+      "prefabName": "Block",
+      "count": 1,
+      "temperature": 0.0,
+      "padding": 0.0,
+      "position": {
+        "xMin": 0.0,
+        "xMax": 0.0,
+        "yMin": 2.0,
+        "yMax": 2.0,
+        "zMin": -34.2,
+        "zMax": -34.2
+      },
+      "rotationRange": {
+        "x": 0.0,
+        "y": 90.0,
+        "z": 0.0
+      },
+      "scaleRange": {
+        "xMin": 1.0,
+        "xMax": 1.0,
+        "yMin": 5.0,
+        "yMax": 5.0,
+        "zMin": 10.0,
+        "zMax": 10.0
+      }
+    },
+    {
+      "prefabName": "Block",
+      "count": 1,
+      "temperature": 0.0,
+      "padding": 0.0,
+      "position": {
+        "xMin": -23.5,
+        "xMax": -23.5,
+        "yMin": 2.0,
+        "yMax": 2.0,
+        "zMin": 32.1,
+        "zMax": 32.1
+      },
+      "rotationRange": {
+        "x": 0.0,
+        "y": 41.0,
+        "z": 0.0
+      },
+      "scaleRange": {
+        "xMin": 1.0,
+        "xMax": 1.0,
+        "yMin": 5.0,
+        "yMax": 5.0,
+        "zMin": 10.0,
+        "zMax": 10.0
+      }
+    },
+    {
+      "prefabName": "Block",
+      "count": 1,
+      "temperature": 0.0,
+      "padding": 0.0,
+      "position": {
+        "xMin": 23.5,
+        "xMax": 23.5,
+        "yMin": 2.0,
+        "yMax": 2.0,
+        "zMin": 32.1,
+        "zMax": 32.1
+      },
+      "rotationRange": {
+        "x": 0.0,
+        "y": 135.09,
+        "z": 0.0
+      },
+      "scaleRange": {
+        "xMin": 1.0,
+        "xMax": 1.0,
+        "yMin": 5.0,
+        "yMax": 5.0,
+        "zMin": 10.0,
+        "zMax": 10.0
       }
     }
   ]

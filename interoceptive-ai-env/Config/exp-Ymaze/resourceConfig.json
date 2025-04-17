@@ -3,12 +3,12 @@
         {
             "prefabName": "Food",
             "prefabLabel": "Food",
-            "resourceType": "Random",
+            "resourceType": "Static",
             "count": 1,
             "position": {
-                "xMin": -15, "xMax": -15,
+                "xMin": -18, "xMax": -18,
                 "yMin": 0.6, "yMax": 0.6,
-                "zMin": 30, "zMax": 30
+                "zMin": 26, "zMax": 26
             },
             "rotationRange": {
                 "x": 0, "y": 0, "z": 0
@@ -22,12 +22,12 @@
         {
             "prefabName": "Water",
             "prefabLabel": "Water",
-            "resourceType": "Random",
+            "resourceType": "Static",
             "count": 1,
             "position": {
-                "xMin": 15, "xMax": 15,
+                "xMin": 18, "xMax": 18,
                 "yMin": 0.6, "yMax": 0.6,
-                "zMin": 30, "zMax": 30
+                "zMin": 26, "zMax": 26
             },
             "rotationRange": {
                 "x": 0, "y": 0, "z": 0

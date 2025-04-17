@@ -9,6 +9,7 @@ public class CourtConfig
     public Vector3 position;     // Position of the Court
     public string floorMaterialName; // Name of the floor material in Resources/Materials
     public string wallMaterialName;  // Name of the wall material in Resources/Materials
+    public bool createWall = true;   // Whether to create walls around the court
 }
 
 public class CourtSpawner : MonoBehaviour
@@ -129,6 +130,11 @@ public class CourtSpawner : MonoBehaviour
 
     private void CreateWalls(Transform parent)
     {
+        if (!courtConfig.createWall)
+        {
+            return;
+        }
+
         float halfX = courtConfig.floorSize.x / 2;
         float halfZ = courtConfig.floorSize.z / 2;
         float wallThickness = 1;
