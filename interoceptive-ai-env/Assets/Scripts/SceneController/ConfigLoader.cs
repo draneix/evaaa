@@ -87,4 +87,12 @@ public class MainConfig
     public string configFolderName;
     public string recordingFolderName;
     public string recordEnable;
+    public ExperimentData experimentData;
+}
+
+[System.Serializable]
+public class ExperimentData
+{
+    public string baseFolderName;
+    public string fileNamePrefix;
 }

@@ -22,8 +22,10 @@ public class ExperimentMetrics : MonoBehaviour
     public EpisodeData currentEpisode;
 
     [Header("Data Export")]
-    public string outputDirectory = "ExperimentData";
-    public string fileNamePrefix = "experiment_";
+    private string outputDirectory;
+    private string baseFolderName;
+    private string fileNamePrefix;
+    private MainConfig mainConfig;
 
     public class StepData
     {
@@ -69,6 +71,41 @@ public class ExperimentMetrics : MonoBehaviour
             return;
         }
 
+        // Get ConfigLoader and mainConfig
+        ConfigLoader configLoader = FindObjectOfType<ConfigLoader>();
+        if (configLoader != null)
+        {
+            mainConfig = configLoader.mainConfig;
+            if (mainConfig != null)
+            {
+                baseFolderName = mainConfig.experimentData.baseFolderName;
+                fileNamePrefix = mainConfig.experimentData.fileNamePrefix;
+                // Debug.Log($"ExperimentMetrics: Using baseFolderName={baseFolderName}, fileNamePrefix={fileNamePrefix}");
+            }
+            else
+            {
+                Debug.LogError("ExperimentMetrics: mainConfig or experimentData is null");
+                isActive = false;
+                return;
+            }
+        }
+        else
+        {
+            Debug.LogError("ExperimentMetrics: ConfigLoader not found");
+            isActive = false;
+            return;
+        }
+
+        // Create timestamp-based directory structure
+        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        outputDirectory = Path.Combine(Application.dataPath, "..",  baseFolderName);
+        Debug.Log($"ExperimentMetrics: Using outputDirectory={outputDirectory}");
+        
+        if (!Directory.Exists(outputDirectory))
+        {
+            Directory.CreateDirectory(outputDirectory);
+        }
+
         InitializeDataFiles();
         isActive = true;
         episodeNumber = 1; // Start episode number from 1
@@ -96,19 +133,13 @@ public class ExperimentMetrics : MonoBehaviour
 
     private void InitializeDataFiles()
     {
-        // Create output directory if it doesn't exist
-        if (!Directory.Exists(outputDirectory))
-        {
-            Directory.CreateDirectory(outputDirectory);
-        }
-
         // Generate filenames with timestamp
-        string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        stepDataFileName = $"{fileNamePrefix}{experimentType}_steps_{timestamp}.csv";
-        episodeDataFileName = $"{fileNamePrefix}{experimentType}_episodes_{timestamp}.csv";
+        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        stepDataFileName = Path.Combine(outputDirectory, $"{fileNamePrefix}{experimentType}_steps_{timestamp}.csv");
+        episodeDataFileName = Path.Combine(outputDirectory, $"{fileNamePrefix}{experimentType}_episodes_{timestamp}.csv");
 
         // Initialize step data file header
-        using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, stepDataFileName)))
+        using (StreamWriter writer = new StreamWriter(stepDataFileName))
         {
             writer.WriteLine("Episode," +
                 "Step," +
@@ -129,7 +160,7 @@ public class ExperimentMetrics : MonoBehaviour
         }
 
         // Initialize episode data file header
-        using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, episodeDataFileName)))
+        using (StreamWriter writer = new StreamWriter(episodeDataFileName))
         {
             writer.WriteLine("Episode," +
                 "TotalSteps," +
@@ -198,7 +229,7 @@ public class ExperimentMetrics : MonoBehaviour
         // Write to step data file immediately
         try
         {
-            using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, stepDataFileName), true))
+            using (StreamWriter writer = new StreamWriter(stepDataFileName, true))
             {
                 writer.WriteLine($"{episodeNumber}," +
                     $"{step.stepNumber}," +
@@ -264,7 +295,7 @@ public class ExperimentMetrics : MonoBehaviour
 
         try
         {
-            string episodeSummaryPath = Path.Combine(outputDirectory, episodeDataFileName);
+            string episodeSummaryPath = episodeDataFileName;
             bool fileExists = File.Exists(episodeSummaryPath);
 
             using (StreamWriter writer = new StreamWriter(episodeSummaryPath, true))
@@ -365,5 +396,18 @@ public class ExperimentMetrics : MonoBehaviour
     {
         if (!isActive) return;
         currentEpisode.waterConsumed++;
+    }
+
+    [System.Serializable]
+    private class ConfigData
+    {
+        public ExperimentDataConfig experimentData;
+    }
+
+    [System.Serializable]
+    private class ExperimentDataConfig
+    {
+        public string baseFolderName;
+        public string fileNamePrefix;
     }
 } 

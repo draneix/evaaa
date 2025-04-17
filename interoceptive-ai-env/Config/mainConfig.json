@@ -1,5 +1,9 @@
 {
     "configFolderName": "exp-two-resource-food",
     "recordingFolderName": "SampleRecording-debug",
-    "recordEnable": "false"
+    "recordEnable": "false",
+    "experimentData": {
+        "baseFolderName": "Data",
+        "fileNamePrefix": "model-L11-exp-two-resource-food"
+    }
 }
