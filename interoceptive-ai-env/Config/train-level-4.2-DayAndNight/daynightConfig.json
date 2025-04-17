@@ -1,6 +1,6 @@
 {
         "daySpeed": 10,
-        "nightSpeed": 5,
+        "nightSpeed": 10,
         "fogChangeSpeed": 0.1,
         "dayFogDensity": 0,
         "nightFogDensity": 0.1,

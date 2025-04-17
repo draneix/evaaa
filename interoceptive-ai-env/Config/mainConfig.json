@@ -1,12 +1,12 @@
 {
-    "configFolderName": "train-level-4.2-DayAndNight",
+    "configFolderName": "exp-multiGoalPlanning",
     "recordingScreen":
     {
-        "recordEnable": "true",
+        "recordEnable": "false",
         "recordingFolderName": "SampleRecording-debug"
     },
     "experimentData": {
-        "recordEnable": "true",
+        "recordEnable": "false",
         "baseFolderName": "Data",
         "fileNamePrefix": "model-L11-exp-two-resource-food"
     }
