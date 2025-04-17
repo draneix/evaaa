@@ -530,6 +530,7 @@ public class InteroceptiveAgent : Agent
                         {
                                 if (experimentManager != null)
                                 {
+                                        experimentManager.SetEpisodeEndType("ResourceConsumed");  // Set episode end type
                                         experimentManager.RecordFinalStep();
                                         experimentManager.OnEpisodeEnd();
                                 }
@@ -579,6 +580,13 @@ public class InteroceptiveAgent : Agent
                 {        
                         if (experimentManager != null)
                         {
+                                // Determine the specific reason for episode end
+                                if (checkFoodLevel) experimentManager.SetEpisodeEndType("FoodLevelOutOfRange");
+                                else if (checkWaterLevel) experimentManager.SetEpisodeEndType("WaterLevelOutOfRange");
+                                else if (checkThermoLevel) experimentManager.SetEpisodeEndType("ThermoLevelOutOfRange");
+                                else if (checkHealth) experimentManager.SetEpisodeEndType("HealthLevelTooLow");
+                                
+                                experimentManager.RecordFinalStep();
                                 experimentManager.OnEpisodeEnd();
                         }
                         EndEpisode();

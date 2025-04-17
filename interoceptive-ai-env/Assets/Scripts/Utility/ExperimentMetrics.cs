@@ -56,6 +56,7 @@ public class ExperimentMetrics : MonoBehaviour
         public float finalHealthLevel;
         public int collisions;
         public Dictionary<string, float> actionPercentages;
+        public string episodeEndType;  // Track how the episode ended
     }
 
     public void Initialize(InteroceptiveAgent agent)
@@ -88,7 +89,8 @@ public class ExperimentMetrics : MonoBehaviour
             finalWaterLevel = 0f,
             finalHealthLevel = 0f,
             collisions = 0,
-            actionPercentages = new Dictionary<string, float>()
+            actionPercentages = new Dictionary<string, float>(),
+            episodeEndType = "Unknown"  // Initialize with unknown
         };
     }
 
@@ -144,7 +146,8 @@ public class ExperimentMetrics : MonoBehaviour
                 "Forward%," +
                 "Left%," +
                 "Right%," +
-                "Eat%");
+                "Eat%," +
+                "EpisodeEndType");
         }
 
         // Initialize current episode data
@@ -161,7 +164,8 @@ public class ExperimentMetrics : MonoBehaviour
             finalWaterLevel = 0f,
             finalHealthLevel = 0f,
             collisions = 0,
-            actionPercentages = new Dictionary<string, float>()
+            actionPercentages = new Dictionary<string, float>(),
+            episodeEndType = "Unknown"  // Initialize with unknown
         };
     }
 
@@ -267,7 +271,7 @@ public class ExperimentMetrics : MonoBehaviour
             {
                 if (!fileExists)
                 {
-                    writer.WriteLine("Episode,TotalSteps,AvgReward,MaxReward,MinReward,FoodConsumed,WaterConsumed,FinalFoodLevel,FinalWaterLevel,FinalHealthLevel,Collisions,None%,Forward%,Left%,Right%,Eat%");
+                    writer.WriteLine("Episode,TotalSteps,AvgReward,MaxReward,MinReward,FoodConsumed,WaterConsumed,FinalFoodLevel,FinalWaterLevel,FinalHealthLevel,Collisions,None%,Forward%,Left%,Right%,Eat%,EpisodeEndType");
                 }
 
                 writer.WriteLine($"{currentEpisode.episodeNumber}," +
@@ -285,7 +289,8 @@ public class ExperimentMetrics : MonoBehaviour
                     $"{GetActionPercentage("Forward"):F2}," +
                     $"{GetActionPercentage("Left"):F2}," +
                     $"{GetActionPercentage("Right"):F2}," +
-                    $"{GetActionPercentage("Eat"):F2}");
+                    $"{GetActionPercentage("Eat"):F2}," +
+                    $"{currentEpisode.episodeEndType}");
             }
         }
         catch (Exception e)

@@ -138,4 +138,13 @@ public class ExperimentManager : MonoBehaviour
             metrics.ExportEpisodeSummary();
         }
     }
+
+    public void SetEpisodeEndType(string endType)
+    {
+        if (!isActive) return;
+        if (metrics != null)
+        {
+            metrics.currentEpisode.episodeEndType = endType;
+        }
+    }
 }
