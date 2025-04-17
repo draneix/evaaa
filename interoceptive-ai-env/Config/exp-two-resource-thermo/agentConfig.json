@@ -67,5 +67,6 @@
         "raysPerDirection": 100,
         "maxDistance": 1.5,
         "radialRange": 360.0,
-        "damageConstant": 0.0002
+        "damageConstant": 0.0002,
+        "maxSteps": 500
     }

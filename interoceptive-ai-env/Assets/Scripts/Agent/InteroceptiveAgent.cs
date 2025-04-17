@@ -135,7 +135,7 @@ public class InteroceptiveAgent : Agent
         public float radialRange;
         public float damageConstant;
 
-        private int maxSteps;
+        private int maxSteps=0;
         private int stepsTaken = 0;
 
         public void InitializeAgent(ConfigLoader loader)
@@ -652,7 +652,7 @@ public class InteroceptiveAgent : Agent
                         oldResourceLevels[i] = resourceLevels[i];
                 }
 
-                if (stepsTaken >= maxSteps)
+                if (maxSteps>0 && stepsTaken >= maxSteps)
                 {
                         EndEpisode();
                         if (experimentManager != null)

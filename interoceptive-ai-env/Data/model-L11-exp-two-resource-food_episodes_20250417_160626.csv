@@ -1,5 +1,0 @@
-Episode,TotalSteps,AvgReward,MaxReward,MinReward,FoodConsumed,WaterConsumed,FinalFoodLevel,FinalWaterLevel,FinalHealthLevel,Collisions,None%,Forward%,Left%,Right%,Eat%,EpisodeEndType
-2,1,-0.02,-0.02,-0.02,0,0,-7.00,7.00,100.00,0,0.00,0.00,0.00,0.00,0.00,MaxStepReached
-3,1,0.00,0.00,0.00,0,0,-7.00,7.00,100.00,0,0.00,0.00,0.00,0.00,0.00,MaxStepReached
-4,1,0.00,0.00,0.00,0,0,-7.00,7.00,100.00,0,0.00,0.00,0.00,0.00,0.00,MaxStepReached
-5,1,0.00,0.00,0.00,0,0,-7.00,7.00,100.00,0,0.00,0.00,0.00,0.00,0.00,MaxStepReached
