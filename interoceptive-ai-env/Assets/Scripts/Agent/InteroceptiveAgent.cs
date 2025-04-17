@@ -88,6 +88,8 @@ public class InteroceptiveAgent : Agent
         public int countEV;
         public float[] resourceLevels;
         private float[] oldResourceLevels;
+        public bool resourceConsumedInStep;  // Track if any resource was consumed in this step
+        public string consumedResourceType;  // Track which resource was consumed (using actual tag from eatenResourceTag)
 
         [Header("Food")]
         public EVRange foodLevelRange;
@@ -485,7 +487,9 @@ public class InteroceptiveAgent : Agent
         {
                 countFood = 0.0f;
                 countWater = 0.0f;
-                // countCollision = 0.0f;
+                countCollision = 0.0f;
+                resourceConsumedInStep = false;  // Reset consumption tracking
+                consumedResourceType = "none";   // Reset resource type
 
                 if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
                 {
@@ -501,6 +505,8 @@ public class InteroceptiveAgent : Agent
                         {
                                 foodCoefficient.change_5 = 1.0f;
                                 countFood = 1.0f;
+                                resourceConsumedInStep = true;
+                                consumedResourceType = eatenResourceTag;  // Use actual tag
                                 if (experimentManager != null)
                                 {
                                         experimentManager.RecordAction("Eat_Food");
@@ -511,6 +517,8 @@ public class InteroceptiveAgent : Agent
                         {
                                 waterCoefficient.change_5 = 1.0f;
                                 countWater = 1.0f;
+                                resourceConsumedInStep = true;
+                                consumedResourceType = eatenResourceTag;  // Use actual tag
                                 if (experimentManager != null)
                                 {
                                         experimentManager.RecordAction("Drink_Water");

@@ -38,6 +38,8 @@ public class ExperimentMetrics : MonoBehaviour
         public float distanceTraveled;
         public bool isEpisodeEnd;  // Flag to indicate if this step ended the episode
         public bool hasCollision;  // New field to track collision in each step
+        public bool resourceConsumed;  // New field to track if any resource was consumed in this step
+        public string consumedResourceType;  // Track which resource was consumed (using actual tag from eatenResourceTag)
     }
 
     public class EpisodeData
@@ -119,7 +121,9 @@ public class ExperimentMetrics : MonoBehaviour
                 "Reward," +
                 "DistanceTraveled," +
                 "IsEpisodeEnd," +
-                "HasCollision");
+                "HasCollision," +
+                "ResourceConsumed," +
+                "ConsumedResourceType");
         }
 
         // Initialize episode data file header
@@ -179,7 +183,9 @@ public class ExperimentMetrics : MonoBehaviour
                 stepData.Count > 0 ? stepData[stepData.Count - 1].position : targetAgent.transform.position),
             action = action,
             isEpisodeEnd = isFinalStep,
-            hasCollision = targetAgent.countCollision > 0  // Record collision state for this step
+            hasCollision = targetAgent.countCollision > 0,
+            resourceConsumed = targetAgent.resourceConsumedInStep,  // Track if any resource was consumed
+            consumedResourceType = targetAgent.consumedResourceType  // Track which resource was consumed
         };
 
         // Add to step data list
@@ -203,7 +209,9 @@ public class ExperimentMetrics : MonoBehaviour
                     $"{step.reward:F2}," +
                     $"{step.distanceTraveled:F2}," +
                     $"{step.isEpisodeEnd}," +
-                    $"{step.hasCollision}");  // Add collision state to CSV
+                    $"{step.hasCollision}," +
+                    $"{step.resourceConsumed}," +
+                    $"{step.consumedResourceType}");
             }
         }
         catch (Exception e)
