@@ -1,5 +1,5 @@
 {
-        "floorSize": { "x": 50, "y": 1, "z": 50 },
+        "floorSize": { "x": 40, "y": 1, "z": 80 },
         "wallHeight": 5,
         "position": { "x": 0, "y": 0, "z": 0 },
         "floorMaterialName": "FloorMaterial-gray",

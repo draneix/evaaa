@@ -2,11 +2,13 @@
     "groups": [
         {
             "prefabName": "Food",
-            "count": 3,
+            "prefabLabel": "Food",
+            "resourceType": "Random",
+            "count": 1,
             "position": {
-                "xMin": -17, "xMax": -19,
+                "xMin": -15, "xMax": -15,
                 "yMin": 0.6, "yMax": 0.6,
-                "zMin": -11, "zMax": -12
+                "zMin": 30, "zMax": 30
             },
             "rotationRange": {
                 "x": 0, "y": 0, "z": 0
@@ -19,11 +21,13 @@
         },
         {
             "prefabName": "Water",
-            "count": 3,
+            "prefabLabel": "Water",
+            "resourceType": "Random",
+            "count": 1,
             "position": {
-                "xMin": -22, "xMax": -21,
+                "xMin": 15, "xMax": 15,
                 "yMin": 0.6, "yMax": 0.6,
-                "zMin": -20, "zMax": -19
+                "zMin": 30, "zMax": 30
             },
             "rotationRange": {
                 "x": 0, "y": 0, "z": 0
@@ -36,6 +40,8 @@
         },
         {
             "prefabName": "Pond",
+            "prefabLabel": "Pond",
+            "resourceType": "Static",
             "count": 0,
             "position": {
                 "xMin": -40, "xMax": -40,

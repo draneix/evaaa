@@ -180,12 +180,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   configFileName: courtConfig.json
-  floorMaterial: {fileID: 2100000, guid: 2df23e252e7d57c47962097934e48d0a, type: 2}
-  wallMaterial: {fileID: 2100000, guid: e6b9b44320f4448d9d5e0ee634259966, type: 2}
   courtConfig:
     floorSize: {x: 0, y: 0, z: 0}
     wallHeight: 0
     position: {x: 0, y: 0, z: 0}
+    floorMaterialName: 
+    wallMaterialName: 
 --- !u!1 &685796458
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,8 +279,13 @@ MonoBehaviour:
   mainConfigFileName: mainConfig.json
   mainConfig:
     configFolderName: 
-    recordingFolderName: 
-    recordEnable: 
+    recordingScreen:
+      recordingFolderName: 
+      recordEnable: 0
+    experimentData:
+      baseFolderName: 
+      fileNamePrefix: 
+      recordEnable: 0
   configFolderPath: 
 --- !u!1 &835159715
 GameObject:
@@ -454,6 +459,57 @@ MonoBehaviour:
   configFileName: predatorConfig.json
   predatorPrefab: {fileID: 7097910595545325753, guid: e5149582c6c03481398d1aead386b5dc,
     type: 3}
+--- !u!1 &999508549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999508550}
+  - component: {fileID: 999508551}
+  m_Layer: 0
+  m_Name: ExperimentMetrics
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &999508550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999508549}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1266033381}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &999508551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999508549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e52019462ee47cab377972df44e1e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experimentType: 
+  episodeNumber: 0
+  isActive: 1
+  targetAgent: {fileID: 0}
+  outputDirectory: ExperimentData
+  fileNamePrefix: experiment_
+  resourceOffered: 
 --- !u!114 &1126164668 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1539676751118379520, guid: 0338d45b34b8a42fc913b1916f8baec9,
@@ -502,6 +558,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1572892462}
+  - {fileID: 999508550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359072463
@@ -2646,6 +2703,7 @@ MonoBehaviour:
   heatMap: {fileID: 1926882518980410240}
   playRecorder: {fileID: 79528128}
   camareManager: {fileID: 1126164668}
+  experimentManager: {fileID: 0}
   singleTrial: 0
   initRandomAgentPosition: 0
   randomPositionRange:
@@ -2698,6 +2756,8 @@ MonoBehaviour:
   currentReward: 0
   countEV: 4
   resourceLevels: []
+  resourceConsumedInStep: 0
+  consumedResourceType: 
   foodLevelRange:
     min: -15
     max: 15
