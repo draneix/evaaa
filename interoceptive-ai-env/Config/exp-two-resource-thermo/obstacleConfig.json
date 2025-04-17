@@ -71,7 +71,7 @@
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 1,
-            "temperature": 10000.0,
+            "temperature": 20000.0,
             "padding": 2.0,
             "position": {
                 "xMin": 7, "xMax": 7,

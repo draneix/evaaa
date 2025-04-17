@@ -42,21 +42,16 @@ public class ExperimentMetrics : MonoBehaviour
     public class EpisodeData
     {
         public int episodeNumber;
-        public float initialFoodNeed;
-        public float initialWaterNeed;
-        public string resourceOffered;
-        public string resourceChosen;
-        public bool correctChoice;
         public int totalSteps;
         public float averageReward;
         public float maxReward;
         public float minReward;
+        public int foodConsumed;
+        public int waterConsumed;
         public float finalFoodLevel;
         public float finalWaterLevel;
         public float finalHealthLevel;
         public int collisions;
-        public int foodConsumed;
-        public int waterConsumed;
         public Dictionary<string, float> actionPercentages;
     }
 
@@ -75,14 +70,21 @@ public class ExperimentMetrics : MonoBehaviour
         episodeNumber = 1; // Start episode number from 1
     }
 
-    public void InitializeEpisode(string resourceOffered)
+    public void InitializeEpisode()
     {
         currentEpisode = new EpisodeData
         {
             episodeNumber = this.episodeNumber,
-            initialFoodNeed = targetAgent.resourceLevels[0],
-            initialWaterNeed = targetAgent.resourceLevels[1],
-            resourceOffered = resourceOffered,
+            totalSteps = 0,
+            averageReward = 0f,
+            maxReward = float.MinValue,
+            minReward = float.MaxValue,
+            foodConsumed = 0,
+            waterConsumed = 0,
+            finalFoodLevel = 0f,
+            finalWaterLevel = 0f,
+            finalHealthLevel = 0f,
+            collisions = 0,
             actionPercentages = new Dictionary<string, float>()
         };
     }
@@ -122,33 +124,37 @@ public class ExperimentMetrics : MonoBehaviour
         using (StreamWriter writer = new StreamWriter(Path.Combine(outputDirectory, episodeDataFileName)))
         {
             writer.WriteLine("Episode," +
-                "Need_Food," +
-                "Need_Water," +
-                "Offered," +
-                "Chosen," +
-                "Correct," +
                 "TotalSteps," +
                 "AvgReward," +
                 "MaxReward," +
                 "MinReward," +
-                "FinalFood," +
-                "FinalWater," +
-                "FinalHealth," +
-                "Collisions," +
                 "FoodConsumed," +
                 "WaterConsumed," +
+                "FinalFoodLevel," +
+                "FinalWaterLevel," +
+                "FinalHealthLevel," +
+                "Collisions," +
+                "None%," +
                 "Forward%," +
-                "Backward%," +
                 "Left%," +
                 "Right%," +
-                "Eat%," +
-                "Drink%");
+                "Eat%");
         }
 
         // Initialize current episode data
         currentEpisode = new EpisodeData
         {
             episodeNumber = this.episodeNumber,
+            totalSteps = 0,
+            averageReward = 0f,
+            maxReward = float.MinValue,
+            minReward = float.MaxValue,
+            foodConsumed = 0,
+            waterConsumed = 0,
+            finalFoodLevel = 0f,
+            finalWaterLevel = 0f,
+            finalHealthLevel = 0f,
+            collisions = 0,
             actionPercentages = new Dictionary<string, float>()
         };
     }
@@ -249,31 +255,25 @@ public class ExperimentMetrics : MonoBehaviour
             {
                 if (!fileExists)
                 {
-                    writer.WriteLine("Episode,Need_Food,Need_Water,Offered,Chosen,Correct,TotalSteps,AvgReward,MaxReward,MinReward,FinalFood,FinalWater,FinalHealth,Collisions,FoodConsumed,WaterConsumed,Forward%,Backward%,Left%,Right%,Eat%,Drink%");
+                    writer.WriteLine("Episode,TotalSteps,AvgReward,MaxReward,MinReward,FoodConsumed,WaterConsumed,FinalFoodLevel,FinalWaterLevel,FinalHealthLevel,Collisions,None%,Forward%,Left%,Right%,Eat%");
                 }
 
                 writer.WriteLine($"{currentEpisode.episodeNumber}," +
-                    $"{currentEpisode.initialFoodNeed}," +
-                    $"{currentEpisode.initialWaterNeed}," +
-                    $"{currentEpisode.resourceOffered}," +
-                    $"{currentEpisode.resourceChosen}," +
-                    $"{currentEpisode.correctChoice}," +
                     $"{currentEpisode.totalSteps}," +
                     $"{currentEpisode.averageReward:F2}," +
                     $"{currentEpisode.maxReward:F2}," +
                     $"{currentEpisode.minReward:F2}," +
+                    $"{currentEpisode.foodConsumed}," +
+                    $"{currentEpisode.waterConsumed}," +
                     $"{currentEpisode.finalFoodLevel:F2}," +
                     $"{currentEpisode.finalWaterLevel:F2}," +
                     $"{currentEpisode.finalHealthLevel:F2}," +
                     $"{currentEpisode.collisions}," +
-                    $"{currentEpisode.foodConsumed}," +
-                    $"{currentEpisode.waterConsumed}," +
+                    $"{GetActionPercentage("None"):F2}," +
                     $"{GetActionPercentage("Forward"):F2}," +
-                    $"{GetActionPercentage("Backward"):F2}," +
                     $"{GetActionPercentage("Left"):F2}," +
                     $"{GetActionPercentage("Right"):F2}," +
-                    $"{GetActionPercentage("Eat"):F2}," +
-                    $"{GetActionPercentage("Drink"):F2}");
+                    $"{GetActionPercentage("Eat"):F2}");
             }
         }
         catch (Exception e)

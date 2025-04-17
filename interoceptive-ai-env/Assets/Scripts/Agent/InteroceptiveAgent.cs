@@ -485,7 +485,7 @@ public class InteroceptiveAgent : Agent
         {
                 countFood = 0.0f;
                 countWater = 0.0f;
-                countCollision = 0.0f;
+                // countCollision = 0.0f;
 
                 if (playRecorder.GetComponent<CaptureScreenShot>().recordEnable)
                 {

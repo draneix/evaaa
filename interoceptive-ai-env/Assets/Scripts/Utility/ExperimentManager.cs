@@ -82,11 +82,9 @@ public class ExperimentManager : MonoBehaviour
     {
         if (metrics != null)
         {
-            // Increment episode number at the start of each episode
             episodeNumber++;
             metrics.episodeNumber = episodeNumber;
-            
-            metrics.InitializeEpisode(resourceOffered);
+            metrics.InitializeEpisode();
             metrics.ResetMetrics();
         }
     }
@@ -95,9 +93,8 @@ public class ExperimentManager : MonoBehaviour
     {
         if (metrics != null)
         {
-            metrics.currentEpisode.resourceChosen = resourceChosen;
-            metrics.currentEpisode.correctChoice = resourceChosen == resourceOffered;
-            // metrics.currentEpisode.decisionStep = metrics.stepData.Count;
+            // No longer tracking resource choice and correctness
+            metrics.RecordStep();
         }
     }
 
