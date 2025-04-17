@@ -85,9 +85,15 @@ public class ConfigLoader : MonoBehaviour
 public class MainConfig
 {
     public string configFolderName;
-    public string recordingFolderName;
-    public string recordEnable;
+    public RecordingScreen recordingScreen;
     public ExperimentData experimentData;
+}
+
+[System.Serializable]
+public class RecordingScreen
+{
+    public string recordingFolderName;
+    public bool recordEnable;
 }
 
 [System.Serializable]
@@ -95,4 +101,5 @@ public class ExperimentData
 {
     public string baseFolderName;
     public string fileNamePrefix;
+    public bool recordEnable;
 }

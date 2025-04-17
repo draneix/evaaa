@@ -16,50 +16,38 @@ public class CaptureScreenShot : MonoBehaviour
                 Academy.Instance.OnEnvironmentReset += SetParameters;
         }
 
-        // Use this for initialization
-        void Start()
+        public void Initialize()
         {
-                // SetParameters();
-                // Setting parameters from python
                 m_ResetParams = Academy.Instance.EnvironmentParameters;
 
                 ConfigLoader configLoader = FindObjectOfType<ConfigLoader>();
                 if (configLoader != null)
                 {
-                mainConfig = configLoader.mainConfig;
-                if (mainConfig != null)
-                {
-                        if (!string.IsNullOrEmpty(mainConfig.recordingFolderName))
+                        mainConfig = configLoader.mainConfig;
+                        if (mainConfig != null)
                         {
-                                recordingFolderName = mainConfig.recordingFolderName;
-                                Debug.Log("mainConfig.recordingFolderName: " + mainConfig.recordingFolderName);
-                        }
-                        else{
-                                recordingFolderName = "SampleRecordings";
-                                Debug.Log("Use default recordingFolderName: " + recordingFolderName);
-                        }
-                        if (!string.IsNullOrEmpty(mainConfig.recordEnable))
-                        {
-                                // The mainConfig.recordEnable is string, which need to be transformed to bool
-                                recordEnable = System.Convert.ToBoolean(mainConfig.recordEnable);
+                                if (!string.IsNullOrEmpty(mainConfig.recordingScreen.recordingFolderName))
+                                {
+                                        recordingFolderName = mainConfig.recordingScreen.recordingFolderName;
+                                        Debug.Log("mainConfig.recordingScreen.recordingFolderName: " + mainConfig.recordingScreen.recordingFolderName);
+                                }
+                                else
+                                {
+                                        recordingFolderName = "SampleRecordings";
+                                        Debug.Log("Use default recordingFolderName: " + recordingFolderName);
+                                }
 
-                                // recordEnable = mainConfig.recordEnable;
-                                Debug.Log("Use mainConfig.recordEnable: " + recordEnable);
+                                recordEnable = mainConfig.recordingScreen.recordEnable;
+                                Debug.Log("Use mainConfig.recordingScreen.recordEnable: " + recordEnable);
                         }
                         else
                         {
-                                recordEnable = System.Convert.ToBoolean(m_ResetParams.GetWithDefault("recordEnable", 0));
-                                Debug.Log("Use m_ResetParams.GetWithDefault: " + recordEnable);
+                                Debug.LogError("mainConfig is null.");
                         }
                 }
                 else
                 {
-                        Debug.LogError("mainConfig is null.");
-                }
-                }
-                else
-                {
-                Debug.LogError("ConfigLoader not found.");
+                        Debug.LogError("ConfigLoader not found.");
                 }
 
                 if (recordEnable)

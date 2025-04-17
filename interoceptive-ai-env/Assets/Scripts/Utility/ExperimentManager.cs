@@ -11,6 +11,7 @@ public class ExperimentManager : MonoBehaviour
     public int episodeNumber;
     public bool isActive = true;
     public InteroceptiveAgent targetAgent;
+    private bool recordEnable;
 
     [Header("Metrics Configuration")]
     public string outputDirectory = "ExperimentData";
@@ -28,6 +29,18 @@ public class ExperimentManager : MonoBehaviour
         {
             metrics = gameObject.AddComponent<ExperimentMetrics>();
         }
+
+        // Get ConfigLoader and mainConfig
+        ConfigLoader configLoader = FindObjectOfType<ConfigLoader>();
+        if (configLoader != null)
+        {
+            var mainConfig = configLoader.mainConfig;
+            if (mainConfig != null)
+            {
+                recordEnable = mainConfig.experimentData.recordEnable;
+            }
+        }
+
         metrics.Initialize(agent);
         episodeNumber = 0; // Start episode number from 0
         metrics.episodeNumber = episodeNumber;

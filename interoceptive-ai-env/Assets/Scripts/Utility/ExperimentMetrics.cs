@@ -11,6 +11,7 @@ public class ExperimentMetrics : MonoBehaviour
     public int episodeNumber;
     public bool isActive = true;
     public InteroceptiveAgent targetAgent;
+    private bool recordEnable;
 
     [Header("Step-level Metrics")]
     public List<StepData> stepData = new List<StepData>();
@@ -80,6 +81,7 @@ public class ExperimentMetrics : MonoBehaviour
             {
                 baseFolderName = mainConfig.experimentData.baseFolderName;
                 fileNamePrefix = mainConfig.experimentData.fileNamePrefix;
+                recordEnable = mainConfig.experimentData.recordEnable;
                 // Debug.Log($"ExperimentMetrics: Using baseFolderName={baseFolderName}, fileNamePrefix={fileNamePrefix}");
             }
             else
@@ -96,17 +98,20 @@ public class ExperimentMetrics : MonoBehaviour
             return;
         }
 
-        // Create timestamp-based directory structure
-        string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
-        outputDirectory = Path.Combine(Application.dataPath, "..",  baseFolderName);
-        Debug.Log($"ExperimentMetrics: Using outputDirectory={outputDirectory}");
-        
-        if (!Directory.Exists(outputDirectory))
+        if (recordEnable)
         {
-            Directory.CreateDirectory(outputDirectory);
-        }
+            // Create timestamp-based directory structure
+            string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            outputDirectory = Path.Combine(Application.dataPath, "..",  baseFolderName);
+            Debug.Log($"ExperimentMetrics: Using outputDirectory={outputDirectory}");
+            
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
 
-        InitializeDataFiles();
+            InitializeDataFiles();
+        }
         isActive = true;
         episodeNumber = 1; // Start episode number from 1
     }
@@ -133,6 +138,8 @@ public class ExperimentMetrics : MonoBehaviour
 
     private void InitializeDataFiles()
     {
+        if (!recordEnable) return;
+
         // Generate filenames with timestamp
         string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
         stepDataFileName = Path.Combine(outputDirectory, $"{fileNamePrefix}{experimentType}_steps_{timestamp}.csv");
@@ -226,32 +233,35 @@ public class ExperimentMetrics : MonoBehaviour
         // Add to step data list
         stepData.Add(step);
 
-        // Write to step data file immediately
-        try
+        if (recordEnable)
         {
-            using (StreamWriter writer = new StreamWriter(stepDataFileName, true))
+            // Write to step data file immediately
+            try
             {
-                writer.WriteLine($"{episodeNumber}," +
-                    $"{step.stepNumber}," +
-                    $"{step.foodLevel:F2}," +
-                    $"{step.waterLevel:F2}," +
-                    $"{step.thermoLevel:F2}," +
-                    $"{step.healthLevel:F2}," +
-                    $"{step.position.x:F2}," +
-                    $"{step.position.y:F2}," +
-                    $"{step.position.z:F2}," +
-                    $"{step.action}," +
-                    $"{step.reward:F2}," +
-                    $"{step.distanceTraveled:F2}," +
-                    $"{step.isEpisodeEnd}," +
-                    $"{step.hasCollision}," +
-                    $"{step.resourceConsumed}," +
-                    $"{step.consumedResourceType}");
+                using (StreamWriter writer = new StreamWriter(stepDataFileName, true))
+                {
+                    writer.WriteLine($"{episodeNumber}," +
+                        $"{step.stepNumber}," +
+                        $"{step.foodLevel:F2}," +
+                        $"{step.waterLevel:F2}," +
+                        $"{step.thermoLevel:F2}," +
+                        $"{step.healthLevel:F2}," +
+                        $"{step.position.x:F2}," +
+                        $"{step.position.y:F2}," +
+                        $"{step.position.z:F2}," +
+                        $"{step.action}," +
+                        $"{step.reward:F2}," +
+                        $"{step.distanceTraveled:F2}," +
+                        $"{step.isEpisodeEnd}," +
+                        $"{step.hasCollision}," +
+                        $"{step.resourceConsumed}," +
+                        $"{step.consumedResourceType}");
+                }
             }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError($"Error writing step data: {e.Message}");
+            catch (Exception e)
+            {
+                Debug.LogError($"Error writing step data: {e.Message}");
+            }
         }
     }
 
@@ -291,7 +301,7 @@ public class ExperimentMetrics : MonoBehaviour
 
     public void ExportEpisodeSummary()
     {
-        if (!isActive) return;
+        if (!isActive || !recordEnable) return;
 
         try
         {
@@ -409,5 +419,6 @@ public class ExperimentMetrics : MonoBehaviour
     {
         public string baseFolderName;
         public string fileNamePrefix;
+        public bool recordEnable;
     }
 } 

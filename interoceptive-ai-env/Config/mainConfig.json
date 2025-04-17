@@ -1,8 +1,12 @@
 {
-    "configFolderName": "train-level-3.2-Exploration",
-    "recordingFolderName": "SampleRecording-debug",
-    "recordEnable": "false",
+    "configFolderName": "exp-two-resource-food",
+    "recordingScreen":
+    {
+        "recordEnable": "true",
+        "recordingFolderName": "SampleRecording-debug"
+    },
     "experimentData": {
+        "recordEnable": "true",
         "baseFolderName": "Data",
         "fileNamePrefix": "model-L11-exp-two-resource-food"
     }

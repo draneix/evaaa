@@ -17,6 +17,7 @@ public class MasterInitializer : MonoBehaviour
     public HeatMap heatMap;
     public DayAndNight dayAndNight;
     public AgentFollowCamera agentFollowCamera;
+    // public CaptureScreenShot captureScreenShot;
 
     private void Start()
     {
@@ -167,6 +168,18 @@ public class MasterInitializer : MonoBehaviour
         else
         {
             Debug.LogWarning("ExperimentManager not found in the scene. Experiment metrics will not be recorded.");
+        }
+
+        CaptureScreenShot captureScreenShot = FindObjectOfType<CaptureScreenShot>();
+        // Initialize screen capture system
+        if (captureScreenShot != null)
+        {
+            captureScreenShot.Initialize();
+            Debug.Log("MasterInitializer: CaptureScreenShot initialized.");
+        }
+        else
+        {
+            Debug.LogError("CaptureScreenShot is not assigned.");
         }
 
         // Initialize other systems...
