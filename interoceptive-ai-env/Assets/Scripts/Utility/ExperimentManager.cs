@@ -9,6 +9,7 @@ public class ExperimentManager : MonoBehaviour
     [Header("Experiment Configuration")]
     public string experimentType;
     public int episodeNumber;
+    public bool isActive = true;
     public InteroceptiveAgent targetAgent;
 
     [Header("Metrics Configuration")]
@@ -17,6 +18,7 @@ public class ExperimentManager : MonoBehaviour
     public string resourceOffered = "";
 
     private ExperimentMetrics metrics;
+    private string currentAction;  // Store the current action
 
     public void Initialize(InteroceptiveAgent agent)
     {
@@ -33,10 +35,20 @@ public class ExperimentManager : MonoBehaviour
 
     public void RecordAction(string action)
     {
+        if (!isActive) return;
+        currentAction = action;  // Store the action
         if (metrics != null)
         {
             metrics.RecordAction(action);
-            metrics.RecordStep(action); // Record the step with the action
+        }
+    }
+
+    public void RecordStep()
+    {
+        if (!isActive) return;
+        if (metrics != null)
+        {
+            metrics.RecordStep(currentAction);  // Use the stored action
         }
     }
 
@@ -68,9 +80,10 @@ public class ExperimentManager : MonoBehaviour
 
     public void RecordFinalStep()
     {
+        if (!isActive) return;
         if (metrics != null)
         {
-            metrics.CalculateFinalMetrics();
+            metrics.RecordFinalStep(currentAction);  // Use the stored action
         }
     }
 

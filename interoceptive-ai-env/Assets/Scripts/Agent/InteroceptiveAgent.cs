@@ -530,6 +530,7 @@ public class InteroceptiveAgent : Agent
                         {
                                 if (experimentManager != null)
                                 {
+                                        experimentManager.RecordFinalStep();
                                         experimentManager.OnEpisodeEnd();
                                 }
                                 EndEpisode();
@@ -602,8 +603,8 @@ public class InteroceptiveAgent : Agent
                                 4 => "Eat",
                                 _ => "Unknown"
                         };
-                        experimentManager.RecordAction($"Move_{actionName}");
-                        // experimentManager.RecordStep(); // Record the step after all updates
+                        experimentManager.RecordAction(actionName);
+                        experimentManager.RecordStep(); // Record the step after all updates
                 }
 
                 // Synchronize Predator's action
