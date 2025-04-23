@@ -71,83 +71,19 @@
         {
             "prefabName": "SM_campfire_001_AmbienceFX",
             "count": 1,
-            "temperature": 10000.0,
-            "padding": 0.0,
+            "temperature": 40000.0,
+            "padding": 2.0,
             "position": {
-              "xMin": -8.5,
-              "xMax": -8.5,
-              "yMin": 0.5,
-              "yMax": 0.5,
-              "zMin": -5.0,
-              "zMax": -5.0
+                "xMin": 7, "xMax": 7,
+                "yMin": 0.5, "yMax": 0.5,
+                "zMin": 7, "zMax": 7
             },
-            "rotationRange": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            },
+            "rotationRange": { "x": 0, "y": 360, "z": 0 },
             "scaleRange": {
-              "xMin": 1.5,
-              "xMax": 1.5,
-              "yMin": 1.5,
-              "yMax": 1.5,
-              "zMin": 1.5,
-              "zMax": 1.5
+                "xMin": 3, "xMax": 3,
+                "yMin": 3, "yMax": 3,
+                "zMin": 3, "zMax": 3
             }
-          },
-          {
-            "prefabName": "SM_campfire_001_AmbienceFX",
-            "count": 1,
-            "temperature": 10000.0,
-            "padding": 0.0,
-            "position": {
-              "xMin": -13.0,
-              "xMax": -13.0,
-              "yMin": 0.5,
-              "yMax": 0.5,
-              "zMin": -5.0,
-              "zMax": -5.0
-            },
-            "rotationRange": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            },
-            "scaleRange": {
-              "xMin": 1.5,
-              "xMax": 1.5,
-              "yMin": 1.5,
-              "yMax": 1.5,
-              "zMin": 1.5,
-              "zMax": 1.5
-            }
-          },
-          {
-            "prefabName": "SM_campfire_001_AmbienceFX",
-            "count": 1,
-            "temperature": 10000.0,
-            "padding": 0.0,
-            "position": {
-              "xMin": -3.7,
-              "xMax": -3.7,
-              "yMin": 0.5,
-              "yMax": 0.5,
-              "zMin": -5.0,
-              "zMax": -5.0
-            },
-            "rotationRange": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            },
-            "scaleRange": {
-              "xMin": 1.5,
-              "xMax": 1.5,
-              "yMin": 1.5,
-              "yMax": 1.5,
-              "zMin": 1.5,
-              "zMax": 1.5
-            }
-          }
+        }
     ]
 }
