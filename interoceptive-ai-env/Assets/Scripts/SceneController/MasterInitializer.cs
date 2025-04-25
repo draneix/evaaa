@@ -170,6 +170,18 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogWarning("ExperimentManager not found in the scene. Experiment metrics will not be recorded.");
         }
 
+        // Initialize the event system
+        EventManager eventManager = FindObjectOfType<EventManager>();
+        if (eventManager != null)
+        {
+            eventManager.InitializeEventManager(configLoader);
+            Debug.Log("MasterInitializer: EventManager initialized.");
+        }
+        else
+        {
+            Debug.LogWarning("EventManager not found in the scene. Event system will not be available.");
+        }
+
         CaptureScreenShot captureScreenShot = FindObjectOfType<CaptureScreenShot>();
         // Initialize screen capture system
         if (captureScreenShot != null)

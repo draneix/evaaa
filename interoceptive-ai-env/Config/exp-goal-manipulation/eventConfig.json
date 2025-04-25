@@ -1,0 +1,28 @@
+{
+    "groups": [
+        {
+            "name": "MessageTrigger",
+            "triggerTag": "message",
+            "targetTag": "player",
+            "maxCount": 3,
+            "position": { "x": -13.0, "y": -0.5, "z": 4.1 },
+            "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 1.0, "y": 7.0, "z": 10.0 },
+            "foodValue": 0.0,
+            "waterValue": 0.0,
+            "message": "Event triggered!"
+        },
+        {
+            "name": "ResourceTrigger",
+            "triggerTag": "resource",
+            "targetTag": "player",
+            "maxCount": 1,
+            "position": { "x": -13.0, "y": -0.5, "z": 4.1 },
+            "rotation": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "scale": { "x": 1.0, "y": 7.0, "z": 10.0 },
+            "foodValue": 7.0,
+            "waterValue": -7.0,
+            "message": ""
+        }
+    ]
+} 
