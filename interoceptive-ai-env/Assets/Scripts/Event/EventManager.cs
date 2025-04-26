@@ -28,9 +28,13 @@ public class EventManager : MonoBehaviour
     public string configFileName = "eventConfig.json";
     private EventConfig config;
     private List<GameObject> spawnedTriggers = new List<GameObject>();
+    private ConfigLoader configLoader;
+    private int messageCount = 0;
+    private int resourceCount = 0;
 
-    public void InitializeEventManager(ConfigLoader configLoader)
+    public void InitializeEventManager(ConfigLoader loader)
     {
+        configLoader = loader;
         if (configLoader == null)
         {
             Debug.LogError("ConfigLoader is not assigned.");
@@ -129,6 +133,13 @@ public class EventManager : MonoBehaviour
         if (group != null)
         {
             Debug.Log($"[{obj.name}]: {group.message}");
+            
+            // Record the event in metrics
+            var agent = obj.GetComponent<InteroceptiveAgent>();
+            if (agent != null && agent.experimentManager != null)
+            {
+                agent.experimentManager.RecordEvent("message");
+            }
         }
     }
 
@@ -144,6 +155,12 @@ public class EventManager : MonoBehaviour
                 agent.resourceLevels[0] = Mathf.Clamp(group.foodValue, agent.foodLevelRange.min, agent.foodLevelRange.max);
                 agent.resourceLevels[1] = Mathf.Clamp(group.waterValue, agent.waterLevelRange.min, agent.waterLevelRange.max);
                 Debug.Log($"[Resource] Set {obj.name}: Food={group.foodValue}, Water={group.waterValue}");
+                
+                // Record the event in metrics
+                if (agent.experimentManager != null)
+                {
+                    agent.experimentManager.RecordEvent("resource");
+                }
             }
         }
     }
@@ -164,5 +181,26 @@ public class EventManager : MonoBehaviour
     private void OnDestroy()
     {
         ClearTriggers();
+    }
+
+    public void ResetEventManager()
+    {
+        // Reset event counts
+        messageCount = 0;
+        resourceCount = 0;
+
+        // Clear all event handlers
+        GameEventSystem.ClearAllEventHandlers();
+
+        // Reinitialize with current configuration
+        if (configLoader != null)
+        {
+            InitializeEventManager(configLoader);
+            Debug.Log("EventManager: Reset and reinitialized with current configuration.");
+        }
+        else
+        {
+            Debug.LogWarning("EventManager: Cannot reset - ConfigLoader is null.");
+        }
     }
 } 

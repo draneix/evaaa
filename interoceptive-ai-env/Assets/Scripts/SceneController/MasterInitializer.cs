@@ -242,7 +242,19 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("HeatMap is not assigned.");
         }
 
-        // Step 5: Resume the Academy/Agent updates
+        // Step 5: Reset Event System
+        EventManager eventManager = FindObjectOfType<EventManager>();
+        if (eventManager != null)
+        {
+            eventManager.ResetEventManager();
+            Debug.Log("MasterInitializer: Event system reset.");
+        }
+        else
+        {
+            Debug.LogWarning("EventManager not found in the scene. Event system will not be reset.");
+        }
+
+        // Step 6: Resume the Academy/Agent updates
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene reset complete, ML-Agents enabled.");
     }

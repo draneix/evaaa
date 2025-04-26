@@ -160,4 +160,14 @@ public class ExperimentManager : MonoBehaviour
             metrics.currentEpisode.episodeEndType = endType;
         }
     }
+
+    public void RecordEvent(string eventType)
+    {
+        if (!isActive) return;
+        if (metrics != null)
+        {
+            metrics.RecordEvent(eventType);
+            Debug.Log($"ExperimentManager: Recorded event '{eventType}'");
+        }
+    }
 }

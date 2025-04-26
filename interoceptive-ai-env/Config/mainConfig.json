@@ -6,8 +6,8 @@
         "recordingFolderName": "SampleRecording-debug"
     },
     "experimentData": {
-        "recordEnable": "false",
+        "recordEnable": "true",
         "baseFolderName": "Data",
-        "fileNamePrefix": "model-L11-exp-two-resource-food"
+        "fileNamePrefix": "exp-goal-manipulation"
     }
 }

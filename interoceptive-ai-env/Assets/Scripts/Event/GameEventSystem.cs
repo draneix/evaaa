@@ -74,4 +74,12 @@ public static class GameEventSystem
     {
         return counts.TryGetValue(triggerTag, out int count) ? count : 0;
     }
+
+    public static void ClearAllEventHandlers()
+    {
+        events.Clear();
+        counts.Clear();
+        maxCounts.Clear();
+        Debug.Log("GameEventSystem: All event handlers cleared.");
+    }
 } 

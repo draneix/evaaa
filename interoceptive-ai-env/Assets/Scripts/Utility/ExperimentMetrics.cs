@@ -28,6 +28,10 @@ public class ExperimentMetrics : MonoBehaviour
     private string fileNamePrefix;
     private MainConfig mainConfig;
 
+    // Track event data
+    private HashSet<string> eventTypesInEpisode = new HashSet<string>();
+    private int totalEventsInEpisode = 0;
+
     public class StepData
     {
         public int stepNumber;
@@ -39,10 +43,13 @@ public class ExperimentMetrics : MonoBehaviour
         public string action;
         public float reward;
         public float distanceTraveled;
-        public bool isEpisodeEnd;  // Flag to indicate if this step ended the episode
-        public bool hasCollision;  // New field to track collision in each step
-        public bool resourceConsumed;  // New field to track if any resource was consumed in this step
-        public string consumedResourceType;  // Track which resource was consumed (using actual tag from eatenResourceTag)
+        public bool isEpisodeEnd;
+        public bool hasCollision;
+        public bool resourceConsumed;
+        public string consumedResourceType;
+        // New event-related fields
+        public bool hasEvent;
+        public string eventType;
     }
 
     public class EpisodeData
@@ -59,7 +66,10 @@ public class ExperimentMetrics : MonoBehaviour
         public float finalHealthLevel;
         public int collisions;
         public Dictionary<string, float> actionPercentages;
-        public string episodeEndType;  // Track how the episode ended
+        public string episodeEndType;
+        // New event-related fields
+        public int totalEvents;
+        public int uniqueEventTypes;
     }
 
     public void Initialize(InteroceptiveAgent agent)
@@ -132,7 +142,9 @@ public class ExperimentMetrics : MonoBehaviour
             finalHealthLevel = 0f,
             collisions = 0,
             actionPercentages = new Dictionary<string, float>(),
-            episodeEndType = "Unknown"  // Initialize with unknown
+            episodeEndType = "Unknown",
+            totalEvents = 0,
+            uniqueEventTypes = 0
         };
     }
 
@@ -163,7 +175,9 @@ public class ExperimentMetrics : MonoBehaviour
                 "IsEpisodeEnd," +
                 "HasCollision," +
                 "ResourceConsumed," +
-                "ConsumedResourceType");
+                "ConsumedResourceType," +
+                "HasEvent," +
+                "EventType");
         }
 
         // Initialize episode data file header
@@ -185,7 +199,9 @@ public class ExperimentMetrics : MonoBehaviour
                 "Left%," +
                 "Right%," +
                 "Eat%," +
-                "EpisodeEndType");
+                "EpisodeEndType," +
+                "TotalEvents," +
+                "UniqueEventTypes");
         }
 
         // Initialize current episode data
@@ -203,13 +219,21 @@ public class ExperimentMetrics : MonoBehaviour
             finalHealthLevel = 0f,
             collisions = 0,
             actionPercentages = new Dictionary<string, float>(),
-            episodeEndType = "Unknown"  // Initialize with unknown
+            episodeEndType = "Unknown",
+            totalEvents = 0,
+            uniqueEventTypes = 0
         };
     }
 
-    private void RecordStepInternal(string action, bool isFinalStep)
+    private void RecordStepInternal(string action, bool isFinalStep, bool hasEvent = false, string eventType = "")
     {
         if (!isActive || targetAgent == null) return;
+
+        // Ensure currentEpisode is initialized
+        if (currentEpisode == null)
+        {
+            InitializeEpisode();
+        }
 
         // Create new step data
         StepData step = new StepData
@@ -226,12 +250,17 @@ public class ExperimentMetrics : MonoBehaviour
             action = action,
             isEpisodeEnd = isFinalStep,
             hasCollision = targetAgent.countCollision > 0,
-            resourceConsumed = targetAgent.resourceConsumedInStep,  // Track if any resource was consumed
-            consumedResourceType = targetAgent.consumedResourceType  // Track which resource was consumed
+            resourceConsumed = targetAgent.resourceConsumedInStep,
+            consumedResourceType = targetAgent.consumedResourceType,
+            hasEvent = hasEvent,
+            eventType = eventType
         };
 
         // Add to step data list
         stepData.Add(step);
+
+        // Update episode step count
+        currentEpisode.totalSteps++;
 
         if (recordEnable)
         {
@@ -255,13 +284,43 @@ public class ExperimentMetrics : MonoBehaviour
                         $"{step.isEpisodeEnd}," +
                         $"{step.hasCollision}," +
                         $"{step.resourceConsumed}," +
-                        $"{step.consumedResourceType}");
+                        $"{step.consumedResourceType}," +
+                        $"{step.hasEvent}," +
+                        $"{step.eventType}");
+                }
+
+                // Debug log for events
+                if (hasEvent)
+                {
+                    Debug.Log($"ExperimentMetrics: Recorded event '{eventType}' at step {step.stepNumber}");
                 }
             }
             catch (Exception e)
             {
                 Debug.LogError($"Error writing step data: {e.Message}");
             }
+        }
+    }
+
+    public void RecordEvent(string eventType)
+    {
+        if (!isActive) return;
+
+        // Record the event in the current step
+        RecordStepInternal("", false, true, eventType);
+
+        // Update episode-level event tracking
+        totalEventsInEpisode++;
+        eventTypesInEpisode.Add(eventType);
+
+        // Debug log
+        Debug.Log($"ExperimentMetrics: Event '{eventType}' recorded. Total events in episode: {totalEventsInEpisode}, Unique event types: {eventTypesInEpisode.Count}");
+
+        // Update current episode data immediately
+        if (currentEpisode != null)
+        {
+            currentEpisode.totalEvents = totalEventsInEpisode;
+            currentEpisode.uniqueEventTypes = eventTypesInEpisode.Count;
         }
     }
 
@@ -278,6 +337,12 @@ public class ExperimentMetrics : MonoBehaviour
     public void RecordAction(string action)
     {
         if (!isActive) return;
+
+        // Ensure currentEpisode is initialized
+        if (currentEpisode == null)
+        {
+            InitializeEpisode();
+        }
 
         // Update action counts for current episode
         if (!currentEpisode.actionPercentages.ContainsKey(action))
@@ -303,18 +368,15 @@ public class ExperimentMetrics : MonoBehaviour
     {
         if (!isActive || !recordEnable) return;
 
+        // Update episode data with event information
+        currentEpisode.totalEvents = totalEventsInEpisode;
+        currentEpisode.uniqueEventTypes = eventTypesInEpisode.Count;
+
+        // Write to episode data file
         try
         {
-            string episodeSummaryPath = episodeDataFileName;
-            bool fileExists = File.Exists(episodeSummaryPath);
-
-            using (StreamWriter writer = new StreamWriter(episodeSummaryPath, true))
+            using (StreamWriter writer = new StreamWriter(episodeDataFileName, true))
             {
-                if (!fileExists)
-                {
-                    writer.WriteLine("Episode,TotalSteps,AvgReward,MaxReward,MinReward,FoodConsumed,WaterConsumed,FinalFoodLevel,FinalWaterLevel,FinalHealthLevel,Collisions,None%,Forward%,Left%,Right%,Eat%,EpisodeEndType");
-                }
-
                 writer.WriteLine($"{currentEpisode.episodeNumber}," +
                     $"{currentEpisode.totalSteps}," +
                     $"{currentEpisode.averageReward:F2}," +
@@ -331,13 +393,21 @@ public class ExperimentMetrics : MonoBehaviour
                     $"{GetActionPercentage("Left"):F2}," +
                     $"{GetActionPercentage("Right"):F2}," +
                     $"{GetActionPercentage("Eat"):F2}," +
-                    $"{currentEpisode.episodeEndType}");
+                    $"{currentEpisode.episodeEndType}," +
+                    $"{currentEpisode.totalEvents}," +
+                    $"{currentEpisode.uniqueEventTypes}");
+
+                Debug.Log($"ExperimentMetrics: Exported episode {currentEpisode.episodeNumber} summary with {currentEpisode.totalEvents} total events and {currentEpisode.uniqueEventTypes} unique event types.");
             }
         }
         catch (Exception e)
         {
-            Debug.LogError($"Error exporting episode summary: {e.Message}");
+            Debug.LogError($"Error writing episode data: {e.Message}");
         }
+
+        // Reset event tracking for next episode
+        totalEventsInEpisode = 0;
+        eventTypesInEpisode.Clear();
     }
 
     public void CalculateFinalMetrics()
@@ -385,15 +455,12 @@ public class ExperimentMetrics : MonoBehaviour
 
     public void ResetMetrics()
     {
-        // Clear step data
         stepData.Clear();
-
-        // Initialize new episode data
-        currentEpisode = new EpisodeData
-        {
-            episodeNumber = this.episodeNumber,
-            actionPercentages = new Dictionary<string, float>()
-        };
+        episodeData.Clear();
+        currentEpisode = null;
+        totalEventsInEpisode = 0;
+        eventTypesInEpisode.Clear();
+        episodeNumber = 1;
     }
 
     public void RecordFoodConsumed()
