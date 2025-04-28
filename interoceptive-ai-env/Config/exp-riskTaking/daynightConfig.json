@@ -9,5 +9,6 @@
         "nightTemperatureChange": -15,
         "dayFarClip": 1000,
         "nightFarClip": 500,
-        "farClipTransitionSpeed": 5
+        "farClipTransitionSpeed": 5,
+        "randomSunAngle": false
 }

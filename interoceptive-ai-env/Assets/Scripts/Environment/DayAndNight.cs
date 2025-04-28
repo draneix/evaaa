@@ -47,6 +47,12 @@ public class DayAndNight : MonoBehaviour
     public float farClipTransitionSpeed;
     private float targetFarClip;
 
+    [Header("Skybox Settings")]
+    public Material daySkybox;
+    public Material nightSkybox;
+    public Color daySkyboxTint = Color.white;
+    public Color nightSkyboxTint = Color.gray;
+
     private ConfigLoader configLoader; // Reference to ConfigLoader
 
     public void InitializeDayAndNight(ConfigLoader loader)
@@ -57,12 +63,6 @@ public class DayAndNight : MonoBehaviour
             Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
             return;
         }
-
-        // Randomize the sun's initial angle (x-axis rotation)
-        float randomAngle = Random.Range(0f, 360f);
-        Vector3 currentEuler = transform.eulerAngles;
-        transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
-        eulerAnglesSun = randomAngle;
 
         LoadConfig();
     }
@@ -83,7 +83,7 @@ public class DayAndNight : MonoBehaviour
             return;
         }
 
-        // Apply the loaded configuration
+        // Use the loaded configuration
         daySpeed = config.daySpeed;
         nightSpeed = config.nightSpeed;
         fogChangeSpeed = config.fogChangeSpeed;
@@ -96,6 +96,14 @@ public class DayAndNight : MonoBehaviour
         dayFarClip = config.dayFarClip;
         nightFarClip = config.nightFarClip;
         farClipTransitionSpeed = config.farClipTransitionSpeed;
+
+        if (config.randomSunAngle)
+        {
+            float randomAngle = Random.Range(0f, 360f);
+            Vector3 currentEuler = transform.eulerAngles;
+            transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
+            eulerAnglesSun = randomAngle;
+        }
 
         m_ResetParams = Academy.Instance.EnvironmentParameters;
         RenderSettings.fog = true;
@@ -148,6 +156,19 @@ public class DayAndNight : MonoBehaviour
         currentFogDensity = Mathf.Lerp(currentFogDensity, isNight ? nightFogDensity : dayFogDensity, fogChangeSpeed * Time.deltaTime);
         RenderSettings.fogColor = Color.Lerp(RenderSettings.fogColor, targetFogColor, fogChangeSpeed * Time.deltaTime);
         RenderSettings.fogDensity = currentFogDensity;
+
+        // Skybox update
+        if (daySkybox != null && nightSkybox != null)
+        {
+            RenderSettings.skybox = isNight ? nightSkybox : daySkybox;
+            // Optionally lerp tint for smooth transition
+            Color targetTint = isNight ? nightSkyboxTint : daySkyboxTint;
+            if (RenderSettings.skybox.HasProperty("_Tint"))
+            {
+                Color currentTint = RenderSettings.skybox.GetColor("_Tint");
+                RenderSettings.skybox.SetColor("_Tint", Color.Lerp(currentTint, targetTint, fogChangeSpeed * Time.deltaTime));
+            }
+        }
     }
 
     private void AdjustCameraView()
@@ -186,11 +207,19 @@ public class DayAndNight : MonoBehaviour
 
     public void ResetDayAndNight()
     {
-        // Randomize the sun's initial angle (x-axis rotation)
-        float randomAngle = Random.Range(0f, 360f);
-        Vector3 currentEuler = transform.eulerAngles;
-        transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
-        eulerAnglesSun = randomAngle;
+        if (configLoader == null)
+        {
+            Debug.LogError("ConfigLoader is not set. Ensure ConfigLoader is initialized.");
+            return;
+        }
+        DayAndNightConfig config = configLoader.LoadConfig<DayAndNightConfig>(configFileName);
+        if (config != null && config.randomSunAngle)
+        {
+            float randomAngle = Random.Range(0f, 360f);
+            Vector3 currentEuler = transform.eulerAngles;
+            transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
+            eulerAnglesSun = randomAngle;
+        }
     }
 }
 
@@ -209,4 +238,5 @@ public class DayAndNightConfig
     public float dayFarClip;
     public float nightFarClip;
     public float farClipTransitionSpeed;
+    public bool randomSunAngle;
 }
