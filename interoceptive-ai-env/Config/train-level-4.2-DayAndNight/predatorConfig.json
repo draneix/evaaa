@@ -2,7 +2,7 @@
     "groups": [
         {
             "prefabName": "Predator",
-            "count": 1,
+            "count": 0,
             "position": {
                 "xMin": -8.0,
                 "xMax": 8.0,

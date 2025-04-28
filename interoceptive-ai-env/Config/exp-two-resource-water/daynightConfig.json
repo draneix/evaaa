@@ -1,14 +1,16 @@
 {
-        "daySpeed": 0,
-        "nightSpeed": 0,
         "fogChangeSpeed": 0.1,
-        "dayFogDensity": 0,
+        "dayFogDensity": 0.0,
         "nightFogDensity": 0.1,
-        "currentFogDensity": 0.01,
-        "dayTemperatureChange": 15,
-        "nightTemperatureChange": -15,
+        "dayTemperatureChange": 0,
+        "nightTemperatureChange": 0,
         "dayFarClip": 1000,
         "nightFarClip": 500,
         "farClipTransitionSpeed": 5,
-        "randomSunAngle": false
+        "randomSunAngle": false,
+        "rotationIntervalMultiplier": 30,
+        "rotationSpeedSteps": 15,
+        "temperatureUpdateSteps": 24,
+        "fogExponent": 2.0,
+        "enableDayNightCycle": false
 }

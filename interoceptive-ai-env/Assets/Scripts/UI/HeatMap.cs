@@ -103,7 +103,7 @@ public class HeatMap : MonoBehaviour
     {
         // Update the heatmap based on the day/night state
         ModifyPixels();
-        Debug.Log("Modified HeatMap for " + (isNight ? "Night" : "Day"));
+        // Debug.Log("Modified HeatMap for " + (isNight ? "Night" : "Day"));
     }
 
     public bool IsThermalGridReady()

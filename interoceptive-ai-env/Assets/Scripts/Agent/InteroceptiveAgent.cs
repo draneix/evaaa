@@ -308,7 +308,7 @@ public class InteroceptiveAgent : Agent
                 // Adjust temperature based on the current day/night state
                 if (dayAndNight != null)
                 {
-                        if (dayAndNight.GetIsNight())
+                        if (dayAndNight.CurrentDayNightState == DayAndNight.DayNightState.Night)
                         {
                                 float temperatureChange = dayAndNight.nightTemperatureChange;
                                 if (thermoGridSpawner != null)
@@ -490,6 +490,13 @@ public class InteroceptiveAgent : Agent
         //브레인(정책)으로 부터 전달 받은 행동을 실행하는 메소드
         public override void OnActionReceived(ActionBuffers actions)
         {       
+                // Advance day/night cycle per ML-Agents step
+                var dayAndNight = FindObjectOfType<DayAndNight>();
+                if (dayAndNight != null)
+                {
+                        dayAndNight.StepUpdate();
+                }
+
                 stepsTaken++;
                 countFood = 0.0f;
                 countWater = 0.0f;
