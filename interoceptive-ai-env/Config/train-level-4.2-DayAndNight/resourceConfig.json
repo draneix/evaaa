@@ -13,7 +13,7 @@
             "prefabName": "Water",
             "prefabLabel": "Water",
             "resourceType": "Random",
-            "count": 5,
+            "count": 0,
             "position": { "xMin": -45, "xMax": 45, "yMin": 1, "yMax": 1, "zMin": -45, "zMax": 45 },
             "rotationRange": { "x": 0, "y": 0, "z": 0 },
             "scaleRange": { "xMin": 0.6, "xMax": 0.6, "yMin": 0.6, "yMax": 0.6, "zMin": 0.6, "zMax": 0.6 }

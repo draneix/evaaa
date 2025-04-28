@@ -27,6 +27,7 @@ public class ThermoGridSpawner : MonoBehaviour
     private ThermoGridConfig config = new ThermoGridConfig();
     private GameObject thermalGridParent;
     private float[,] areaTemp;
+    private float[,] baseTemp; // Store the base temperature for each cell
 
     private Vector3 floorSize;
     private Vector3 floorPosition;
@@ -106,10 +107,9 @@ public class ThermoGridSpawner : MonoBehaviour
 
     public void GenerateGrid()
     {
-        // ClearGrid();
-
-        // Initialize the temperature array
+        // Initialize the temperature arrays
         areaTemp = new float[config.numberOfGridCubeX, config.numberOfGridCubeZ];
+        baseTemp = new float[config.numberOfGridCubeX, config.numberOfGridCubeZ];
 
         // Set default temperatures
         for (int x = 0; x < config.numberOfGridCubeX; x++)
@@ -117,6 +117,7 @@ public class ThermoGridSpawner : MonoBehaviour
             for (int z = 0; z < config.numberOfGridCubeZ; z++)
             {
                 areaTemp[x, z] = config.fieldDefaultTemp;
+                baseTemp[x, z] = config.fieldDefaultTemp;
                 GameObject gridCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 gridCube.transform.position = CalculateGridCubePosition(x, z);
                 gridCube.transform.localScale = CalculateGridCubeSize();
@@ -145,6 +146,15 @@ public class ThermoGridSpawner : MonoBehaviour
         
         ApplyGaussianSmoothing();
 
+        // After all modifications, copy areaTemp to baseTemp
+        for (int x = 0; x < config.numberOfGridCubeX; x++)
+        {
+            for (int z = 0; z < config.numberOfGridCubeZ; z++)
+            {
+                baseTemp[x, z] = areaTemp[x, z];
+            }
+        }
+
         isThermalGridReady = true; // Mark as ready
     }
 
@@ -160,6 +170,7 @@ public class ThermoGridSpawner : MonoBehaviour
             for (int z = 0; z < config.numberOfGridCubeZ; z++)
             {
                 areaTemp[x, z] = config.fieldDefaultTemp;
+                baseTemp[x, z] = config.fieldDefaultTemp;
             }
         }
 
@@ -175,6 +186,15 @@ public class ThermoGridSpawner : MonoBehaviour
         }
 
         ApplyGaussianSmoothing();
+
+        // After all modifications, copy areaTemp to baseTemp
+        for (int x = 0; x < config.numberOfGridCubeX; x++)
+        {
+            for (int z = 0; z < config.numberOfGridCubeZ; z++)
+            {
+                baseTemp[x, z] = areaTemp[x, z];
+            }
+        }
 
         Debug.Log("ThermoGridSpawner: Thermal grid has been reset.");
     }
@@ -392,5 +412,18 @@ public class ThermoGridSpawner : MonoBehaviour
                 }
             }
         }
+    }
+
+    // New method to set temperature for day/night
+    public void SetDayNightTemperature(float offset)
+    {
+        for (int x = 0; x < config.numberOfGridCubeX; x++)
+        {
+            for (int z = 0; z < config.numberOfGridCubeZ; z++)
+            {
+                areaTemp[x, z] = baseTemp[x, z] + offset;
+            }
+        }
+        Debug.Log($"ThermoGridSpawner: Set temperature offset {offset} for day/night.");
     }
 }

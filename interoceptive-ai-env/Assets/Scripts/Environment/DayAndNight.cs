@@ -58,6 +58,12 @@ public class DayAndNight : MonoBehaviour
             return;
         }
 
+        // Randomize the sun's initial angle (x-axis rotation)
+        float randomAngle = Random.Range(0f, 360f);
+        Vector3 currentEuler = transform.eulerAngles;
+        transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
+        eulerAnglesSun = randomAngle;
+
         LoadConfig();
     }
 
@@ -161,8 +167,8 @@ public class DayAndNight : MonoBehaviour
     {
         if (thermoGridSpawner != null)
         {
-            float temperatureChange = isNight ? nightTemperatureChange : dayTemperatureChange;
-            thermoGridSpawner.AdjustTemperature(temperatureChange);
+            float offset = isNight ? nightTemperatureChange : dayTemperatureChange;
+            thermoGridSpawner.SetDayNightTemperature(offset);
         }
 
         if (heatMap != null)
@@ -176,6 +182,15 @@ public class DayAndNight : MonoBehaviour
     public bool GetIsNight()
     {
         return isNight;
+    }
+
+    public void ResetDayAndNight()
+    {
+        // Randomize the sun's initial angle (x-axis rotation)
+        float randomAngle = Random.Range(0f, 360f);
+        Vector3 currentEuler = transform.eulerAngles;
+        transform.eulerAngles = new Vector3(randomAngle, currentEuler.y, currentEuler.z);
+        eulerAnglesSun = randomAngle;
     }
 }
 

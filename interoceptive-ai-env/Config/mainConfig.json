@@ -1,12 +1,12 @@
 {
-    "configFolderName": "exp-goal-manipulation",
+    "configFolderName": "train-level-4.2-DayAndNight",
     "recordingScreen":
     {
         "recordEnable": "false",
         "recordingFolderName": "SampleRecording-debug"
     },
     "experimentData": {
-        "recordEnable": "true",
+        "recordEnable": "false",
         "baseFolderName": "Data",
         "fileNamePrefix": "exp-goal-manipulation"
     }

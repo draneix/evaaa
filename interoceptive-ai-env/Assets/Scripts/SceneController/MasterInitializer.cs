@@ -242,6 +242,17 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("HeatMap is not assigned.");
         }
 
+        // Step 4.5: Reset DayAndNight
+        if (dayAndNight != null)
+        {
+            dayAndNight.ResetDayAndNight();
+            Debug.Log("MasterInitializer: DayAndNight reset.");
+        }
+        else
+        {
+            Debug.LogError("DayAndNight is not assigned.");
+        }
+
         // Step 5: Reset Event System
         EventManager eventManager = FindObjectOfType<EventManager>();
         if (eventManager != null)
