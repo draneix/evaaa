@@ -2984,6 +2984,26 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: cbb0affdd4a8546c089bbd6c1447f540, type: 2}
     - target: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
         type: 3}
+      propertyPath: dayFogColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
+        type: 3}
+      propertyPath: dayFogColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
+        type: 3}
+      propertyPath: dayFogColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
+        type: 3}
+      propertyPath: dayFogColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4597793320015646294, guid: 30ac7f67edd2843409fd505b82e49d7b,
+        type: 3}
       propertyPath: thermoGridSpawner
       value: 
       objectReference: {fileID: 1975835202}
