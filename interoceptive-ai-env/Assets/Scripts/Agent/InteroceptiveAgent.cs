@@ -629,10 +629,10 @@ public class InteroceptiveAgent : Agent
                 }
 
                 // Synchronize Predator's action
-                Predator predator = FindObjectOfType<Predator>();
-                if (predator != null)
+                Predator[] predators = FindObjectsOfType<Predator>();
+                foreach (var predator in predators)
                 {
-                        predator.TakeAction();
+                    predator.TakeAction();
                 }
 
                 // Calculate reward
