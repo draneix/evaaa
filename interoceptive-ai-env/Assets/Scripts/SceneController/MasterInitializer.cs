@@ -10,8 +10,6 @@ public class MasterInitializer : MonoBehaviour
     public ConfigLoader configLoader;
     public SpawnerManager spawnerManager;
     public NavMeshSurface navMeshSurface; // Reference to the NavMeshSurface component
-    public PredatorSpawner predatorSpawner; // Reference to the PredatorSpawner component
-    
     public ThermoGridSpawner thermoGridSpawner;
     public InteroceptiveAgent agent; // Single agent reference
     public HeatMap heatMap;
@@ -42,7 +40,7 @@ public class MasterInitializer : MonoBehaviour
             return;
         }
 
-        // Step 3: Initialize Spawners
+        // Step 3: Initialize Spawners (including predators but without NavMesh)
         if (spawnerManager != null)
         {
             spawnerManager.InitializeSpawners(configLoader);
@@ -65,15 +63,10 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("NavMeshSurface is not assigned. NavMesh cannot be baked.");
         }
 
-        // Step 5: Initialize PredatorSpawner
-        if (predatorSpawner != null)
+        // Step 5: Initialize NavMesh for Predators
+        if (spawnerManager != null)
         {
-            predatorSpawner.InitializePredatorSpawner(configLoader, spawnerManager.courtSpawner.CourtTransform);
-            Debug.Log("MasterInitializer: PredatorSpawner initialized.");
-        }
-        else
-        {
-            Debug.LogError("PredatorSpawner is not assigned.");
+            spawnerManager.InitializePredatorNavMesh();
         }
 
         // Step 6: Initialize ThermoGridSpawner

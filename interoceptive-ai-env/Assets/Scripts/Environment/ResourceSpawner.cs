@@ -48,7 +48,9 @@ public class ResourceSpawner : MonoBehaviour
     private int activeResourcesInCurrentGroup; // Tracks active resources in the current GroupedRandom group
     private bool isLocationLocked = false; // Indicates if the current GroupedRandom location is locked
 
-    public void InitializeResourceSpawner(ConfigLoader loader)
+    private bool onlyStaticMode = false;
+
+    public void InitializeResourceSpawner(ConfigLoader loader, bool onlyStatic = false)
     {
         configLoader = loader;
         if (configLoader == null)
@@ -60,6 +62,8 @@ public class ResourceSpawner : MonoBehaviour
         LoadConfig();
         InitializeAvailableGroups();
         SelectRandomLocation();
+        this.onlyStaticMode = onlyStatic;
+        Debug.Log($"ResourceSpawner: Initializing phase: {(onlyStatic ? "STATIC" : "RANDOM/GROUPED")}");
     }
 
     public void ReloadConfig()
@@ -69,7 +73,7 @@ public class ResourceSpawner : MonoBehaviour
         SelectRandomLocation();
     }
 
-    public void InitializeResources(Transform court)
+    public void InitializeResources(Transform court, bool onlyStatic = false)
     {
         if (resourceConfig == null)
         {
@@ -79,24 +83,32 @@ public class ResourceSpawner : MonoBehaviour
 
         courtTransform = court;
 
-        // Generate resources for static groups (if any)
-        if (staticGroups.Count > 0)
+        if (onlyStatic)
         {
-            foreach (var group in staticGroups)
+            Debug.Log($"ResourceSpawner: Spawning STATIC resources: {staticGroups.Count} groups");
+            // Generate resources for static groups (if any)
+            if (staticGroups.Count > 0)
             {
-                SpawnResourceGroup(group);
+                foreach (var group in staticGroups)
+                {
+                    Debug.Log($"ResourceSpawner: Spawning static resource group: {group.prefabLabel} (count: {group.count})");
+                    SpawnResourceGroup(group);
+                }
             }
-        }
-        else
-        {
-            Debug.Log("No Static groups available. Skipping Static resource initialization.");
+            else
+            {
+                Debug.Log("No Static groups available. Skipping Static resource initialization.");
+            }
+            return;
         }
 
+        Debug.Log($"ResourceSpawner: Spawning RANDOM resources: {randomGroups.Count} groups");
         // Generate resources for random groups (if any)
         if (randomGroups.Count > 0)
         {
             foreach (var group in randomGroups)
             {
+                Debug.Log($"ResourceSpawner: Spawning random resource group: {group.prefabLabel} (count: {group.count})");
                 SpawnResourceGroup(group);
             }
         }
@@ -105,10 +117,12 @@ public class ResourceSpawner : MonoBehaviour
             Debug.Log("No Random groups available. Skipping Random resource initialization.");
         }
 
+        Debug.Log($"ResourceSpawner: Spawning GROUPED RANDOM resources: {groupedRandomGroups.Count} groups");
         // Generate resources for the first GroupedRandom group (if any)
         if (groupedRandomGroups.Count > 0)
         {
             SelectRandomLocation();
+            Debug.Log($"ResourceSpawner: Spawning grouped random resource group: {currentLocationGroup.prefabLabel} (count: {currentLocationGroup.count})");
             GenerateGroupedRandomResources(); // Only generate resources for the selected GroupedRandom group
             activeResourcesInCurrentGroup = currentLocationGroup.count; // Initialize the counter
             isLocationLocked = true; // Lock the location

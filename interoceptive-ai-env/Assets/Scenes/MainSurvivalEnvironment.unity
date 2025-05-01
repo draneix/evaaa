@@ -460,6 +460,59 @@ MonoBehaviour:
   configFileName: predatorConfig.json
   predatorPrefab: {fileID: 7097910595545325753, guid: e5149582c6c03481398d1aead386b5dc,
     type: 3}
+--- !u!1 &975512359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975512361}
+  - component: {fileID: 975512360}
+  m_Layer: 0
+  m_Name: LandmarkSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &975512360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975512359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb33621992c4f45c28858c2a83f44b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  landmarkPrefab: {fileID: 0}
+  regionMin: {x: -15, y: 0, z: -15}
+  regionMax: {x: 15, y: 0, z: 15}
+  gridSpacing: 10
+  landmarkRadius: 1.5
+  overlapPadding: 2
+  staticObjectLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!4 &975512361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 975512359}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.1310147, y: 3.7724066, z: -7.6876526}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1683784372}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &999508549
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +853,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 268984559}
+  - {fileID: 975512361}
   - {fileID: 1850279993}
   - {fileID: 685796459}
   - {fileID: 1975835201}
@@ -822,6 +876,8 @@ MonoBehaviour:
   obstacleSpawner: {fileID: 1850279994}
   resourceSpawner: {fileID: 685796460}
   thermoGridSpawner: {fileID: 1975835202}
+  landmarkSpawner: {fileID: 975512360}
+  hasPredators: 0
 --- !u!1 &1850279992
 GameObject:
   m_ObjectHideFlags: 0

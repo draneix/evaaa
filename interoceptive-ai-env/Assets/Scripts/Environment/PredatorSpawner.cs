@@ -12,7 +12,7 @@ public class PredatorGroup
     public RotationRange rotationRange;
     public ScaleRange scaleRange;
     public float walkSpeed;
-    public float restDuration;
+    public float turnSpeed;
     public float viewAngle;
     public float viewDistance;
     public float damageAmount;
@@ -20,6 +20,7 @@ public class PredatorGroup
     public float attackInterval;
     public int maxRestingSteps;
     public int maxSearchingSteps;
+    public int searchingActionInterval;
     public float padding = 2.0f; // Default padding value
 }
 
@@ -33,11 +34,12 @@ public class PredatorSpawner : MonoBehaviour
 {
     [Header("Configuration")]
     public string configFileName = "predatorConfig.json";
-    public GameObject predatorPrefab; // Reference to the predator prefab
+    public GameObject predatorPrefab;
 
     private PredatorConfig predatorConfig;
     private List<GameObject> spawnedPredators = new List<GameObject>();
     private Transform courtTransform;
+    private int predatorCounter = 0;
 
     private ConfigLoader configLoader;
 
@@ -65,7 +67,24 @@ public class PredatorSpawner : MonoBehaviour
         }
 
         courtTransform = court;
+        predatorCounter = 0;
         GeneratePredators();
+    }
+
+    public void InitializeNavMeshForPredators()
+    {
+        foreach (var predator in spawnedPredators)
+        {
+            if (predator != null)
+            {
+                var predatorScript = predator.GetComponent<Predator>();
+                if (predatorScript != null)
+                {
+                    predatorScript.InitializeNavMesh();
+                }
+            }
+        }
+        Debug.Log($"PredatorSpawner: NavMesh initialized for {spawnedPredators.Count} predators");
     }
 
     private void LoadConfig()
@@ -113,6 +132,7 @@ public class PredatorSpawner : MonoBehaviour
             if (predator != null) Destroy(predator);
         }
         spawnedPredators.Clear();
+        predatorCounter = 0;
         Resources.UnloadUnusedAssets();
         Debug.Log("PredatorSpawner: Old predators have been cleared.");
     }
@@ -144,7 +164,9 @@ public class PredatorSpawner : MonoBehaviour
 
             if (validPosition)
             {
+                predatorCounter++;
                 GameObject predator = Instantiate(predatorPrefab, position, rotation);
+                predator.name = $"Predator_{predatorCounter}";
 
                 if (courtTransform != null)
                 {
@@ -153,12 +175,11 @@ public class PredatorSpawner : MonoBehaviour
 
                 predator.transform.localScale = scale;
 
-                // Initialize predator properties
                 Predator predatorScript = predator.GetComponent<Predator>();
                 if (predatorScript != null)
                 {
                     predatorScript.walkSpeed = group.walkSpeed;
-                    predatorScript.restDuration = group.restDuration;
+                    predatorScript.turnSpeed = group.turnSpeed;
                     predatorScript.viewAngle = group.viewAngle;
                     predatorScript.viewDistance = group.viewDistance;
                     predatorScript.damageAmount = group.damageAmount;
@@ -166,13 +187,17 @@ public class PredatorSpawner : MonoBehaviour
                     predatorScript.attackInterval = group.attackInterval;
                     predatorScript.maxRestingSteps = group.maxRestingSteps;
                     predatorScript.maxSearchingSteps = group.maxSearchingSteps;
+                    predatorScript.searchingActionInterval = group.searchingActionInterval;
+                    
+                    predatorScript.InitializePredator();
                 }
 
                 spawnedPredators.Add(predator);
+                Debug.Log($"Spawned {predator.name} at position {position}");
             }
             else
             {
-                Debug.LogWarning($"Could not find a valid position for predator after {attempts} attempts.");
+                Debug.LogWarning($"Could not find a valid position for predator {predatorCounter + 1} after {attempts} attempts.");
             }
         }
     }

@@ -5,58 +5,131 @@ public class SpawnerManager : MonoBehaviour
 {
     [Header("Spawner References")]
     public CourtSpawner courtSpawner;
+    public PredatorSpawner predatorSpawner;
     public ObstacleSpawner obstacleSpawner;
     public ResourceSpawner resourceSpawner;
     public ThermoGridSpawner thermoGridSpawner;
+    [Header("Landmark Settings")]
+    public LandmarkSpawner landmarkSpawner;
+
+    private bool hasPredators = false;
 
     public void InitializeSpawners(ConfigLoader configLoader)
     {
         Debug.Log("SpawnerManager: Initializing spawners...");
-        // Step 1: Initialize CourtSpawner
+        
+        // Step 1: Initialize CourtSpawner (REQUIRED)
         if (courtSpawner != null)
         {
             courtSpawner.InitializeCourt(configLoader);
-            Debug.Log("CourtSpawner Initialized.");
+            Debug.Log("SpawnerManager: CourtSpawner Initialized.");
         }
         else
         {
-            Debug.LogError("CourtSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: CourtSpawner is not assigned.");
             return;
         }
 
-        // Step 2: Initialize ObstacleSpawner
-        if (obstacleSpawner != null)
+        // Step 2: Check if we have predators to spawn
+        if (predatorSpawner != null)
         {
-            obstacleSpawner.InitializeObstacleSpawner(configLoader, courtSpawner.CourtTransform);
-            Debug.Log("ObstacleSpawner Initialized.");
-        }
-        else
-        {
-            Debug.LogError("ObstacleSpawner is not assigned.");
+            var predatorConfig = configLoader.LoadConfig<PredatorConfig>(predatorSpawner.configFileName);
+            if (predatorConfig != null && predatorConfig.groups != null)
+            {
+                foreach (var group in predatorConfig.groups)
+                {
+                    if (group != null && group.count > 0)
+                    {
+                        hasPredators = true;
+                        break;
+                    }
+                }
+            }
         }
 
-        // Step 3: Initialize ResourceSpawner
+        // Step 3: Initialize Predators (if present)
+        if (hasPredators)
+        {
+            Debug.Log("SpawnerManager: Initializing predators (without NavMesh)...");
+            if (predatorSpawner != null)
+            {
+                predatorSpawner.InitializePredatorSpawner(configLoader, courtSpawner.CourtTransform);
+                Debug.Log("SpawnerManager: Predators initialized (NavMesh pending).");
+            }
+            else
+            {
+                Debug.LogError("SpawnerManager: PredatorSpawner is not assigned but predators are configured.");
+                return;
+            }
+        }
+
+        // Step 4: Initialize static resources and obstacles
+        Debug.Log("SpawnerManager: Initializing static resources and obstacles...");
         if (resourceSpawner != null)
         {
-            resourceSpawner.InitializeResourceSpawner(configLoader);
-            resourceSpawner.InitializeResources(courtSpawner.CourtTransform);
-            Debug.Log("ResourceSpawner Initialized.");
-        }
-        else
-        {
-            Debug.LogError("ResourceSpawner is not assigned.");
+            resourceSpawner.InitializeResourceSpawner(configLoader, onlyStatic:true);
+            resourceSpawner.InitializeResources(courtSpawner.CourtTransform, onlyStatic:true);
+            Debug.Log("SpawnerManager: Static resources initialized.");
         }
 
-        // Step 4: Initialize ThermoGridSpawner
+        if (obstacleSpawner != null)
+        {
+            obstacleSpawner.InitializeObstacleSpawner(configLoader, courtSpawner.CourtTransform, onlyStatic:true);
+            Debug.Log("SpawnerManager: Static obstacles initialized.");
+        }
+
+        // Step 5: Generate Landmarks (after static objects to handle overlapping)
+        if (hasPredators)
+        {
+            Debug.Log("SpawnerManager: Generating landmarks for predators...");
+            if (landmarkSpawner != null && courtSpawner.CourtTransform != null)
+            {
+                landmarkSpawner.transform.parent = courtSpawner.CourtTransform;
+                landmarkSpawner.GenerateLandmarks();
+                Debug.Log("SpawnerManager: Landmarks generated for predators.");
+            }
+            else
+            {
+                Debug.LogError("SpawnerManager: LandmarkSpawner is not assigned but predators are present.");
+                return;
+            }
+        }
+
+        // Step 6: Initialize random resources and obstacles
+        Debug.Log("SpawnerManager: Initializing random resources and obstacles...");
+        if (obstacleSpawner != null)
+        {
+            obstacleSpawner.InitializeObstacleSpawner(configLoader, courtSpawner.CourtTransform, onlyStatic:false);
+            Debug.Log("SpawnerManager: Random obstacles initialized.");
+        }
+
+        if (resourceSpawner != null)
+        {
+            resourceSpawner.InitializeResourceSpawner(configLoader, onlyStatic:false);
+            resourceSpawner.InitializeResources(courtSpawner.CourtTransform, onlyStatic:false);
+            Debug.Log("SpawnerManager: Random resources initialized.");
+        }
+
+        // Step 7: Initialize ThermoGridSpawner
+        Debug.Log("SpawnerManager: Initializing thermal grid...");
         if (thermoGridSpawner != null)
         {
             thermoGridSpawner.InitializeThermoGridSpawner(configLoader);
             thermoGridSpawner.InitializeGrid(courtSpawner.CourtTransform);
-            Debug.Log("ThermoGridSpawner Initialized.");
+            Debug.Log("SpawnerManager: ThermoGridSpawner initialized.");
         }
         else
         {
-            Debug.LogError("ThermoGridSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: ThermoGridSpawner is not assigned.");
+        }
+    }
+
+    public void InitializePredatorNavMesh()
+    {
+        if (hasPredators && predatorSpawner != null)
+        {
+            predatorSpawner.InitializeNavMeshForPredators();
+            Debug.Log("SpawnerManager: NavMesh initialized for predators.");
         }
     }
 
@@ -71,43 +144,49 @@ public class SpawnerManager : MonoBehaviour
         if (courtSpawner != null)
         {
             courtSpawner.ReloadConfig();
-            yield return null; // Wait for one frame to ensure the operation is completed
+            yield return null;
         }
         else
         {
-            Debug.LogError("CourtSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: CourtSpawner is not assigned.");
         }
 
-        // Step 2: Reset ObstacleSpawner
+        // Step 2: Reset ObstacleSpawner (static first)
         if (obstacleSpawner != null)
         {
             yield return StartCoroutine(obstacleSpawner.ClearAndGenerateObstacles());
         }
         else
         {
-            Debug.LogError("ObstacleSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: ObstacleSpawner is not assigned.");
         }
 
-        // Step 3: Reset ResourceSpawner
+        // Step 3: Reset PredatorSpawner (if we have predators)
+        if (hasPredators && predatorSpawner != null)
+        {
+            yield return StartCoroutine(predatorSpawner.ClearAndGeneratePredators());
+        }
+
+        // Step 4: Reset ResourceSpawner
         if (resourceSpawner != null)
         {
             resourceSpawner.ResetResources();
-            yield return null; // Wait for one frame to ensure the operation is completed
+            yield return null;
         }
         else
         {
-            Debug.LogError("ResourceSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: ResourceSpawner is not assigned.");
         }
 
-        // Step 4: Reset ThermoGridSpawner
+        // Step 5: Reset ThermoGridSpawner
         if (thermoGridSpawner != null)
         {
             thermoGridSpawner.ResetGrid();
-            yield return null; // Wait for one frame to ensure the operation is completed
+            yield return null;
         }
         else
         {
-            Debug.LogError("ThermoGridSpawner is not assigned.");
+            Debug.LogError("SpawnerManager: ThermoGridSpawner is not assigned.");
         }
 
         Debug.Log("SpawnerManager: All spawners reset.");

@@ -39,7 +39,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private ConfigLoader configLoader; // Reference to ConfigLoader
 
-    public void InitializeObstacleSpawner(ConfigLoader loader, Transform court)
+    public void InitializeObstacleSpawner(ConfigLoader loader, Transform court, bool onlyStatic = false)
     {
         configLoader = loader;
         if (configLoader == null)
@@ -57,7 +57,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
 
         courtTransform = court;
-        GenerateObstacles();
+        GenerateObstacles(onlyStatic);
     }
 
     private void LoadConfig()
@@ -89,7 +89,7 @@ public class ObstacleSpawner : MonoBehaviour
         Debug.Log("ObstacleSpawner: New obstacles generated.");
     }
 
-    private void GenerateObstacles()
+    private void GenerateObstacles(bool onlyStatic = false)
     {
         if (obstacleConfig == null || obstacleConfig.groups == null)
         {
@@ -99,7 +99,15 @@ public class ObstacleSpawner : MonoBehaviour
 
         foreach (var group in obstacleConfig.groups)
         {
-            SpawnObstacleGroup(group);
+            bool isStatic = group.count == 1 && group.position.xMin == group.position.xMax && group.position.zMin == group.position.zMax;
+            if (onlyStatic && isStatic)
+            {
+                SpawnObstacleGroup(group);
+            }
+            else if (!onlyStatic && !isStatic)
+            {
+                SpawnObstacleGroup(group);
+            }
         }
     }
 
