@@ -140,55 +140,39 @@ public class SpawnerManager : MonoBehaviour
 
     public IEnumerator ResetAllSpawnersCoroutine()
     {
-        // Step 1: Reset CourtSpawner
-        if (courtSpawner != null)
+        Debug.Log("SpawnerManager: Starting reset sequence...");
+
+        // Step 1: Initialize predators (without NavMesh, matching initialization order)
+        if (hasPredators && predatorSpawner != null)
         {
-            courtSpawner.ReloadConfig();
-            yield return null;
-        }
-        else
-        {
-            Debug.LogError("SpawnerManager: CourtSpawner is not assigned.");
+            // First clear and regenerate predators
+            yield return StartCoroutine(predatorSpawner.ClearAndGeneratePredators());
+            Debug.Log("SpawnerManager: Predators regenerated (NavMesh pending).");
         }
 
-        // Step 2: Reset ObstacleSpawner (static first)
+        // Step 2: Reset random obstacles (static obstacles remain unchanged)
         if (obstacleSpawner != null)
         {
             yield return StartCoroutine(obstacleSpawner.ClearAndGenerateObstacles());
-        }
-        else
-        {
-            Debug.LogError("SpawnerManager: ObstacleSpawner is not assigned.");
+            Debug.Log("SpawnerManager: Random obstacles reset.");
         }
 
-        // Step 3: Reset PredatorSpawner (if we have predators)
-        if (hasPredators && predatorSpawner != null)
-        {
-            yield return StartCoroutine(predatorSpawner.ClearAndGeneratePredators());
-        }
-
-        // Step 4: Reset ResourceSpawner
+        // Step 3: Reset random resources (static resources remain unchanged)
         if (resourceSpawner != null)
         {
             resourceSpawner.ResetResources();
             yield return null;
-        }
-        else
-        {
-            Debug.LogError("SpawnerManager: ResourceSpawner is not assigned.");
+            Debug.Log("SpawnerManager: Random resources reset.");
         }
 
-        // Step 5: Reset ThermoGridSpawner
+        // Step 4: Reset ThermoGridSpawner (to update thermal grid based on new obstacle positions)
         if (thermoGridSpawner != null)
         {
             thermoGridSpawner.ResetGrid();
             yield return null;
-        }
-        else
-        {
-            Debug.LogError("SpawnerManager: ThermoGridSpawner is not assigned.");
+            Debug.Log("SpawnerManager: Thermal grid reset.");
         }
 
-        Debug.Log("SpawnerManager: All spawners reset.");
+        Debug.Log("SpawnerManager: Reset sequence completed.");
     }
 }

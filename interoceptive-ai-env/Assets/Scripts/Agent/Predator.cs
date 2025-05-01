@@ -38,6 +38,7 @@ public class Predator : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Animator anim;
     private NavMeshAgent nav;
+    private DayAndNight dayAndNight;
 
     private bool isInitialized = false;
     private bool isNavMeshInitialized = false;
@@ -66,7 +67,6 @@ public class Predator : MonoBehaviour
         pendingState = PredatorState.Searching;
         currentState = PredatorState.Searching;
         isInitialized = true;
-        // Debug.Log($"Predator {gameObject.name} initialized (NavMesh pending)");
     }
 
     public void InitializeNavMesh()
@@ -90,6 +90,16 @@ public class Predator : MonoBehaviour
             // Now that NavMesh is initialized, properly set the initial state
             ChangeState(pendingState);
             Debug.Log($"Predator {gameObject.name} NavMesh initialized and state activated");
+        }
+    }
+
+    // Called by MasterInitializer after DayAndNight is initialized
+    public void SetDayAndNight(DayAndNight dayAndNightSystem)
+    {
+        dayAndNight = dayAndNightSystem;
+        if (dayAndNight == null)
+        {
+            Debug.LogError($"Predator {gameObject.name} received null DayAndNight reference");
         }
     }
 
@@ -119,6 +129,21 @@ public class Predator : MonoBehaviour
         if (!isInitialized || !isNavMeshInitialized)
         {
             return;
+        }
+
+        // Check if it's night or dawn - force resting state
+        if (dayAndNight != null && 
+            (dayAndNight.CurrentDayNightState == DayAndNight.DayNightState.Night ||
+             dayAndNight.CurrentDayNightState == DayAndNight.DayNightState.DeepNight ||
+             dayAndNight.CurrentDayNightState == DayAndNight.DayNightState.Dawn))
+        {
+            if (currentState != PredatorState.Resting)
+            {
+                ChangeState(PredatorState.Resting);
+                StopMovement();
+                return;
+            }
+            return; // Skip other behaviors during night/dawn
         }
 
         switch (currentState)

@@ -122,6 +122,14 @@ public class MasterInitializer : MonoBehaviour
         {
             dayAndNight.InitializeDayAndNight(configLoader);
             Debug.Log("MasterInitializer: DayAndNight initialized.");
+
+            // Set DayAndNight reference on all predators
+            var predators = FindObjectsOfType<Predator>();
+            foreach (var predator in predators)
+            {
+                predator.SetDayAndNight(dayAndNight);
+            }
+            Debug.Log($"MasterInitializer: Set DayAndNight reference on {predators.Length} predators.");
         }
         else
         {
@@ -200,34 +208,59 @@ public class MasterInitializer : MonoBehaviour
         // Step 1: Pause the Academy/Agent updates during reset
         academy.AutomaticSteppingEnabled = false;
 
-        // Step 2: Reset Spawners
+        // Step 2: Reset random spawners and predators through SpawnerManager
         if (spawnerManager != null)
         {
-            // Start the ResetAllSpawnersCoroutine and wait for it to complete
             yield return StartCoroutine(spawnerManager.ResetAllSpawnersCoroutine());
-            Debug.Log("MasterInitializer: SpawnerManager reset.");
+            Debug.Log("MasterInitializer: Random obstacles and resources reset.");
         }
         else
         {
             Debug.LogError("SpawnerManager is not assigned.");
         }
 
-        // Step 3: Bake the NavMesh again
+        // Step 3: Bake the NavMesh again (necessary for updated obstacle positions)
         if (navMeshSurface != null)
         {
             Debug.Log("MasterInitializer: Baking NavMesh after reset...");
-            navMeshSurface.BuildNavMesh(); // Dynamically bake the NavMesh
+            navMeshSurface.BuildNavMesh();
             Debug.Log("MasterInitializer: NavMesh baked successfully after reset.");
+            yield return null;
         }
         else
         {
             Debug.LogError("NavMeshSurface is not assigned. NavMesh cannot be baked after reset.");
         }
 
-        // Step 4: Update HeatMap
+        // Step 4: Initialize predator NavMesh
+        if (spawnerManager != null)
+        {
+            spawnerManager.InitializePredatorNavMesh();
+        }
+
+        // Step 5: Reset DayAndNight
+        if (dayAndNight != null)
+        {
+            dayAndNight.ResetDayAndNight();
+            Debug.Log("MasterInitializer: DayAndNight reset.");
+            
+            // Update DayAndNight reference on all predators
+            var predators = FindObjectsOfType<Predator>();
+            foreach (var predator in predators)
+            {
+                predator.SetDayAndNight(dayAndNight);
+            }
+            Debug.Log($"MasterInitializer: Updated DayAndNight reference on {predators.Length} predators.");
+        }
+        else
+        {
+            Debug.LogError("DayAndNight is not assigned.");
+        }
+
+        // Step 6: Update HeatMap
         if (heatMap != null)
         {
-            heatMap.EpisodeHeatMap(); // Reset the heatmap for the new episode
+            heatMap.EpisodeHeatMap();
             Debug.Log("MasterInitializer: HeatMap reset.");
         }
         else
@@ -235,30 +268,15 @@ public class MasterInitializer : MonoBehaviour
             Debug.LogError("HeatMap is not assigned.");
         }
 
-        // Step 4.5: Reset DayAndNight
-        if (dayAndNight != null)
-        {
-            dayAndNight.ResetDayAndNight();
-            Debug.Log("MasterInitializer: DayAndNight reset.");
-        }
-        else
-        {
-            Debug.LogError("DayAndNight is not assigned.");
-        }
-
-        // Step 5: Reset Event System
+        // Step 7: Reset Event System
         EventManager eventManager = FindObjectOfType<EventManager>();
         if (eventManager != null)
         {
             eventManager.ResetEventManager();
             Debug.Log("MasterInitializer: Event system reset.");
         }
-        else
-        {
-            Debug.LogWarning("EventManager not found in the scene. Event system will not be reset.");
-        }
 
-        // Step 6: Resume the Academy/Agent updates
+        // Step 8: Resume the Academy/Agent updates
         academy.AutomaticSteppingEnabled = true;
         Debug.Log("MasterInitializer: Scene reset complete, ML-Agents enabled.");
     }

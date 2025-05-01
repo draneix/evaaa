@@ -34,7 +34,8 @@ public class ObstacleSpawner : MonoBehaviour
     public string prefabFolder = "Obstacles";
 
     private ObstacleConfig obstacleConfig; // Holds parsed obstacle configuration
-    private List<GameObject> spawnedObstacles = new List<GameObject>(); // Tracks generated obstacles
+    private List<GameObject> spawnedStaticObstacles = new List<GameObject>(); // Tracks static obstacles
+    private List<GameObject> spawnedRandomObstacles = new List<GameObject>(); // Tracks random obstacles
     private Transform courtTransform; // Reference to dynamically generated court
 
     private ConfigLoader configLoader; // Reference to ConfigLoader
@@ -58,6 +59,7 @@ public class ObstacleSpawner : MonoBehaviour
 
         courtTransform = court;
         GenerateObstacles(onlyStatic);
+        Debug.Log($"ObstacleSpawner: Initialized with {spawnedStaticObstacles.Count} static and {spawnedRandomObstacles.Count} random obstacles");
     }
 
     private void LoadConfig()
@@ -76,17 +78,35 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    // public void ResetObstacles()
-    // {
-    //     StartCoroutine(ClearAndGenerateObstacles());
-    // }
-
     public IEnumerator ClearAndGenerateObstacles()
     {
-        ClearObstacles();
+        // Only clear and regenerate random obstacles
+        ClearRandomObstacles();
         yield return new WaitForSeconds(0.5f); // Wait for 0.5 seconds to ensure obstacles are cleared
-        GenerateObstacles();
-        Debug.Log("ObstacleSpawner: New obstacles generated.");
+        GenerateObstacles(onlyStatic: false);
+        Debug.Log($"ObstacleSpawner: Regenerated {spawnedRandomObstacles.Count} random obstacles. {spawnedStaticObstacles.Count} static obstacles remain unchanged.");
+    }
+
+    // Method to clear all obstacles (for complete scene cleanup)
+    public void ClearAllObstacles()
+    {
+        int staticCount = spawnedStaticObstacles.Count;
+        int randomCount = spawnedRandomObstacles.Count;
+
+        foreach (var obstacle in spawnedStaticObstacles)
+        {
+            if (obstacle != null) Destroy(obstacle);
+        }
+        spawnedStaticObstacles.Clear();
+
+        foreach (var obstacle in spawnedRandomObstacles)
+        {
+            if (obstacle != null) Destroy(obstacle);
+        }
+        spawnedRandomObstacles.Clear();
+
+        Resources.UnloadUnusedAssets();
+        Debug.Log($"ObstacleSpawner: Cleared all obstacles ({staticCount} static, {randomCount} random)");
     }
 
     private void GenerateObstacles(bool onlyStatic = false)
@@ -97,32 +117,47 @@ public class ObstacleSpawner : MonoBehaviour
             return;
         }
 
+        int staticCount = 0;
+        int randomCount = 0;
+
         foreach (var group in obstacleConfig.groups)
         {
             bool isStatic = group.count == 1 && group.position.xMin == group.position.xMax && group.position.zMin == group.position.zMax;
             if (onlyStatic && isStatic)
             {
-                SpawnObstacleGroup(group);
+                SpawnObstacleGroup(group, isStatic: true);
+                staticCount += group.count;
             }
             else if (!onlyStatic && !isStatic)
             {
-                SpawnObstacleGroup(group);
+                SpawnObstacleGroup(group, isStatic: false);
+                randomCount += group.count;
             }
+        }
+
+        if (onlyStatic)
+        {
+            Debug.Log($"ObstacleSpawner: Generated {staticCount} static obstacles");
+        }
+        else
+        {
+            Debug.Log($"ObstacleSpawner: Generated {randomCount} random obstacles");
         }
     }
 
-    private void ClearObstacles()
+    private void ClearRandomObstacles()
     {
-        foreach (var obstacle in spawnedObstacles)
+        int count = spawnedRandomObstacles.Count;
+        foreach (var obstacle in spawnedRandomObstacles)
         {
             if (obstacle != null) Destroy(obstacle);
         }
-        spawnedObstacles.Clear();
+        spawnedRandomObstacles.Clear();
         Resources.UnloadUnusedAssets(); // Ensure unused assets are unloaded
-        Debug.Log("ObstacleSpawner: Old obstacles have been cleared.");
+        Debug.Log($"ObstacleSpawner: Cleared {count} random obstacles");
     }
 
-    private void SpawnObstacleGroup(ObstacleGroup group)
+    private void SpawnObstacleGroup(ObstacleGroup group, bool isStatic)
     {
         GameObject prefab = Resources.Load<GameObject>($"{prefabFolder}/{group.prefabName}");
         if (prefab == null)
@@ -159,8 +194,16 @@ public class ObstacleSpawner : MonoBehaviour
 
                 obstacle.transform.localScale = scale;
                 obstacle.AddComponent<ObstacleTemperature>().temperature = group.temperature; // Add temperature component
-                spawnedObstacles.Add(obstacle);
-                // Debug.Log($"Obstacle group {group.prefabName}: {obstacle.name} spawned at {position}.");
+                
+                // Add to appropriate list based on type
+                if (isStatic)
+                {
+                    spawnedStaticObstacles.Add(obstacle);
+                }
+                else
+                {
+                    spawnedRandomObstacles.Add(obstacle);
+                }
             }
             else
             {
@@ -171,7 +214,15 @@ public class ObstacleSpawner : MonoBehaviour
 
     public List<GameObject> GetSpawnedObstacles()
     {
-        return spawnedObstacles;
+        // Remove any null references first
+        spawnedStaticObstacles.RemoveAll(o => o == null);
+        spawnedRandomObstacles.RemoveAll(o => o == null);
+
+        // Combine both lists for compatibility with existing code
+        List<GameObject> allObstacles = new List<GameObject>();
+        allObstacles.AddRange(spawnedStaticObstacles);
+        allObstacles.AddRange(spawnedRandomObstacles);
+        return allObstacles;
     }
 
     private Vector3 RandomPosition(PositionRange position) =>
@@ -184,7 +235,6 @@ public class ObstacleSpawner : MonoBehaviour
     private Quaternion RandomRotation(RotationRange rotationRange) =>
         Quaternion.Euler(
             rotationRange.x,
-            // Random.Range(0, rotationRange.y),
             rotationRange.y,
             rotationRange.z
         );
