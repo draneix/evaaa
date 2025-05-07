@@ -136,9 +136,9 @@ public class EventManager : MonoBehaviour
             
             // Record the event in metrics
             var agent = obj.GetComponent<InteroceptiveAgent>();
-            if (agent != null && agent.experimentManager != null)
+            if (agent != null && agent.dataRecorder != null)
             {
-                agent.experimentManager.RecordEvent("message");
+                agent.dataRecorder.RecordEvent("message");
             }
         }
     }
@@ -157,9 +157,9 @@ public class EventManager : MonoBehaviour
                 Debug.Log($"[Resource] Set {obj.name}: Food={group.foodValue}, Water={group.waterValue}");
                 
                 // Record the event in metrics
-                if (agent.experimentManager != null)
+                if (agent.dataRecorder != null)
                 {
-                    agent.experimentManager.RecordEvent("resource");
+                    agent.dataRecorder.RecordEvent("resource");
                 }
             }
         }

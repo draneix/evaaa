@@ -513,57 +513,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1683784372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &999508549
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 999508550}
-  - component: {fileID: 999508551}
-  m_Layer: 0
-  m_Name: ExperimentMetrics
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &999508550
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999508549}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1266033381}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &999508551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999508549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e52019462ee47cab377972df44e1e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  experimentType: 
-  episodeNumber: 0
-  isActive: 1
-  targetAgent: {fileID: 0}
-  outputDirectory: ExperimentData
-  fileNamePrefix: experiment_
-  resourceOffered: 
 --- !u!114 &1126164668 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1539676751118379520, guid: 0338d45b34b8a42fc913b1916f8baec9,
@@ -612,7 +561,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1572892462}
-  - {fileID: 999508550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1359072463
@@ -679,6 +627,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 79528130}
+  - {fileID: 1763104284}
   - {fileID: 1126164669}
   - {fileID: 1605100404}
   - {fileID: 808919905}
@@ -853,11 +802,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 268984559}
+  - {fileID: 951111361}
   - {fileID: 975512361}
   - {fileID: 1850279993}
   - {fileID: 685796459}
   - {fileID: 1975835201}
-  - {fileID: 951111361}
   m_Father: {fileID: 1417844879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1683784373
@@ -873,11 +822,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   courtSpawner: {fileID: 268984560}
+  predatorSpawner: {fileID: 951111362}
   obstacleSpawner: {fileID: 1850279994}
   resourceSpawner: {fileID: 685796460}
   thermoGridSpawner: {fileID: 1975835202}
   landmarkSpawner: {fileID: 975512360}
-  hasPredators: 0
+--- !u!1 &1763104283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1763104284}
+  - component: {fileID: 1763104285}
+  m_Layer: 0
+  m_Name: DataRecorder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1763104284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763104283}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.619286, y: -3.4216747, z: -13.135306}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1417844879}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1763104285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763104283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61529cd5616544eab88fcba1591e81f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experimentType: 
+  episodeNumber: 0
+  isActive: 1
+  targetAgent: {fileID: 0}
+  resourceOffered: 
 --- !u!1 &1850279992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,7 +1057,6 @@ MonoBehaviour:
   configLoader: {fileID: 808919906}
   spawnerManager: {fileID: 1683784373}
   navMeshSurface: {fileID: 835159717}
-  predatorSpawner: {fileID: 951111362}
   thermoGridSpawner: {fileID: 1975835202}
   agent: {fileID: 7819571294374217589}
   heatMap: {fileID: 4985382396085495230}
@@ -2806,7 +2803,7 @@ MonoBehaviour:
   heatMap: {fileID: 1926882518980410240}
   playRecorder: {fileID: 79528128}
   camareManager: {fileID: 1126164668}
-  experimentManager: {fileID: 0}
+  dataRecorder: {fileID: 0}
   singleTrial: 0
   initRandomAgentPosition: 0
   randomPositionRange:

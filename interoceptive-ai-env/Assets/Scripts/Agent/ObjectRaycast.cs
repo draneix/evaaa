@@ -73,7 +73,7 @@ public class ObjectRaycast : MonoBehaviour
         if (damage > 0.5)
         {
             agentScript.countCollision = 1.0f;
-            agentScript.experimentManager.RecordCollision();
+            agentScript.dataRecorder.RecordCollision();
             // Debug.Log("Collided with: " + collision.gameObject.name);
         }
     }

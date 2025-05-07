@@ -37,7 +37,7 @@ public class InteroceptiveAgent : Agent
         public GameObject heatMap;
         public GameObject playRecorder;
         public CameraSwitcher camareManager;
-        public ExperimentManager experimentManager;
+        public DataRecorder dataRecorder;
 
         [Header("Environment settings")]
         public bool singleTrial;
@@ -149,16 +149,16 @@ public class InteroceptiveAgent : Agent
                         return;
                 }
 
-                // Initialize ExperimentManager
-                experimentManager = FindObjectOfType<ExperimentManager>();
-                if (experimentManager != null)
+                // Initialize DataRecorder
+                dataRecorder = FindObjectOfType<DataRecorder>();
+                if (dataRecorder != null)
                 {
-                        Debug.Log("InteroceptiveAgent: ExperimentManager found.");
-                        experimentManager.targetAgent = this;
+                        Debug.Log("InteroceptiveAgent: DataRecorder found.");
+                        dataRecorder.targetAgent = this;
                         string configFolderName = FindObjectOfType<ConfigLoader>().mainConfig.configFolderName;
                         Debug.Log("InteroceptiveAgent: configFolderName: " + configFolderName);
-                        experimentManager.experimentType = configFolderName;
-                        experimentManager.episodeNumber = episodeCount;
+                        dataRecorder.experimentType = configFolderName;
+                        dataRecorder.episodeNumber = episodeCount;
                 }
 
                 // Load the agent configuration
@@ -273,10 +273,11 @@ public class InteroceptiveAgent : Agent
         }
         public override void OnEpisodeBegin()
         {
-                stepsTaken = 0;
-                if (experimentManager != null)
+                // IMPORTANT: Always ensure dataRecorder.OnEpisodeEnd() was called for the previous episode before calling OnEpisodeBegin() for a new one.
+                stepsTaken = 1;
+                if (dataRecorder != null)
                 {
-                        experimentManager.OnEpisodeBegin();
+                        dataRecorder.OnEpisodeBegin();
                 }
                 episodeCount = academy.EpisodeCount;
                 if (!isEnvironmentReady)
@@ -496,6 +497,7 @@ public class InteroceptiveAgent : Agent
                 {
                         dayAndNight.StepUpdate();
                 }
+                // Debug.Log("stepsTaken: " + stepsTaken);
 
                 stepsTaken++;
                 countFood = 0.0f;
@@ -520,10 +522,10 @@ public class InteroceptiveAgent : Agent
                                 countFood = 1.0f;
                                 resourceConsumedInStep = true;
                                 consumedResourceType = eatenResourceTag;  // Use actual tag
-                                if (experimentManager != null)
+                                if (dataRecorder != null)
                                 {
-                                        experimentManager.RecordAction("Eat_Food");
-                                        experimentManager.RecordFoodConsumed();
+                                        dataRecorder.RecordAction("Eat_Food");
+                                        dataRecorder.RecordFoodConsumed();
                                 }
                         }
                         if (eatenResourceTag.ToLower() == "water" || eatenResourceTag.ToLower() == "pond")
@@ -532,20 +534,20 @@ public class InteroceptiveAgent : Agent
                                 countWater = 1.0f;
                                 resourceConsumedInStep = true;
                                 consumedResourceType = eatenResourceTag;  // Use actual tag
-                                if (experimentManager != null)
+                                if (dataRecorder != null)
                                 {
-                                        experimentManager.RecordAction("Drink_Water");
-                                        experimentManager.RecordWaterConsumed();
+                                        dataRecorder.RecordAction("Drink_Water");
+                                        dataRecorder.RecordWaterConsumed();
                                 }
                         }
 
                         if (singleTrial)
                         {
-                                if (experimentManager != null)
+                                if (dataRecorder != null)
                                 {
-                                        experimentManager.SetEpisodeEndType("ResourceConsumed");  // Set episode end type
-                                        experimentManager.RecordFinalStep();
-                                        experimentManager.OnEpisodeEnd();
+                                        dataRecorder.SetEpisodeEndType("ResourceConsumed");  // Set episode end type
+                                        // dataRecorder.RecordFinalStep();
+                                        dataRecorder.OnEpisodeEnd();
                                 }
                                 EndEpisode();
                         }
@@ -591,16 +593,17 @@ public class InteroceptiveAgent : Agent
 
                 if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
                 {        
-                        if (experimentManager != null)
+                        if (dataRecorder != null)
                         {
                                 // Determine the specific reason for episode end
-                                if (checkFoodLevel) experimentManager.SetEpisodeEndType("FoodLevelOutOfRange");
-                                else if (checkWaterLevel) experimentManager.SetEpisodeEndType("WaterLevelOutOfRange");
-                                else if (checkThermoLevel) experimentManager.SetEpisodeEndType("ThermoLevelOutOfRange");
-                                else if (checkHealth) experimentManager.SetEpisodeEndType("HealthLevelTooLow");
+                                if (checkFoodLevel) dataRecorder.SetEpisodeEndType("FoodLevelOutOfRange");
+                                else if (checkWaterLevel) dataRecorder.SetEpisodeEndType("WaterLevelOutOfRange");
+                                else if (checkThermoLevel) dataRecorder.SetEpisodeEndType("ThermoLevelOutOfRange");
+                                else if (checkHealth) dataRecorder.SetEpisodeEndType("HealthLevelTooLow");
                                 
-                                experimentManager.RecordFinalStep();
-                                experimentManager.OnEpisodeEnd();
+                                // IMPORTANT: Always call OnEpisodeEnd before starting a new episode
+                                // dataRecorder.RecordFinalStep();
+                                dataRecorder.OnEpisodeEnd();
                         }
                         EndEpisode();
                 }
@@ -613,7 +616,7 @@ public class InteroceptiveAgent : Agent
                 MoveAgent(action);
 
                 // Record action in metrics
-                if (experimentManager != null)
+                if (dataRecorder != null)
                 {
                         string actionName = action switch
                         {
@@ -624,8 +627,8 @@ public class InteroceptiveAgent : Agent
                                 4 => "Eat",
                                 _ => "Unknown"
                         };
-                        experimentManager.RecordAction(actionName);
-                        experimentManager.RecordStep(); // Record the step after all updates
+                        dataRecorder.RecordAction(actionName);
+                        dataRecorder.RecordStep(); // Record the step after all updates
                 }
 
                 // Synchronize Predator's action
@@ -661,13 +664,14 @@ public class InteroceptiveAgent : Agent
 
                 if (maxSteps>0 && stepsTaken >= maxSteps)
                 {
-                        EndEpisode();
-                        if (experimentManager != null)
+                        if (dataRecorder != null)
                         {
-                                experimentManager.SetEpisodeEndType("MaxStepReached");
-                        experimentManager.RecordFinalStep();
-                        experimentManager.OnEpisodeEnd();
+                                dataRecorder.SetEpisodeEndType("MaxStepReached");
+                        // dataRecorder.RecordFinalStep();
+                        // IMPORTANT: Always call OnEpisodeEnd before starting a new episode
+                        dataRecorder.OnEpisodeEnd();
                         }
+                        EndEpisode();
                         Debug.Log("MaxStep reached");
                 }
         }

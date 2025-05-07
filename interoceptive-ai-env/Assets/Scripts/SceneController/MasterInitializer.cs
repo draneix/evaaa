@@ -161,14 +161,14 @@ public class MasterInitializer : MonoBehaviour
     private void InitializeSystems()
     {
         // Initialize the experiment system
-        ExperimentManager experimentManager = FindObjectOfType<ExperimentManager>();
-        if (experimentManager != null)
+        DataRecorder dataRecorder = FindObjectOfType<DataRecorder>();
+        if (dataRecorder != null)
         {
-            experimentManager.Initialize(agent);
+            dataRecorder.Initialize(agent);
         }
         else
         {
-            Debug.LogWarning("ExperimentManager not found in the scene. Experiment metrics will not be recorded.");
+            Debug.LogWarning("dataRecorder not found in the scene. Experiment metrics will not be recorded.");
         }
 
         // Initialize the event system
