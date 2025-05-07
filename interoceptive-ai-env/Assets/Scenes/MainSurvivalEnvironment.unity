@@ -489,15 +489,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb33621992c4f45c28858c2a83f44b7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  landmarkPrefab: {fileID: 0}
-  regionMin: {x: -15, y: 0, z: -15}
-  regionMax: {x: 15, y: 0, z: 15}
-  gridSpacing: 10
-  landmarkRadius: 1.5
-  overlapPadding: 2
-  staticObjectLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
+  configFileName: landmarkConfig.json
+  prefabFolder: Obstacles
+  defaultLandmarkPrefab: {fileID: 122890237786432829, guid: 153c8ca47b4894ae3b9838ba46807c4b,
+    type: 3}
 --- !u!4 &975512361
 Transform:
   m_ObjectHideFlags: 0
@@ -1694,6 +1689,11 @@ PrefabInstance:
       objectReference: {fileID: 7819571294374217589}
     - target: {fileID: 4658557665229522941, guid: c06669275f6574d698fb75971dc82389,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4658557665229522941, guid: c06669275f6574d698fb75971dc82389,
+        type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -1712,6 +1712,11 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6050900805468614161, guid: c06669275f6574d698fb75971dc82389,
+        type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6598162375528782840, guid: c06669275f6574d698fb75971dc82389,
         type: 3}
       propertyPath: m_Name
@@ -1724,7 +1729,17 @@ PrefabInstance:
       objectReference: {fileID: 7819571294374217589}
     - target: {fileID: 7079444040211385343, guid: c06669275f6574d698fb75971dc82389,
         type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079444040211385343, guid: c06669275f6574d698fb75971dc82389,
+        type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7079444040211385343, guid: c06669275f6574d698fb75971dc82389,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7534676178082845424, guid: c06669275f6574d698fb75971dc82389,
@@ -3395,7 +3410,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1417844879}
+  - {fileID: 1266033381}
   - {fileID: 1681133575}
   - {fileID: 1359072464}
-  - {fileID: 1266033381}
   - {fileID: 1923067524}

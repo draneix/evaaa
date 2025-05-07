@@ -45,6 +45,11 @@ public class Predator : MonoBehaviour
     private List<Vector3> landmarkPositions = new List<Vector3>();
     private bool landmarksInitialized = false;
     private PredatorState pendingState = PredatorState.Searching;
+    private MeshCollider landmarkAreaMeshCollider; // Reference to the convex hull MeshCollider
+
+    private LandmarkSpawner landmarkSpawner;
+    private int outsideAreaStepCounter = 0;
+    private int maxOutsideSteps = 1;
 
     public void InitializePredator()
     {
@@ -106,7 +111,7 @@ public class Predator : MonoBehaviour
     private void InitializeLandmarks()
     {
         if (landmarksInitialized) return;
-        LandmarkSpawner landmarkSpawner = FindObjectOfType<LandmarkSpawner>();
+        landmarkSpawner = FindObjectOfType<LandmarkSpawner>();
         if (landmarkSpawner != null)
         {
             var landmarks = landmarkSpawner.GetLandmarks();
@@ -115,13 +120,36 @@ public class Predator : MonoBehaviour
             {
                 if (lm != null) landmarkPositions.Add(lm.transform.position);
             }
+            // Get the MeshCollider for area logic
+            var meshObj = landmarkSpawner.transform.Find("LandmarkAreaMesh");
+            if (meshObj != null)
+                landmarkAreaMeshCollider = meshObj.GetComponent<MeshCollider>();
             landmarksInitialized = true;
-            Debug.Log($"[{gameObject.name}] Initialized with {landmarkPositions.Count} landmarks");
+            Debug.Log($"[{gameObject.name}] Initialized with {landmarkPositions.Count} landmarks and MeshCollider");
         }
         else
         {
             Debug.LogWarning($"[{gameObject.name}] could not find LandmarkSpawner in the scene.");
         }
+    }
+
+    // 2D convex hull containment check (XZ plane)
+    private bool IsPointInConvexHull(Vector3 point)
+    {
+        if (landmarkSpawner == null) return false;
+        var hull = landmarkSpawner.GetConvexHullPoints();
+        if (hull == null || hull.Count < 3) return false;
+        Vector2 p = new Vector2(point.x, point.z);
+        for (int i = 0; i < hull.Count; i++)
+        {
+            Vector2 a = new Vector2(hull[i].x, hull[i].z);
+            Vector2 b = new Vector2(hull[(i + 1) % hull.Count].x, hull[(i + 1) % hull.Count].z);
+            Vector2 edge = b - a;
+            Vector2 toPoint = p - a;
+            if (edge.x * toPoint.y - edge.y * toPoint.x < 0)
+                return false;
+        }
+        return true;
     }
 
     public void TakeAction()
@@ -144,6 +172,23 @@ public class Predator : MonoBehaviour
                 return;
             }
             return; // Skip other behaviors during night/dawn
+        }
+
+        // Use 2D convex hull check for containment
+        bool isOutside = !IsPointInConvexHull(transform.position);
+        if (isOutside)
+        {
+            outsideAreaStepCounter++;
+            if (outsideAreaStepCounter >= maxOutsideSteps)
+            {
+                Debug.Log($"[{gameObject.name}] Outside convex hull area for {outsideAreaStepCounter} steps, redirecting...");
+                ChooseRandomDestination();
+                outsideAreaStepCounter = 0; // Reset after redirect
+            }
+        }
+        else
+        {
+            outsideAreaStepCounter = 0; // Reset if inside
         }
 
         switch (currentState)
@@ -180,9 +225,19 @@ public class Predator : MonoBehaviour
                 break;
 
             case PredatorState.Chasing:
-                if (detectedAgent != null && nav.enabled)
+                if (detectedAgent != null && nav.enabled && IsPointInConvexHull(transform.position))
                 {
-                    nav.SetDestination(detectedAgent.position);
+                    Vector3 targetPos = detectedAgent.position;
+                    if (landmarkAreaMeshCollider != null)
+                    {
+                        // Clamp the target to the allowed area
+                        Vector3 clampedTarget = landmarkAreaMeshCollider.ClosestPoint(targetPos);
+                        nav.SetDestination(clampedTarget);
+                    }
+                    else
+                    {
+                        nav.SetDestination(targetPos);
+                    }
                     if (!View())
                     {
                         Debug.Log($"[{gameObject.name}] Lost sight of agent, returning to Searching state");
@@ -281,8 +336,7 @@ public class Predator : MonoBehaviour
 
     private void ResumeMovement()
     {
-        if (nav == null || !isNavMeshInitialized) return;
-        
+        if (nav == null || !isNavMeshInitialized || !nav.enabled || !nav.isOnNavMesh) return;
         nav.isStopped = false;
         nav.speed = walkSpeed;
     }

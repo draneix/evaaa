@@ -113,6 +113,13 @@ public class ObstacleCollector : MonoBehaviour
 
         string json = JsonConvert.SerializeObject(config, settings);
         string outputPath = Path.Combine(Application.dataPath, outputFileName);
+
+        // Post-process: collapse position, rotationRange, and scaleRange objects to single lines
+        // Matches objects like { "xMin": ..., "xMax": ..., "yMin": ..., ... "zMax": ... }
+        json = Regex.Replace(json, @"(\{\s*""xMin"": [^}]+?""zMax"": [^}]+?\})", m => Regex.Replace(m.Value.Replace("\n", "").Replace("\r", ""), @"\s+", " "), RegexOptions.Multiline);
+        // Matches objects like { "x": ..., "y": ..., "z": ... }
+        json = Regex.Replace(json, @"(\{\s*""x"": [^}]+?""z"": [^}]+?\})", m => Regex.Replace(m.Value.Replace("\n", "").Replace("\r", ""), @"\s+", " "), RegexOptions.Multiline);
+
         File.WriteAllText(outputPath, json);
         Debug.Log($"Obstacle configuration saved to {outputPath}");
     }

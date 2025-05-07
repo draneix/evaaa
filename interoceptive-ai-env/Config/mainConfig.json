@@ -1,12 +1,12 @@
 {
-    "configFolderName": "exp-two-resource-thermo",
+    "configFolderName": "exp-predator",
     "recordingScreen":
     {
         "recordEnable": "false",
         "recordingFolderName": "SampleRecording-debug"
     },
     "experimentData": {
-        "recordEnable": "true",
+        "recordEnable": "false",
         "baseFolderName": "Data",
         "fileNamePrefix": "exp-goal-manipulation"
     }

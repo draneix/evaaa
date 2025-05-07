@@ -85,7 +85,8 @@ public class SpawnerManager : MonoBehaviour
             if (landmarkSpawner != null && courtSpawner.CourtTransform != null)
             {
                 landmarkSpawner.transform.parent = courtSpawner.CourtTransform;
-                landmarkSpawner.GenerateLandmarks();
+                landmarkSpawner.SetCourtSpawner(courtSpawner);
+                landmarkSpawner.InitializeLandmarkSpawner(configLoader, courtSpawner.CourtTransform);
                 Debug.Log("SpawnerManager: Landmarks generated for predators.");
             }
             else

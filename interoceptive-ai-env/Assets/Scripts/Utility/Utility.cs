@@ -87,6 +87,7 @@ namespace Assets.Scripts.Utility
                 if (collider.gameObject.name == "Court_Floor" ||
                     collider.gameObject.name.Contains("Court_Wall") ||
                     collider.gameObject.name == "Block" ||
+                    collider.gameObject.name == "LandmarkAreaMesh" ||
                     collider.gameObject.tag == "sensor" ||
                     collider.gameObject.tag == "thermalGridCube")
                 {
