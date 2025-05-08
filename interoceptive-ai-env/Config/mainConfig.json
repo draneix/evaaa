@@ -1,6 +1,6 @@
 {
     "isAIControlled": true,
-    "configFolderName": "exp-predator",
+    "configFolderName": "exp-two-resource-thermo",
     "recordingScreen":
     {
         "recordEnable": "false",
@@ -9,6 +9,6 @@
     "experimentData": {
         "recordEnable": "false",
         "baseFolderName": "Data",
-        "fileNamePrefix": "exp-goal-manipulation"
+        "fileNamePrefix": "debug"
     }
 }

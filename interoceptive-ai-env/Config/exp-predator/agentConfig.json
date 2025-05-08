@@ -33,7 +33,7 @@
         "useThermalObs": true,
         "relativeThermalObs": true,
         "foodCoefficient": {
-            "change_0": -0.045,
+            "change_0": -0.2,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -41,7 +41,7 @@
             "change_5": 0.0
         },
         "waterCoefficient": {
-            "change_0": -0.03,
+            "change_0": -0.2,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -67,5 +67,5 @@
         "maxDistance": 1.5,
         "radialRange": 360.0,
         "damageConstant": 0.0002,
-        "maxSteps": 500
+        "maxSteps": 300
     }

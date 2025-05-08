@@ -61,7 +61,12 @@ public class CaptureScreenShot : MonoBehaviour
         }
         public void CreateRecordDirectory()
         {
+#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
+                string appRoot = Directory.GetParent(Application.dataPath).Parent.FullName;
+                mediaOutputFolder = Path.Combine(appRoot, "Recordings", recordingFolderName);
+#else
                 mediaOutputFolder = Path.Combine(Application.dataPath, "..", "Recordings", recordingFolderName);
+#endif
                 Debug.Log("mediaOutputFolder: " + mediaOutputFolder);
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(mediaOutputFolder);

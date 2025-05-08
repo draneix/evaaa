@@ -120,7 +120,14 @@ public class DataRecorder : MonoBehaviour
         {
             // Create timestamp-based directory structure
             string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
+            string appRoot = Directory.GetParent(Application.dataPath).Parent.FullName;
+            outputDirectory = Path.Combine(appRoot, baseFolderName);
+#else
             outputDirectory = Path.Combine(Application.dataPath, "..",  baseFolderName);
+#endif
+            
             Debug.Log($"DataRecorder: Using outputDirectory={outputDirectory}");
             
             if (!Directory.Exists(outputDirectory))

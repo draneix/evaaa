@@ -18,12 +18,12 @@
         "countEV": 4,
         "foodLevelRange": { "min": -15.0, "max": 15.0 },
         "resourceFoodValue": 3.0,
-        "startFoodLevel": -7.0,
+        "startFoodLevel": -10.0,
         "waterLevelRange": { "min": -15.0, "max": 15.0 },
         "resourceWaterValue": 3.0,
-        "startWaterLevel": 7.0,
+        "startWaterLevel": 0.0,
         "thermoLevelRange": { "min": -15.0, "max": 15.0 },
-        "startThermoLevel": 0.0,
+        "startThermoLevel": -5.0,
         "healthLevelRange": { "min": 0.0, "max": 100.0 },
         "startHealthLevel": 100.0,
         "useTouchObs": true,
@@ -33,7 +33,7 @@
         "useThermalObs": true,
         "relativeThermalObs": true,
         "foodCoefficient": {
-            "change_0": -0.09,
+            "change_0": -0.2,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -41,7 +41,7 @@
             "change_5": 0.0
         },
         "waterCoefficient": {
-            "change_0": -0.06,
+            "change_0": -0.2,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -49,7 +49,7 @@
             "change_5": 0.0
         },
         "thermoCoefficient": {
-            "change_0": 0.02,
+            "change_0": 0.05,
             "change_1": 0.0,
             "change_2": 0.0,
             "change_3": 0.0,
@@ -67,5 +67,5 @@
         "maxDistance": 1.5,
         "radialRange": 360.0,
         "damageConstant": 0.0002,
-        "maxSteps": 500
+        "maxSteps": 300
     }
