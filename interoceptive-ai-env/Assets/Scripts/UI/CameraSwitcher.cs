@@ -22,6 +22,14 @@ public class CameraSwitcher : MonoBehaviour
     [Tooltip("Set to true if the agent is controlled by AI.")]
     public bool isAIControlled = false; // Determines if the agent is AI-controlled
 
+    [Header("HeatMap Reference")]
+    [Tooltip("Reference to the HeatMap script.")]
+    public HeatMap heatMapScript; // Reference to the HeatMap script
+
+    [Header("ResourceUI Reference")]
+    [Tooltip("Reference to the ResourceUI script.")]
+    public ResourceUI resourceUIScript; // Reference to the ResourceUI script
+
     // Internal state tracking
     private bool isFirstPersonFullScreen = false; // Tracks current view state
     private RectTransform agentViewRectTransform; // Cached RectTransform of agentView
@@ -57,6 +65,8 @@ public class CameraSwitcher : MonoBehaviour
     {
         // Cache the RectTransform component for efficiency
         agentViewRectTransform = agentView.GetComponent<RectTransform>();
+        heatMapScript = FindObjectOfType<HeatMap>();
+        resourceUIScript = FindObjectOfType<ResourceUI>();
 
         // Initialize the view based on control mode
         if (isAIControlled)
@@ -101,6 +111,20 @@ public class CameraSwitcher : MonoBehaviour
             radialMeterPanel.SetActive(true);
         }
         thermoSensorGridPanel.SetActive(true);
+
+        // Deactivate the heatmap and agent track in first-person view
+        if (heatMapScript != null)
+        {
+            if (heatMapScript.heatMap != null)
+                heatMapScript.heatMap.enabled = false;
+            if (heatMapScript.agentTrack != null)
+                heatMapScript.agentTrack.SetActive(false);
+        }
+        // Deactivate ResourceUI in first-person view
+        if (resourceUIScript != null)
+        {
+            resourceUIScript.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -126,6 +150,20 @@ public class CameraSwitcher : MonoBehaviour
             radialMeterPanel.SetActive(false);
         }
         thermoSensorGridPanel.SetActive(false);
+
+        // Reactivate the heatmap and agent track in third-person view
+        if (heatMapScript != null)
+        {
+            if (heatMapScript.heatMap != null)
+                heatMapScript.heatMap.enabled = true;
+            if (heatMapScript.agentTrack != null)
+                heatMapScript.agentTrack.SetActive(true);
+        }
+        // Reactivate ResourceUI in third-person view
+        if (resourceUIScript != null)
+        {
+            resourceUIScript.gameObject.SetActive(true);
+        }
     }
 
     /// <summary>

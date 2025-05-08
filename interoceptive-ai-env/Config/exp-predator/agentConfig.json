@@ -1,8 +1,7 @@
 {
-        "isAIControlled": true,
         "singleTrial": true,
         "initRandomAgentPosition": false,
-        "initAgentPosition": { "x": -18.0, "y": 1.0, "z": 16.0 },
+        "initAgentPosition": { "x": -12.0, "y": 1.0, "z": 12.0 },
         "initAgentAngle": { "x": 0.0, "y": 130.0, "z": 0.0 },
         "randomPositionRange": {
             "xMin": -50.0, "xMax": 50.0,
@@ -19,10 +18,10 @@
         "countEV": 4,
         "foodLevelRange": { "min": -15.0, "max": 15.0 },
         "resourceFoodValue": 0.0,
-        "startFoodLevel": 0.0,
+        "startFoodLevel": -3.0,
         "waterLevelRange": { "min": -15.0, "max": 15.0 },
         "resourceWaterValue": 0.0,
-        "startWaterLevel": 0.0,
+        "startWaterLevel": 7.0,
         "thermoLevelRange": { "min": -15.0, "max": 15.0 },
         "startThermoLevel": 0.0,
         "healthLevelRange": { "min": 0.0, "max": 100.0 },

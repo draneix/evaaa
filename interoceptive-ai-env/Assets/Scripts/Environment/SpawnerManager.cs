@@ -141,20 +141,40 @@ public class SpawnerManager : MonoBehaviour
 
     public IEnumerator ResetAllSpawnersCoroutine()
     {
-        Debug.Log("SpawnerManager: Starting reset sequence...");
+        // Debug.Log("SpawnerManager: Starting reset sequence...");
+
+        // Step 0: Clear all resources and obstacles
+        // if (resourceSpawner != null)
+        // {
+            // resourceSpawner.ClearAllResources();
+        // }
+
+        if (obstacleSpawner != null)
+        {
+            obstacleSpawner.ClearRandomObstacles();
+        }
+
+        if (predatorSpawner != null)
+        {
+            predatorSpawner.ClearPredators();
+        }
+        
 
         // Step 1: Initialize predators (without NavMesh, matching initialization order)
         if (hasPredators && predatorSpawner != null)
         {
             // First clear and regenerate predators
-            yield return StartCoroutine(predatorSpawner.ClearAndGeneratePredators());
+            // predatorSpawner.ClearPredators();
+            predatorSpawner.GeneratePredators();
             Debug.Log("SpawnerManager: Predators regenerated (NavMesh pending).");
         }
 
         // Step 2: Reset random obstacles (static obstacles remain unchanged)
         if (obstacleSpawner != null)
         {
-            yield return StartCoroutine(obstacleSpawner.ClearAndGenerateObstacles());
+            // yield return StartCoroutine(obstacleSpawner.ClearAndGenerateObstacles());
+            // obstacleSpawner.ClearAllObstacles();
+            obstacleSpawner.GenerateObstacles(onlyStatic: false);
             Debug.Log("SpawnerManager: Random obstacles reset.");
         }
 

@@ -262,7 +262,7 @@ public class DayAndNight : MonoBehaviour
                 mainCamera.farClipPlane = farClipSteps[currentTemperatureStep];
             
             DayNightState state = GetStateForHour(realWorldHour);
-            Debug.Log($"[DayAndNight] Hour: {realWorldHour:00}, State: {state}, SunAngle: {sunAngle:F2}, FogDensity: {currentFogDensity:F5}, FarClip: {mainCamera?.farClipPlane:F2}");
+            // Debug.Log($"[DayAndNight] Hour: {realWorldHour:00}, State: {state}, SunAngle: {sunAngle:F2}, FogDensity: {currentFogDensity:F5}, FarClip: {mainCamera?.farClipPlane:F2}");
         }
 
         // Adjust Fog Color and Skybox (still gradual)

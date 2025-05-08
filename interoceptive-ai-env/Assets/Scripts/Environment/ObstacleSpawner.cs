@@ -109,7 +109,7 @@ public class ObstacleSpawner : MonoBehaviour
         Debug.Log($"ObstacleSpawner: Cleared all obstacles ({staticCount} static, {randomCount} random)");
     }
 
-    private void GenerateObstacles(bool onlyStatic = false)
+    public void GenerateObstacles(bool onlyStatic = false)
     {
         if (obstacleConfig == null || obstacleConfig.groups == null)
         {
@@ -145,7 +145,7 @@ public class ObstacleSpawner : MonoBehaviour
         }
     }
 
-    private void ClearRandomObstacles()
+    public void ClearRandomObstacles()
     {
         int count = spawnedRandomObstacles.Count;
         foreach (var obstacle in spawnedRandomObstacles)

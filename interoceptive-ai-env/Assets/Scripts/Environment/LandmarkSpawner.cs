@@ -222,6 +222,7 @@ public class LandmarkSpawner : MonoBehaviour
         {
             convexHullPoints.Add(new Vector3(p2d.x, yLevel, p2d.y));
         }
+        // Debug.Log($"[LandmarkSpawner] Number of convex hull points: {convexHullPoints.Count}");
     }
 
     /// <summary>
@@ -248,6 +249,7 @@ public class LandmarkSpawner : MonoBehaviour
 
         // Create new GameObject for the mesh
         landmarkAreaMeshObj = new GameObject("LandmarkAreaMesh");
+        landmarkAreaMeshObj.layer = LayerMask.NameToLayer("LandmarkArea");
         landmarkAreaMeshObj.transform.parent = this.transform;
         landmarkAreaMeshObj.transform.position = Vector3.zero;
 

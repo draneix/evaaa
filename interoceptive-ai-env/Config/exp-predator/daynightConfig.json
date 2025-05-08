@@ -7,7 +7,7 @@
         "dayFarClip": 1000,
         "nightFarClip": 500,
         "farClipTransitionSpeed": 5,
-        "randomSunAngle": true,
+        "randomSunAngle": false,
         "rotationIntervalMultiplier": 30,
         "rotationSpeedSteps": 30,
         "temperatureUpdateSteps": 24,

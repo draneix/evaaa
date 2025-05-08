@@ -67,7 +67,7 @@ namespace Assets.Scripts.Utility
 
     public static class OverlapUtility
     {
-        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale, float boxSizeMultiplier = 1.0f, float padding = 2.0f)
+        public static bool IsOverlapping(Vector3 position, GameObject prefab, Vector3 scale, float boxSizeMultiplier = 1.0f, float padding = 2.0f, string execName = "None")
         {
             Collider prefabCollider = prefab.GetComponent<Collider>();
             if (prefabCollider == null)
@@ -85,6 +85,7 @@ namespace Assets.Scripts.Utility
             {
                 // Ignore specific game objects
                 if (collider.gameObject.name == "Court_Floor" ||
+                    collider.gameObject.name.Contains(execName) ||
                     collider.gameObject.name.Contains("Court_Wall") ||
                     collider.gameObject.name == "Block" ||
                     collider.gameObject.name == "LandmarkAreaMesh" ||

@@ -186,6 +186,20 @@ public class ResourceSpawner : MonoBehaviour
         Debug.Log($"Selected GroupedRandom location: {currentLocationGroup.prefabLabel}");
     }
 
+    public void ClearAllResources()
+    {
+        ClearResources();
+        Resources.UnloadUnusedAssets();
+        Debug.Log("ResourceSpawner: All resources have been cleared.");
+    }
+
+    public void ClearRandomResources()
+    {
+        ClearResources();
+        Resources.UnloadUnusedAssets();
+        Debug.Log("ResourceSpawner: Random resources have been cleared.");
+    }
+
     public void ResetResources()
     {
         // Reset all resources (Static, Random, and GroupedRandom)

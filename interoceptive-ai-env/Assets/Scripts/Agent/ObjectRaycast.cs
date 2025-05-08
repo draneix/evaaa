@@ -5,7 +5,7 @@ public class ObjectRaycast : MonoBehaviour
     public GameObject agent;
     public RaycastHit hit;
     public float damage;
-    public float maxDamage = 50f; // Maximum damage cap
+    public float maxDamage = 30f; // Maximum damage cap
     private float impulseMagnitude;
 
     public float[] collisionObservation;

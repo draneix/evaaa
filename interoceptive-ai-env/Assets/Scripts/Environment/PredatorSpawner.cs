@@ -103,15 +103,15 @@ public class PredatorSpawner : MonoBehaviour
         }
     }
 
-    public IEnumerator ClearAndGeneratePredators()
-    {
-        ClearPredators();
-        yield return new WaitForSeconds(0.5f);
-        GeneratePredators();
-        Debug.Log("PredatorSpawner: New predators generated.");
-    }
+    // public IEnumerator ClearAndGeneratePredators()
+    // {
+    //     ClearPredators();
+    //     yield return new WaitForSeconds(0.5f);
+    //     GeneratePredators();
+    //     Debug.Log("PredatorSpawner: New predators generated.");
+    // }
 
-    private void GeneratePredators()
+    public void GeneratePredators()
     {
         if (predatorConfig == null || predatorConfig.groups == null)
         {
@@ -125,7 +125,7 @@ public class PredatorSpawner : MonoBehaviour
         }
     }
 
-    private void ClearPredators()
+    public void ClearPredators()
     {
         foreach (var predator in spawnedPredators)
         {
@@ -159,7 +159,7 @@ public class PredatorSpawner : MonoBehaviour
                 rotation = RandomRotation(group.rotationRange);
                 scale = RandomScale(group.scaleRange);
                 attempts++;
-                validPosition = !OverlapUtility.IsOverlapping(position, predatorPrefab, scale, 1.0f, group.padding);
+                validPosition = !OverlapUtility.IsOverlapping(position, predatorPrefab, scale, 1.0f, group.padding, "Landmark");
             } while (!validPosition && attempts < 100);
 
             if (validPosition)

@@ -205,13 +205,15 @@ public class MasterInitializer : MonoBehaviour
 
     private IEnumerator ResetSceneInOrder()
     {
+        Debug.Log("MasterInitializer: Resetting scene...");
         // Step 1: Pause the Academy/Agent updates during reset
         academy.AutomaticSteppingEnabled = false;
 
         // Step 2: Reset random spawners and predators through SpawnerManager
         if (spawnerManager != null)
         {
-            yield return StartCoroutine(spawnerManager.ResetAllSpawnersCoroutine());
+            // yield return StartCoroutine(spawnerManager.ResetAllSpawnersCoroutine());
+            spawnerManager.ResetAllSpawners();
             Debug.Log("MasterInitializer: Random obstacles and resources reset.");
         }
         else

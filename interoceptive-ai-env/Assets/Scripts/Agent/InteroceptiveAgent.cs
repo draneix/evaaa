@@ -170,7 +170,7 @@ public class InteroceptiveAgent : Agent
                 }
 
                 // Use the loaded configuration
-                isAIControlled = agentConfig.isAIControlled;
+                isAIControlled = configLoader.mainConfig.isAIControlled;
                 singleTrial = agentConfig.singleTrial;
                 initRandomAgentPosition = agentConfig.initRandomAgentPosition;
                 initAgentPosition = agentConfig.initAgentPosition;
@@ -940,7 +940,6 @@ public class InteroceptiveAgent : Agent
 [System.Serializable]
 public class AgentConfig
 {
-    public bool isAIControlled;
     public bool singleTrial;
     public bool initRandomAgentPosition;
     public ThreeDVector initAgentPosition;

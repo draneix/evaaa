@@ -424,6 +424,6 @@ public class ThermoGridSpawner : MonoBehaviour
                 areaTemp[x, z] = baseTemp[x, z] + offset;
             }
         }
-        Debug.Log($"ThermoGridSpawner: Set temperature offset {offset} for day/night.");
+        // Debug.Log($"ThermoGridSpawner: Set temperature offset {offset} for day/night.");
     }
 }

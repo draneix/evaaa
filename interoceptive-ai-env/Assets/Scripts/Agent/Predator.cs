@@ -7,6 +7,7 @@ public class Predator : MonoBehaviour
 {
     public enum PredatorState { Resting, Searching, Chasing, Attacking }
     public PredatorState currentState;
+    public bool isInLandmarkArea;
 
     [Header("Movement Settings")]
     [SerializeField] public float walkSpeed = 3.0f;
@@ -133,19 +134,27 @@ public class Predator : MonoBehaviour
         }
     }
 
-    // 2D convex hull containment check (XZ plane)
-    private bool IsPointInConvexHull(Vector3 point)
+    /// <summary>
+    /// Checks if the predator's XZ position is inside the convex hull polygon defined by the landmark area.
+    /// This uses a 2D point-in-convex-polygon test (cross product method).
+    /// For each edge of the convex hull, it checks if the point is always on the same side (left) of all edges.
+    /// If the point is ever on the right side of any edge, it is outside the polygon.
+    /// This is O(N) where N is the number of convex hull points (very fast for small N).
+    /// </summary>
+    private bool IsInsideLandmarkArea()
     {
         if (landmarkSpawner == null) return false;
         var hull = landmarkSpawner.GetConvexHullPoints();
         if (hull == null || hull.Count < 3) return false;
-        Vector2 p = new Vector2(point.x, point.z);
-        for (int i = 0; i < hull.Count; i++)
+        Vector2 p = new Vector2(transform.position.x, transform.position.z);
+        int n = hull.Count;
+        for (int i = 0; i < n; i++)
         {
             Vector2 a = new Vector2(hull[i].x, hull[i].z);
-            Vector2 b = new Vector2(hull[(i + 1) % hull.Count].x, hull[(i + 1) % hull.Count].z);
+            Vector2 b = new Vector2(hull[(i + 1) % n].x, hull[(i + 1) % n].z);
             Vector2 edge = b - a;
             Vector2 toPoint = p - a;
+            // Cross product: if negative, point is to the right of the edge (outside for CCW hull)
             if (edge.x * toPoint.y - edge.y * toPoint.x < 0)
                 return false;
         }
@@ -175,13 +184,14 @@ public class Predator : MonoBehaviour
         }
 
         // Use 2D convex hull check for containment
-        bool isOutside = !IsPointInConvexHull(transform.position);
+        bool isOutside = !IsInsideLandmarkArea();
+        isInLandmarkArea = !isOutside;
         if (isOutside)
         {
             outsideAreaStepCounter++;
             if (outsideAreaStepCounter >= maxOutsideSteps)
             {
-                Debug.Log($"[{gameObject.name}] Outside convex hull area for {outsideAreaStepCounter} steps, redirecting...");
+                Debug.Log($"[{gameObject.name}] Outside landmark area for {outsideAreaStepCounter} steps, redirecting...");
                 ChooseRandomDestination();
                 outsideAreaStepCounter = 0; // Reset after redirect
             }
@@ -225,19 +235,17 @@ public class Predator : MonoBehaviour
                 break;
 
             case PredatorState.Chasing:
-                if (detectedAgent != null && nav.enabled && IsPointInConvexHull(transform.position))
+                if (detectedAgent != null && nav.enabled)
                 {
-                    Vector3 targetPos = detectedAgent.position;
-                    if (landmarkAreaMeshCollider != null)
+                    // Check if predator is inside the landmark area
+                    if (!IsInsideLandmarkArea())
                     {
-                        // Clamp the target to the allowed area
-                        Vector3 clampedTarget = landmarkAreaMeshCollider.ClosestPoint(targetPos);
-                        nav.SetDestination(clampedTarget);
+                        Debug.Log($"[{gameObject.name}] Chasing interrupted: outside landmark area, switching to Searching.");
+                        detectedAgent = null;
+                        ChangeState(PredatorState.Searching);
+                        break;
                     }
-                    else
-                    {
-                        nav.SetDestination(targetPos);
-                    }
+                    nav.SetDestination(detectedAgent.position);
                     if (!View())
                     {
                         Debug.Log($"[{gameObject.name}] Lost sight of agent, returning to Searching state");
