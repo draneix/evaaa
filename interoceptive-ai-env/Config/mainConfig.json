@@ -1,14 +1,13 @@
 {
     "isAIControlled": true,
     "configFolderName": "exp-two-resource-thermo",
-    "recordingScreen":
-    {
+    "recordingScreen": {
         "recordEnable": "false",
-        "recordingFolderName": "SampleRecording-debug"
+        "recordingFolderName": "sample"
     },
     "experimentData": {
-        "recordEnable": "false",
+        "recordEnable": "true",
         "baseFolderName": "Data",
-        "fileNamePrefix": "debug"
+        "fileNamePrefix": ""
     }
 }
