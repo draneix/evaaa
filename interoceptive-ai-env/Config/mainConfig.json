@@ -1,6 +1,6 @@
 {
     "isAIControlled": true,
-    "configFolderName": "exp-Ymaze",
+    "configFolderName": "exp-multiGoalPlanning",
     "recordingScreen": {
         "recordEnable": "false",
         "recordingFolderName": "sample"

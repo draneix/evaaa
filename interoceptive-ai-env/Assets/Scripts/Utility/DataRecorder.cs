@@ -39,6 +39,7 @@ public class DataRecorder : MonoBehaviour
 
     private int globalStepNumber = 0; // Tracks total steps across all episodes
     private int episodeStepNumber = 0; // Tracks steps within the current episode
+    private int episodeStepStartIndex = 0; // Tracks where the current episode's steps start in stepData
 
     public class StepData
     {
@@ -163,6 +164,7 @@ public class DataRecorder : MonoBehaviour
             uniqueEventTypes = 0
         };
         episodeStepNumber = 0; // Reset per-episode step counter
+        episodeStepStartIndex = stepData.Count; // Mark where this episode's steps start
     }
 
     private void InitializeDataFiles()
@@ -447,18 +449,19 @@ public class DataRecorder : MonoBehaviour
 
     public void CalculateFinalMetrics()
     {
-        if (stepData.Count == 0) return;
-        // Set total steps to the last step number
-        currentEpisode.totalSteps = stepData.Count;
+        // Only use steps from this episode
+        var episodeSteps = stepData.Skip(episodeStepStartIndex).ToList();
+        if (episodeSteps.Count == 0) return;
+        currentEpisode.totalSteps = episodeSteps.Count;
         // Calculate reward statistics
-        currentEpisode.averageReward = stepData.Average(s => s.reward);
-        currentEpisode.maxReward = stepData.Max(s => s.reward);
-        currentEpisode.minReward = stepData.Min(s => s.reward);
+        currentEpisode.averageReward = episodeSteps.Average(s => s.reward);
+        currentEpisode.maxReward = episodeSteps.Max(s => s.reward);
+        currentEpisode.minReward = episodeSteps.Min(s => s.reward);
         // Get final resource levels
-        currentEpisode.finalFoodLevel = stepData.Last().foodLevel;
-        currentEpisode.finalWaterLevel = stepData.Last().waterLevel;
-        currentEpisode.finalHealthLevel = stepData.Last().healthLevel;
-        currentEpisode.finalTempLevel = stepData.Last().thermoLevel;
+        currentEpisode.finalFoodLevel = episodeSteps.Last().foodLevel;
+        currentEpisode.finalWaterLevel = episodeSteps.Last().waterLevel;
+        currentEpisode.finalHealthLevel = episodeSteps.Last().healthLevel;
+        currentEpisode.finalTempLevel = episodeSteps.Last().thermoLevel;
         // Calculate action percentages
         float totalActions = currentEpisode.actionPercentages.Values.Sum();
         if (totalActions > 0)

@@ -21,9 +21,9 @@
         "startFoodLevel": -12.0,
         "waterLevelRange": { "min": -15.0, "max": 15.0 },
         "resourceWaterValue": 3.0,
-        "startWaterLevel": -13.0,
+        "startWaterLevel": -12.0,
         "thermoLevelRange": { "min": -15.0, "max": 15.0 },
-        "startThermoLevel": -7.0,
+        "startThermoLevel": -12.0,
         "healthLevelRange": { "min": 0.0, "max": 100.0 },
         "startHealthLevel": 100.0,
         "useTouchObs": true,
@@ -67,5 +67,5 @@
         "maxDistance": 1.5,
         "radialRange": 360.0,
         "damageConstant": 0.0002,
-        "maxSteps": 300
+        "maxSteps": 350
     }
