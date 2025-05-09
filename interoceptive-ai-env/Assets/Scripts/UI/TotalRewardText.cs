@@ -10,9 +10,18 @@ public class TotalRewardDisplay : MonoBehaviour
         [Header("UI Components")]
         [Tooltip("Reference to the Total Reward Text (TextMeshProUGUI).")]
         public TextMeshProUGUI totalRewardText;
+        public int episodeNumber;
+        private DataRecorder dataRecorder;
+
+        // Make the text include the episode number (episodeCount)
+        void Start()
+        {
+                dataRecorder = FindObjectOfType<DataRecorder>();
+        }
 
         void Update()
-        {
+        {       
+                episodeNumber = dataRecorder.episodeNumber;
                 if (agentState == null || totalRewardText == null)
                 {
                         Debug.LogWarning("AgentState or TotalRewardText is not assigned.");
@@ -24,14 +33,16 @@ public class TotalRewardDisplay : MonoBehaviour
                 float averagedReward = agentState.averageReward;
                 float rewardWindowSize = agentState.rewardWindowSize;
                 // Display the reward
-                totalRewardText.text = $"\n\nReward: {mlAgentReward:F2}\nAvg Last {rewardWindowSize:F0} Steps: \n{averagedReward:F2}";
+                // Make the totalrewardtext include the episode number
+                // totalRewardText.text = $"\n\nEpisode: {episodeNumber}\nReward: {mlAgentReward:F2}\nAvg Last {rewardWindowSize:F0} Steps: \n{averagedReward:F2}";
+                totalRewardText.text = $"\n\nEpisode: {episodeNumber}\nReward: {mlAgentReward:F2}";
 
-                // Optional: Change text color based on reward value
-                if (mlAgentReward >= -0.5f) // Example threshold
-                        totalRewardText.color = Color.green;
-                else if (mlAgentReward >= -1f)
-                        totalRewardText.color = Color.yellow;
-                else
-                        totalRewardText.color = Color.red;
+                // // Optional: Change text color based on reward value
+                // if (mlAgentReward >= -0.5f) // Example threshold
+                //         totalRewardText.color = Color.green;
+                // else if (mlAgentReward >= -1f)
+                //         totalRewardText.color = Color.yellow;
+                // else
+                //         totalRewardText.color = Color.red;
         }
 }
