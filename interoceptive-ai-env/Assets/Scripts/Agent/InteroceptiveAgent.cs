@@ -893,15 +893,25 @@ public class InteroceptiveAgent : Agent
         private float CalculateReward()
         {
                 float[] setPoints = new float[] { 0f, 0f, 0f, 0f };
-                setPoints[0] = startFoodLevel;
-                setPoints[1] = startWaterLevel;
-                setPoints[2] = startThermoLevel;
-                setPoints[3] = startHealthLevel;
+                // setPoints[0] = startFoodLevel;
+                // setPoints[1] = startWaterLevel;
+                // setPoints[2] = startThermoLevel;
+                // setPoints[3] = startHealthLevel;
 
-                float[] maxDeviations = new float[] { startFoodLevel - foodLevelRange.min, 
-                                                startWaterLevel - waterLevelRange.min, 
-                                                startThermoLevel - thermoLevelRange.min, 
-                                                healthLevelRange.max - healthLevelRange.min };
+                setPoints[0] = 0;
+                setPoints[1] = 0;
+                setPoints[2] = 0;
+                setPoints[3] = 100;
+
+                // float[] maxDeviations = new float[] { startFoodLevel - foodLevelRange.min, 
+                //                                 startWaterLevel - waterLevelRange.min, 
+                //                                 startThermoLevel - thermoLevelRange.min, 
+                //                                 healthLevelRange.max - healthLevelRange.min };
+
+                float[] maxDeviations = new float[] { foodLevelRange.max,
+                                                     waterLevelRange.max,
+                                                     thermoLevelRange.max,
+                                                     healthLevelRange.max };
 
                 // Calculate normalized Euclidean distance
                 float sumSquares = 0f;

@@ -1,6 +1,6 @@
 {
     "isAIControlled": true,
-    "configFolderName": "train-level-1.1-ScatteredResource",
+    "configFolderName": "exp-multiGoalPlanning",
     "recordingScreen": {
         "recordEnable": "false",
         "recordingFolderName": "SampleRecording"
