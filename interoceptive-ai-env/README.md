@@ -5,8 +5,11 @@
   - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
   - [Key Features](#key-features)
+  - [Quickstart Example](#quickstart-example)
   - [Installation](#installation)
-  - [Getting Started](#getting-started)
+    - [1. Unity Editor](#1-unity-editor)
+    - [2. Python \& ML-Agents (Optional, for training)](#2-python--ml-agents-optional-for-training)
+    - [3. Additional Steps](#3-additional-steps)
   - [Project Structure](#project-structure)
     - [1. Agent Scripts](#1-agent-scripts)
     - [2. Environment Scripts](#2-environment-scripts)
@@ -44,6 +47,32 @@
 - Unified, intrinsic reward system
 - Built on Unity ML-Agents
 - Open-source and fully configurable
+
+## Quickstart Example
+
+Follow these steps to launch your first EVAAA simulation:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://anonymous.4open.science/r/evaaa-2486
+   cd evaaa-2486
+   ```
+
+2. **Open in Unity:**
+   - Launch Unity Hub.
+   - Click **Add** and select the cloned `evaaa-2486` folder.
+   - Open the project with **Unity Editor 2022.3.16f1**.
+
+3. **Select an environment/task:**
+   - Edit `Config/mainConfig.json` and set `"configFolderName"` to your desired experiment (e.g., `"train-level-1.1-ScatteredResource"`).
+
+4. **Run the simulation:**
+   - Press the **Play** button in the Unity Editor.
+   - Observe the agent interacting with the environment.
+
+---
+
+You can now explore, modify, or extend the EVAAA environments and tasks.
 
 ## Installation
 
@@ -86,11 +115,6 @@
 
 **Tip:**
 If you encounter package or dependency issues, ensure your Unity version matches the project and that all required packages are installed via the Unity Package Manager.
-
-## Getting Started
-<!-- How to launch the environment -->
-<!-- How to train a sample agent -->
-<!-- Quickstart example (with code snippets) -->
 
 ## Project Structure
 
