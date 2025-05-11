@@ -1,176 +1,259 @@
-# EVAAA : Essential Variables in Autonomous and Adaptive Agents
+# EVAAA: Essential Variables in Autonomous and Adaptive Agents
 
-EVAAA will provide a mechanism to freely choose a goal across different surrounding conditions and keep a more stable reward function, which are the key to build and test autonomous and adaptive RL agents. We provide a 3D virtual environment platform that requires RL agents in the Unity environment. It is designed to facilitate testing RL agent.
+## Table of Contents
+- [EVAAA: Essential Variables in Autonomous and Adaptive Agents](#evaaa-essential-variables-in-autonomous-and-adaptive-agents)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Key Features](#key-features)
+  - [Installation](#installation)
+  - [Getting Started](#getting-started)
+  - [Project Structure](#project-structure)
+    - [1. Agent Scripts](#1-agent-scripts)
+    - [2. Environment Scripts](#2-environment-scripts)
+    - [3. Event System](#3-event-system)
+    - [4. Scene Controllers](#4-scene-controllers)
+    - [5. User Interface (UI)](#5-user-interface-ui)
+    - [6. Utility Scripts](#6-utility-scripts)
+  - [Usage](#usage)
+    - [Configuration System Overview](#configuration-system-overview)
+      - [1. Config Directory Structure](#1-config-directory-structure)
+      - [2. How Configuration is Loaded](#2-how-configuration-is-loaded)
+      - [3. Example: mainConfig.json](#3-example-mainconfigjson)
+    - [How to Use](#how-to-use)
+  - [Environments \& Tasks](#environments--tasks)
+    - [1. Naturalistic Training Curriculum](#1-naturalistic-training-curriculum)
+    - [2. Experimental Testbeds](#2-experimental-testbeds)
+      - [Basic Homeostatic Regulation](#basic-homeostatic-regulation)
+      - [Advanced Adaptive Skills](#advanced-adaptive-skills)
+  - [Baselines \& Evaluation](#baselines--evaluation)
+  - [Customization](#customization)
+  - [Citing EVAAA](#citing-evaaa)
+  - [License](#license)
+  - [Contact](#contact)
+  - [Acknowledgements](#acknowledgements)
 
-![agent](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/9ccad81f-925b-4330-976e-495bdb4e8b8e)
+---
 
-## Install and Setting
-See here for a more detailed installation guide.
-The setting process required to run this project is as follows.
+## Overview
+<!-- Briefly introduce EVAAA, its motivation, and its significance for RL research (1-2 paragraphs). -->
 
-1. Clone this repository
-2. Download interoceptive AI environment from below environment link
-3. Unzip environment files in the Example folder of this repository
-4. Install [ml-agents](https://github.com/Unity-Technologies/ml-agents)
-5. Follow example python code ("python_code_example.py") in Example folder of this repository
+## Key Features
+- Biologically inspired agent design with internal state regulation
+- Egocentric, multimodal perception (vision, olfaction, thermoception, etc.)
+- Progressive curriculum and experimental testbeds
+- Unified, intrinsic reward system
+- Built on Unity ML-Agents
+- Open-source and fully configurable
 
-| OS      | Enviornment                                                                                     |
-| ------- | ----------------------------------------------------------------------------------------------- |
-| Linux   | [Link](https://drive.google.com/drive/folders/1OnsRKaeks3kpiVeBAEh47NpcbOHIqfW2?usp=sharing)    |
-| Mac     | [Link](https://drive.google.com/drive/folders/1jKiPi0EFQbqylakLX4s5_1PZwB7C2M2R?usp=drive_link) |
-| Windows | [Link](https://drive.google.com/drive/folders/1c5kjrWbcoLT0gueNWgvvqwIqcCO7qOj1?usp=drive_link) |
+## Installation
 
-## Requirements
-| Software                | Version     |
-| ----------------------- | ----------- |
-| python                  | 3.10.12     |
-| Unity editor (optional) | 2022.3.16f1 |
+### 1. Unity Editor
 
-| Package       | Version |
-| ------------- | ------- |
-| mlagents      | 1.0.0   |
-| mlagents-envs | 1.0.0   |
+- **Required Version:** EVAAA is developed and tested with **Unity Editor 2022.3.16f1**.
+- **Download Unity:**
+  - Visit [Unity Download Archive](https://unity3d.com/get-unity/download/archive) and select version 2022.3.16f1.
+  - Install via Unity Hub for best compatibility.
+- **Open the Project:**
+  1. Launch Unity Hub.
+  2. Click **Add** and select the root folder of the cloned repository.
+  3. Ensure the Editor Version is set to **2022.3.16f1**.
+  4. Click the project name (`interoceptive-ai-env`) to open it in Unity.
 
+### 2. Python & ML-Agents (Optional, for training)
 
+- **Python Version:** 3.10.x recommended.
+- **ML-Agents:**
+  - Install via pip:
+    ```bash
+    pip install mlagents==1.0.0 mlagents-envs==1.0.0
+    ```
+  - For more details, see [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents).
 
-<!-- ### Detailed Installation Guide
-This is a more detailed step-by-step installation guide for EVAAA, written for users who don't have lots of experience with python dependencies, Github repositories, and/or Unity -- or in case you run into trouble with the installation.
-Here we provide instructions for the installation required for the project. Make sure to follow all the necessary commands, configurations, and any additional setup required.
+### 3. Additional Steps
 
-### Step 1. Clone EVAAA Repository
-Here we provide the command to clone the main repository from GitHub to the local machine. We recommend creating a ‘root’ folder so that you can also keep your own training scripts, a Python virtual environment, and any other external EVAAA-related work in the same location.
-Cloning this repository can be done either by:
-- Downloading the .zip directly and extracting it into your 'root' folder
-- Cloning using GitHub's command line interface
+- **Clone this repository:**
+  ```bash
+  git clone https://anonymous.4open.science/r/evaaa-2486
+  cd evaaa-2486
+  ```
+- **Configure your experiment:**
+  - Edit `Config/mainConfig.json` to select your desired environment/task (see [Usage](#usage)).
+- **Run the simulation:**
+  - Press the **Play** button in the Unity Editor to start the environment.
+  - For training, use the ML-Agents Python API as described in the ML-Agents documentation.
 
-### Step 2. Install Dependencies
-To run the project after replicating the repo, you must download the necessary packages in the following ways. You can install these via pip or conda, with or without a virtual environment created -- if you're more familiar with a particular method here it's probably best to stick to it.
-In EVAAA, the implementation of environment and agent on Unity is based on C# and training is based on python. The way to download and set the packages needed are written at the below.
+---
 
-a. Python
-따로 설치해야 할 python version이 존재하는지
-- Download
-b. Visual Studio Code
-c. Unity
+**Tip:**
+If you encounter package or dependency issues, ensure your Unity version matches the project and that all required packages are installed via the Unity Package Manager.
 
-### Step 3. Download environment
+## Getting Started
+<!-- How to launch the environment -->
+<!-- How to train a sample agent -->
+<!-- Quickstart example (with code snippets) -->
 
-### Step 4. Open at Unity Hub
-Editor version: 2021.3.1f1
-After all the packages are ready, then you can run EVAAA project at Unity.  -->
+## Project Structure
 
+The EVAAA project is organized into several core script groups, each responsible for a key aspect of the simulation environment. For detailed documentation on each group, see the linked markdown files in the `Documents/` folder.
 
-## Manual Control 
-When you run this project on Unity, it will proceed with an agent view (a first-person perspective). Here you can control the agent with the following:
-<!-- 
+### 1. Agent Scripts
+Defines the core logic for agent behavior, perception, and interaction with the environment, including both learning agents and non-player agents (e.g., predators).
+- [See detailed documentation → Documents/Agent.md](Documents/Agent.md)
 
-If you launch the environment directly from the executable or through the `play.py` script it will launch in player mode. Here you can control the agent with the following:
+### 2. Environment Scripts
+Handles procedural generation and management of environmental elements and dynamics. The environment system is modular, with each component documented separately:
+- [Environment System Overview → Documents/Environment.md](Documents/Environment.md)
+  - [ThermoGridSpawner](Documents/ThermoGridSpawner_Introduction.md)
+  - [CourtSpawner](Documents/CourtSpawner_Introduction.md)
+  - [ObstacleSpawner](Documents/ObstacleSpawner_Introduction.md)
+  - [ResourceSpawner](Documents/ResourceSpawner_Introduction.md)
+  - [PredatorSpawner](Documents/PredatorSpawner_Introduction.md)
+  - [DayAndNight](Documents/DayAndNight_Introduction.md)
 
-| Keyboard Key | Action               |
-| ------------ | -------------------- |
-| W            | move agent forwards  |
-| S            | move agent backwards |
-| A            | turn agent left      |
-| D            | turn agent right     |
-| C            | switch camera        |
-| R            | reset environment    | --> |
+### 3. Event System
+Provides a flexible mechanism for managing and triggering in-game events, enabling dynamic interactions between agents and the environment.
+- [See detailed documentation → Documents/EventSystem.md](Documents/EventSystem.md)
 
-## Unity Environment
-We have a dynamically changing environment, and there are 5 levels in total. 
+### 4. Scene Controllers
+Responsible for initializing, configuring, and managing the simulation environment, ensuring reproducible and flexible experiments.
+- [See detailed documentation → Documents/SceneControllers.md](Documents/SceneControllers.md)
 
-### Level 1. Basic setup: Food, water, and temperature.
-![스크린샷 2023-07-24 오후 5 19 27](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/eaf54264-d8fc-4c0f-8e25-af61d43855a2)
+### 5. User Interface (UI)
+Provides real-time visualization and control interfaces for agents, environment states, and experiment feedback.
+- [See detailed documentation → Documents/UI.md](Documents/UI.md)
 
-At level 1, the environment is simple, featuring only the fundamental resources, that is, food, water (i.e., a pond), and temperature
-- The food is organized into cubes and possesses the ability to undergo color changes over time.
-- The water is arranged in the form of a pond. 
-- The temperature is randomized based on the specified parameters and is regenerated whenever the agent dies.
-  - The temperature can be directly modified through the "Field Temperature parameters".
+### 6. Utility Scripts
+General-purpose functions, data structures, and editor tools that support core simulation, data collection, and environment setup.
+- [See detailed documentation → Documents/Utility.md](Documents/Utility.md)
 
+---
 
-### Level 2. Obstacles.
-![스크린샷 2023-07-24 오후 5 19 08](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/50e57623-4c6d-4e35-b11f-c4bf676dbf1e)
+**Note:** For each group, the corresponding markdown file in the `Documents/` folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
 
-The agent needs to leverage the knowledge acquired from the previous level to successfully adapt to a more complex environmental setting. 
-At level 2, we adds natural objects, such as trees, rocks, and bushes, which act as obstacles that hinder the agent’s vision
+## Usage
 
-### Level 3. Day/night cycle.
-![level3](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/22c63af0-41bb-43e5-963c-e248d3e8efb4)
+### Configuration System Overview
 
-In level 3, we implemented the day/night cycle using a sun game object that rotates at a predefined degree over time.
+EVAAA's environments, tasks, and experiment settings are fully configurable via structured JSON files and folders in the `Config/` directory. This system enables easy switching between training levels, experimental testbeds, and custom scenarios—without modifying code.
 
-At night, the overall temperature is lower and the agent's vision is darker, so it receives less visual input. 
+#### 1. Config Directory Structure
+- **Config/mainConfig.json**: The entry point for all experiments. Specifies the active configuration folder (e.g., `"configFolderName": "exp-multiGoalPlanning"`) and global settings such as AI control, recording options, and data output.
+- **Config/[experiment-folder]/**: Each subfolder (e.g., `train-level-1.1-ScatteredResource`, `exp-multiGoalPlanning`) contains all JSON files needed to define a specific environment, task, or experiment. These typically include:
+  - `agentConfig.json`
+  - `courtConfig.json`
+  - `resourceConfig.json`
+  - `obstacleConfig.json`
+  - `thermoGridConfig.json`
+  - `predatorConfig.json`
+  - ...and other task-specific files
 
-### Level 4. Weather changes.
-![level4](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/832dc75a-cb1b-44c2-9a54-218749524072)
+#### 2. How Configuration is Loaded
+- The `ConfigLoader` script (see `Assets/Scripts/SceneController/ConfigLoader.cs`) reads `mainConfig.json` to determine which experiment folder to use.
+- All environment, agent, and task parameters are then loaded from the selected folder.
+- This design allows for rapid experiment iteration, reproducibility, and sharing of environment setups.
 
-In level 4, we implemented the weather changes. We incorporated two weather variations into EVAAA: rain and snow, drawing inspiration from nature.
+#### 3. Example: mainConfig.json
+```json
+{
+    "isAIControlled": true,
+    "configFolderName": "exp-multiGoalPlanning",
+    "recordingScreen": {
+        "recordEnable": "false",
+        "recordingFolderName": "SampleRecording"
+    },
+    "experimentData": {
+        "recordEnable": "false",
+        "baseFolderName": "ExperimentData",
+        "fileNamePrefix": "data"
+    }
+}
+```
 
-Weather options can be selected as a parameter in Unity itself, and can be applied to any scene. 
-You can also set temperature changes based on the weather, with rain or snow obstructing the agent's view. 
+---
 
-### Level 5. Four seasons.
-![level5](https://github.com/cocoanlab/interoceptive-ai-env/assets/119106107/70df5a43-826b-468a-b4df-e2e63d0551e4)
+### How to Use
 
-In level 5, we combine all challenges from lower level environments, e.g., day/night cycle and weather changes, with seasonal variations– spring, summer, fall, and winter.
-Each season is characterized by a number of unique features with varying colors, which can disrupt the agent’s vision for navigating and detecting resources.
+1. **Select or Create a Configuration**
+   - To run a specific environment or task, set the `"configFolderName"` in `Config/mainConfig.json` to the desired experiment folder (e.g., `"train-level-2.1-Obstacles"`, `"exp-multiGoalPlanning"`).
+   - Each folder contains all necessary JSON files to define the environment, agent, and task.
 
-## Unity Script Overview
+2. **Launch the Environment**
+   - Open the Unity project and ensure the `Config/mainConfig.json` points to your desired configuration.
+   - Run the simulation in the Unity Editor or build and execute the standalone player.
 
-EVAAA environment consists of four large categories of scripts.
+3. **Customization**
+   - To create new tasks or modify existing ones, copy an existing config folder, edit the JSON files, and update `mainConfig.json` to point to your new folder.
+   - You can adjust agent parameters, environment layout, resource placement, obstacles, thermal fields, predator behavior, and more—all via config files.
 
-+ Agent
-    + [InteroceptiveAgent](https://github.com/cocoanlab/interoceptive-ai-env/blob/2dfe4d8842bde685f6d2fea5f07070c5c37aada1/Assets/Scripts/InteroceptiveAgent.cs)
-	
-+ Animal
-    + [Animal](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/Animal.cs)
-    + [Pig](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/Pig.cs)
-    + [Predator](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/Predator.cs)
-    + [StrongAnimal](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/StrongAnimal.cs)
-    + [WeakAnimal](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/WeakAnimal.cs)
-	
-+ Environment
-    + [Field](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/Field.cs)
-    + [WeatherManager](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/WeatherManager.cs)
-    + [AreaTemp](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/AreaTemp.cs)
-    + [DayAndNight](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/DayAndNight.cs)
-    + [ObjectiveTemp](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ObjectTemp.cs)
-    + [PondBuild](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/PondBuild.cs)
-    + [Treebuild](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/TreeBuild.cs)
-    + [TreeShader](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/TreeShader.cs)
-    + [ThermalObject](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ThermalObject.cs)
-    + [ThermalSensing](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ThermalSensing.cs)
-    + [HeatMap](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/HeatMap.cs)
-    + [FieldThermoGrid](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/FieldThermoGrid.cs)
-    + [skybox](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/skybox.cs)
-    + [cave2](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/cave2.cs)
-	
-+ Resource
-    + [ResourceEating](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ResourceEating.cs)
-    + [ResourceProperty](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ResourceProperty.cs)
-    + [ResourceUI](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/ResourceUI.cs)
-	
-+ Others
-    + [AgentTrack](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/AgentTrack.cs)
-    + [CameraFollow](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/CameraFollow.cs)
-    + [CaptureScreenShot](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/CaptureScreenShot.cs)
-    + [FieldOfViewAngle](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/FieldOfViewAngle.cs)
-    + [SceneInitialization](https://github.com/cocoanlab/interoceptive-ai-env/blob/r0.12.3/Assets/Scripts/SceneInitialization.cs)
+4. **Data Recording**
+   - Enable or disable data and screen recording in `mainConfig.json` under `"recordingScreen"` and `"experimentData"`.
+   - Output folders and file prefixes can also be set here.
 
+---
 
-## Unity Assets Sources
+This configuration system enables rapid, reproducible experimentation and makes EVAAA highly extensible for new research scenarios.
 
-EVAAA environments are built using the following assets. (All assets are free assets from Unity Asset Store.)
+## Environments & Tasks
 
-+ [Field Material 1](https://assetstore.unity.com/packages/3d/environments/landscapes/mountain-terrain-rock-tree-97905)
-+ [Field Material 2](https://assetstore.unity.com/packages/2d/textures-materials/floors/yughues-free-ground-materials-13001#content)
-+ [Field Material 3](https://assetstore.unity.com/packages/2d/textures-materials/nature/snow-cliff-materials-137086#content)
-+ [Pond Rock](https://assetstore.unity.com/packages/3d/props/exterior/rock-and-boulders-2-6947#content)
-+ [Water Material for Pond](https://assetstore.unity.com/packages/2d/textures-materials/water/stylize-water-texture-153577#content)
-+ [Rock](https://assetstore.unity.com/packages/3d/environments/landscapes/rocky-hills-environment-light-pack-89939#content)
-+ [Bush](https://assetstore.unity.com/packages/3d/vegetation/plants/yughues-free-bushes-13168#content)
-+ [Tree](https://assetstore.unity.com/packages/3d/vegetation/trees/2022-pbr-xfrogplants-sampler-229007#content)
-+ [Hill](https://assetstore.unity.com/packages/3d/environments/landscapes/autumn-mountain-52251#content)
-+ [Flower](https://assetstore.unity.com/packages/3d/environments/fantasy-landscape-103573#content)
-+ [Snowman](https://assetstore.unity.com/packages/3d/props/free-snowman-105123#content)
-+ [Snow Material](https://assetstore.unity.com/packages/2d/textures-materials/water/stylize-snow-texture-153579#content)
+EVAAA features a two-tiered environment architecture designed to study autonomy, adaptivity, and internal state regulation in reinforcement learning agents:
+
+### 1. Naturalistic Training Curriculum
+A sequence of progressively challenging levels, each grounded in internal-state regulation and designed to scaffold adaptive survival behavior:
+
+- **Level 1: Basic Resource Foraging**
+  - Agents learn to regulate food and water without external interference.
+  - Sublevels: Randomly distributed resources in an open field (1-1); resources relocated to a fixed corner (1-2).
+  - No obstacles; isolates essential variable (EV)-driven behavior.
+
+- **Level 2: Obstacle-Resource Mapping**
+  - Increased complexity with obstacles and spatial cues.
+  - Bonfires introduce localized heat; rocks and bushes obstruct navigation and inflict damage.
+  - Stable layouts encourage association of cues with resources.
+
+- **Level 3: Terrain Exploration and Navigation**
+  - Agents must explore semi-structured terrain while balancing competing EVs.
+  - Wall-enclosed tree regions require efficient path planning amid thermal and damage constraints.
+  - Food appears at only one tree region per episode, requiring dynamic search and strategy revision.
+
+- **Level 4: Dynamic Threatening Environment**
+  - External threats and temporal changes challenge behavioral flexibility.
+  - Predators inflict damage and must be evaded.
+  - Day-night cycle modulates temperature and predator behavior, requiring time-aware planning and adaptation.
+
+### 2. Experimental Testbeds
+A suite of controlled environments designed to isolate specific decision-making challenges and evaluate generalization:
+
+#### Basic Homeostatic Regulation
+- **Two-Resource Choice Task:** Agents choose between two resources (e.g., food vs. water) based on internal need, under partial observability.
+- **Avoiding Collision Tasks:** Agents must reach a visible resource while avoiding narrowly spaced obstacles, testing fine-grained movement control and damage minimization.
+
+#### Advanced Adaptive Skills
+- **Thermal Risk Task:** A resource is placed behind a bonfire that elevates internal temperature. Agents must plan whether to endure the heat or cool down first.
+- **Spatial Navigation (Y-maze):** Two resources are placed at separate ends of a Y-shaped layout, requiring agents to revisit and redirect based on changing internal needs.
+- **Goal Manipulation (Switch EV Level):** A transparent boundary triggers a hidden change in EV levels. Agents must detect the shift and re-prioritize without external cues.
+- **Multi-Goal Planning:** Agents infer urgency across multiple EVs and act in priority order, testing coordination and sequential regulation.
+- **Avoid Predators with Day/Night:** Agents autonomously suppress actions during the day to avoid predators, shifting to active foraging at night—testing adaptive, time-aware survival behavior.
+
+---
+
+This curriculum and testbed suite enable systematic analysis of how agents learn, adapt, and generalize under internal-state-driven demands in complex, dynamic environments.
+
+## Baselines & Evaluation
+<!-- List of supported baseline algorithms (DQN, PPO, DreamerV3, etc.) -->
+<!-- How to reproduce results from the paper -->
+<!-- Evaluation metrics -->
+
+## Customization
+<!-- How to modify agent parameters, environment settings, or curriculum via config files -->
+
+## Citing EVAAA
+<!-- BibTeX entry for citation -->
+
+## License
+<!-- License type and summary -->
+
+## Contact
+<!-- Contact information for questions or collaboration -->
+
+## Acknowledgements
+<!-- Credits for Unity ML-Agents, asset sources, and any collaborators or funding sources -->
