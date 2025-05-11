@@ -122,33 +122,33 @@ The EVAAA project is organized into several core script groups, each responsible
 
 ### 1. Agent Scripts
 Defines the core logic for agent behavior, perception, and interaction with the environment, including both learning agents and non-player agents (e.g., predators).
-- [See detailed documentation → Documents/Agent.md](Documents/Agent.md)
+- [See detailed documentation → Documents/Agent/Agent.md](Documents/Agent/Agent.md)
 
 ### 2. Environment Scripts
 Handles procedural generation and management of environmental elements and dynamics. The environment system is modular, with each component documented separately:
-- [Environment System Overview → Documents/Environment.md](Documents/Environment.md)
-  - [ThermoGridSpawner](Documents/ThermoGridSpawner_Introduction.md)
-  - [CourtSpawner](Documents/CourtSpawner_Introduction.md)
-  - [ObstacleSpawner](Documents/ObstacleSpawner_Introduction.md)
-  - [ResourceSpawner](Documents/ResourceSpawner_Introduction.md)
-  - [PredatorSpawner](Documents/PredatorSpawner_Introduction.md)
-  - [DayAndNight](Documents/DayAndNight_Introduction.md)
+- [Environment System Overview → Documents/Environment/Environment.md](Documents/Environment/Environment.md)
+  - [ThermoGridSpawner](Documents/Environment/ThermoGridSpawner_Introduction.md)
+  - [CourtSpawner](Documents/Environment/CourtSpawner_Introduction.md)
+  - [ObstacleSpawner](Documents/Environment/ObstacleSpawner_Introduction.md)
+  - [ResourceSpawner](Documents/Environment/ResourceSpawner_Introduction.md)
+  - [PredatorSpawner](Documents/Environment/PredatorSpawner_Introduction.md)
+  - [DayAndNight](Documents/Environment/DayAndNight_Introduction.md)
 
 ### 3. Event System
 Provides a flexible mechanism for managing and triggering in-game events, enabling dynamic interactions between agents and the environment.
-- [See detailed documentation → Documents/EventSystem.md](Documents/EventSystem.md)
+- [See detailed documentation → Documents/Event/EventSystem.md](Documents/Event/EventSystem.md)
 
 ### 4. Scene Controllers
 Responsible for initializing, configuring, and managing the simulation environment, ensuring reproducible and flexible experiments.
-- [See detailed documentation → Documents/SceneControllers.md](Documents/SceneControllers.md)
+- [See detailed documentation → Documents/SceneControllers/SceneControllers.md](Documents/SceneControllers/SceneControllers.md)
 
 ### 5. User Interface (UI)
 Provides real-time visualization and control interfaces for agents, environment states, and experiment feedback.
-- [See detailed documentation → Documents/UI.md](Documents/UI.md)
+- [See detailed documentation → Documents/UI/UI.md](Documents/UI/UI.md)
 
 ### 6. Utility Scripts
 General-purpose functions, data structures, and editor tools that support core simulation, data collection, and environment setup.
-- [See detailed documentation → Documents/Utility.md](Documents/Utility.md)
+- [See detailed documentation → Documents/Utility/Utility.md](Documents/Utility/Utility.md)
 
 ---
 

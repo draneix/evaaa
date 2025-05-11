@@ -2,6 +2,13 @@
 
 The Event System in EVAAA provides a flexible mechanism for managing and triggering in-game events, enabling dynamic interactions between agents and the environment. It supports the creation of event-driven scenarios, resource changes, and message-based feedback, all configurable via external JSON files.
 
+Below are the main components of the Event System. Each component is documented in detail in its own markdown file:
+
+- [EventManager](./EventManager.md): Manages the configuration, instantiation, and handling of in-game events and triggers. Dynamically generates trigger zones and registers event handlers based on configuration files.
+- [GameEventSystem](./GameEventSystem.md): Provides a static, centralized event management system for registering, triggering, and managing in-game events. Includes the `TriggerZone` component for collider-based event activation.
+
+For details on each component, see the corresponding markdown file linked above.
+
 ## Main Components
 
 ### EventManager.cs
