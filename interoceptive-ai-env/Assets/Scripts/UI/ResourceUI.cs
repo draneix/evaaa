@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// GameObject인 Canvas의 하위 GameObject인 ResourceLevelSetting에 부착됨
+// Attached to the ResourceLevelSetting GameObject, which is a child of the Canvas GameObject
 public class ResourceUI : MonoBehaviour
 {
     public Slider FoodLevel;

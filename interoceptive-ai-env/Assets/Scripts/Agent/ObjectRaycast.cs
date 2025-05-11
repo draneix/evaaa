@@ -29,19 +29,19 @@ public class ObjectRaycast : MonoBehaviour
             collisionObservation[j] = 0;
         }
 
-        int raysPerGroup = 100 / 10; // 각 그룹당 레이의 개수
+        int raysPerGroup = 100 / 10; // Number of rays per group
         
         for (int i = 0; i < 100; i++)
         {
-            int groupIndex = i / raysPerGroup; // 현재 레이가 속한 그룹 인덱스
-            float angle = i * 360f / 100; // 360도를 100개의 벡터로 나눔
+            int groupIndex = i / raysPerGroup; // Index of the group to which the current ray belongs
+            float angle = i * 360f / 100; // Divide 360 degrees into 100 vectors
             Quaternion rotation = Quaternion.Euler(0f, angle, 0f);
             Vector3 direction = rotation * transform.forward;
 
             if (Physics.Raycast(transform.position, direction, out hit, agent.GetComponent<InteroceptiveAgent>().maxDistance, layerMask))
             {
                 Debug.DrawRay(transform.position, direction * agent.GetComponent<InteroceptiveAgent>().maxDistance, Color.red);
-                collisionObservation[groupIndex] = 1 + impulseMagnitude; // 해당 그룹에서 충돌 감지시 1로 설정
+                collisionObservation[groupIndex] = 1 + impulseMagnitude;
             }
             else
             {

@@ -488,7 +488,7 @@ public class InteroceptiveAgent : Agent
                 sensor.AddObservation(countCollision);
         }
 
-        //브레인(정책)으로 부터 전달 받은 행동을 실행하는 메소드
+        // Method to execute actions received from the brain (policy)
         public override void OnActionReceived(ActionBuffers actions)
         {       
                 // Advance day/night cycle per ML-Agents step
@@ -745,7 +745,7 @@ public class InteroceptiveAgent : Agent
                         olfactoryObservation[i] = 0;
                 }
 
-                // agent 크기 바뀌면 z값 확인하기
+                // If the agent size changes, check the z value
                 Vector3 SpherePos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z + 0.5f);
                 // Detect layer number 8
                 Collider[] olfactoryTargets = Physics.OverlapSphere(SpherePos, olfactorySensorLength, 1 << 8);
@@ -830,7 +830,7 @@ public class InteroceptiveAgent : Agent
                 }
         }
 
-        // EV 간 상호작용을 고려한 업데이트
+        // Update considering the interaction between EVs (Essential Variables)
         public void FoodUpdate(float changeFood_0, float changeFood_1, float changeFood_2, float changeFood_3, float changeFood_4, float changeFood_5)
         {
                 this.resourceLevels[0] = this.resourceLevels[0] +

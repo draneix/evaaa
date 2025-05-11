@@ -115,7 +115,7 @@ public class RadialMeterController : MonoBehaviour
         UpdateFillAmount();
 
         // Update the Fill Color based on thresholds
-        // UpdateFillColor();
+        UpdateFillColor();
     }
 
     /// <summary>

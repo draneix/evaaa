@@ -17,6 +17,7 @@ public class CameraSwitcher : MonoBehaviour
     [Tooltip("Reference to the panel containing the RadialMeters.")]
     public GameObject radialMeterPanel; // Reference to the panel containing the RadialMeters
     public GameObject thermoSensorGridPanel; // Reference to the panel containing the RadialMeters
+    public GameObject totalRewardText; // Reference to the panel containing the RadialMeters
 
     [Header("Control Mode")]
     [Tooltip("Set to true if the agent is controlled by AI.")]
@@ -112,6 +113,11 @@ public class CameraSwitcher : MonoBehaviour
         }
         thermoSensorGridPanel.SetActive(true);
 
+        if (totalRewardText != null)
+        {
+            totalRewardText.SetActive(true);
+        }
+
         // Deactivate the heatmap and agent track in first-person view
         if (heatMapScript != null)
         {
@@ -150,6 +156,11 @@ public class CameraSwitcher : MonoBehaviour
             radialMeterPanel.SetActive(false);
         }
         thermoSensorGridPanel.SetActive(false);
+
+        if (totalRewardText != null)
+        {
+            totalRewardText.SetActive(false);
+        }
 
         // Reactivate the heatmap and agent track in third-person view
         if (heatMapScript != null)

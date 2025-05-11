@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// GameObject인 FoodEatRange에 부착함
+// Attached to the GameObject called FoodEatRange
 public class ResourceEating : MonoBehaviour
 {
         public InteroceptiveAgent agent;
@@ -22,7 +22,7 @@ public class ResourceEating : MonoBehaviour
                 }
         }
 
-        // Agent의 앞쪽에 sphere collider가 있는데 그것의 isTrigger가 켜져있고 다른 collider가 들어왔는지 감지함
+        // There is a sphere collider in front of the Agent, and this detects if its isTrigger is on and another collider enters.
         public void OnTriggerStay(Collider other)
         {
 
@@ -57,7 +57,7 @@ public class ResourceEating : MonoBehaviour
                         }
                 }
 
-                // 음식을 먹으면 그 음식의 위치가 옮겨짐 (사실상 먹으면 다른 곳에 새로 생기는 것과 비슷한 효과)
+                // When the agent eats food, the position of the food is changed (effectively, eating it is similar to spawning it elsewhere)
                 if (isEaten)
                 {
                         // myArea.ResetResourcePosition(other);

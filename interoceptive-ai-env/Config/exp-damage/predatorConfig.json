@@ -4,12 +4,12 @@
             "prefabName": "Predator",
             "count": 0,
             "position": {
-                "xMin": -10.0,
-                "xMax": -5.0,
+                "xMin": -8.0,
+                "xMax": 8.0,
                 "yMin": 0.0,
                 "yMax": 0.0,
-                "zMin": -10.0,
-                "zMax": -5.0
+                "zMin": -8.0,
+                "zMax": 8.0
             },
             "rotationRange": {
                 "x": 0.0,
@@ -25,15 +25,14 @@
                 "zMax": 1.0
             },
             "walkSpeed": 3.0,
-            "turnSpeed": 180.0,
+            "restDuration": 5.0,
             "viewAngle": 120.0,
             "viewDistance": 10.0,
             "damageAmount": 1.0,
             "maxDamage": 5.0,
             "attackInterval": 1.0,
             "maxRestingSteps": 50,
-            "maxSearchingSteps": 150,
-            "searchingActionInterval": 60
+            "maxSearchingSteps": 100
         }
     ]
 } 

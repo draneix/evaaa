@@ -1,0 +1,13 @@
+{
+    "isAIControlled": true,
+    "configFolderName": "exp-multiGoalPlanning",
+    "recordingScreen": {
+        "recordEnable": "false",
+        "recordingFolderName": "sample"
+    },
+    "experimentData": {
+        "recordEnable": "false",
+        "baseFolderName": "Data",
+        "fileNamePrefix": ""
+    }
+}

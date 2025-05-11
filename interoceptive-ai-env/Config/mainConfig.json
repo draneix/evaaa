@@ -3,11 +3,11 @@
     "configFolderName": "train-level-1.1-ScatteredResource",
     "recordingScreen": {
         "recordEnable": "false",
-        "recordingFolderName": "sample"
+        "recordingFolderName": "SampleRecording"
     },
     "experimentData": {
         "recordEnable": "false",
-        "baseFolderName": "Data",
-        "fileNamePrefix": ""
+        "baseFolderName": "ExperimentData",
+        "fileNamePrefix": "data"
     }
 }

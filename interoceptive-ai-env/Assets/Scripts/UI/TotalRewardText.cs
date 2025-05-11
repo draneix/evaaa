@@ -35,7 +35,7 @@ public class TotalRewardDisplay : MonoBehaviour
                 // Display the reward
                 // Make the totalrewardtext include the episode number
                 // totalRewardText.text = $"\n\nEpisode: {episodeNumber}\nReward: {mlAgentReward:F2}\nAvg Last {rewardWindowSize:F0} Steps: \n{averagedReward:F2}";
-                totalRewardText.text = $"\n\nEpisode: {episodeNumber}\nReward: {mlAgentReward:F2}";
+                totalRewardText.text = $"\n\nEpisode: {episodeNumber}\nReward: {-1/mlAgentReward*10:F2}";
 
                 // // Optional: Change text color based on reward value
                 // if (mlAgentReward >= -0.5f) // Example threshold
