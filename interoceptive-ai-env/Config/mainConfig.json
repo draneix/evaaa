@@ -1,6 +1,6 @@
 {
     "isAIControlled": true,
-    "configFolderName": "exp-multiGoalPlanning",
+    "configFolderName": "exp-goal-manipulation-WaterToFood",
     "recordingScreen": {
         "recordEnable": "false",
         "recordingFolderName": "SampleRecording"
