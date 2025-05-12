@@ -8,8 +8,7 @@
   - [Quickstart Example](#quickstart-example)
   - [Installation](#installation)
     - [1. Unity Editor](#1-unity-editor)
-    - [2. Python \& ML-Agents (Optional, for training)](#2-python--ml-agents-optional-for-training)
-    - [3. Additional Steps](#3-additional-steps)
+    - [2. Additional Steps](#2-additional-steps)
   - [Project Structure](#project-structure)
     - [1. Agent Scripts](#1-agent-scripts)
     - [2. Environment Scripts](#2-environment-scripts)
@@ -28,7 +27,6 @@
     - [2. Experimental Testbeds](#2-experimental-testbeds)
       - [Basic Homeostatic Regulation](#basic-homeostatic-regulation)
       - [Advanced Adaptive Skills](#advanced-adaptive-skills)
-  - [Baselines \& Evaluation](#baselines--evaluation)
   - [Customization](#customization)
   - [Citing EVAAA](#citing-evaaa)
   - [License](#license)
@@ -88,17 +86,7 @@ You can now explore, modify, or extend the EVAAA environments and tasks.
   3. Ensure the Editor Version is set to **2022.3.16f1**.
   4. Click the project name (`interoceptive-ai-env`) to open it in Unity.
 
-### 2. Python & ML-Agents (Optional, for training)
-
-- **Python Version:** 3.10.x recommended.
-- **ML-Agents:**
-  - Install via pip:
-    ```bash
-    pip install mlagents==1.0.0 mlagents-envs==1.0.0
-    ```
-  - For more details, see [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents).
-
-### 3. Additional Steps
+### 2. Additional Steps
 
 - **Clone this repository:**
   ```bash
@@ -262,10 +250,6 @@ A suite of controlled environments designed to isolate specific decision-making 
 
 This curriculum and testbed suite enable systematic analysis of how agents learn, adapt, and generalize under internal-state-driven demands in complex, dynamic environments.
 
-## Baselines & Evaluation
-<!-- List of supported baseline algorithms (DQN, PPO, DreamerV3, etc.) -->
-<!-- How to reproduce results from the paper -->
-<!-- Evaluation metrics -->
 
 ## Customization
 <!-- How to modify agent parameters, environment settings, or curriculum via config files -->
