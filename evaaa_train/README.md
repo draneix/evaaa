@@ -20,7 +20,6 @@ This repository contains a modified version of the [SheepRL](https://github.com/
 - [⚙️ Configuration](#configuration)
 - [📊 Logging](#logging)
 - [🔧 Troubleshooting](#troubleshooting)
-- [📝 Citation](#citation)
 - [📄 License](#license)
 
 <a id="implemented-algorithms"></a>
@@ -274,21 +273,6 @@ Common issues and their solutions:
 
 - **Issue**: Environment connection failed
   **Solution**: Check if the port is available
-
-
-<a id="citation"></a>
-## 📝 Citation
-
-If you use this code in your research, please cite our paper:
-
-```bibtex
-@article{your-paper,
-  title={Your Paper Title},
-  author={Your Name and Co-authors},
-  journal={NeurIPS},
-  year={2025}
-}
-```
 
 <a id="license"></a>
 ## 📄 License
