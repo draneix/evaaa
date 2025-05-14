@@ -2,28 +2,28 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.5.0-red.svg)](https://pytorch.org/)
 
-# Modified SheepRL Training Framework
+# EVAAA: Python Interface for Training and Evaluation
 
 This repository contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
 
 ## 📄 Table of Contents
-- [🧮 Implemented Algorithms](#section-implemented-algorithms)
-- [🎮 Environment Setup](#section-environment-setup)
-- [🔧 Requirements](#section-requirements)
-- [🚀 Quick Start](#section-quick-start)
-- [🎮 Minimal Environment Interaction](#section-minimal-environment-interaction)
-- [📊 Observation Space](#section-observation-space)
-- [🎯 Action Space](#section-action-space)
-- [🚀 Usage](#section-usage)
-  - [Training](#section-training)
-  - [Parameters](#section-parameters)
-- [⚙️ Configuration](#section-configuration)
-- [📊 Logging](#section-logging)
-- [🔧 Troubleshooting](#section-troubleshooting)
-- [📝 Citation](#section-citation)
-- [📄 License](#section-license)
+- [🧮 Implemented Algorithms](#implemented-algorithms)
+- [🎮 Environment Setup](#environment-setup)
+- [🔧 Requirements](#requirements)
+- [🚀 Quick Start](#quick-start)
+- [🎮 Minimal Environment Interaction](#minimal-environment-interaction)
+- [📊 Observation Space](#observation-space)
+- [🎯 Action Space](#action-space)
+- [🚀 Usage](#usage)
+  - [Training](#training)
+  - [Parameters](#parameters)
+- [⚙️ Configuration](#configuration)
+- [📊 Logging](#logging)
+- [🔧 Troubleshooting](#troubleshooting)
+- [📝 Citation](#citation)
+- [📄 License](#license)
 
-<a id="section-implemented-algorithms"></a>
+<a id="implemented-algorithms"></a>
 ## 🧮 Implemented Algorithms
 
 This repository includes three main algorithms:
@@ -31,7 +31,7 @@ This repository includes three main algorithms:
 - **PPO (Proximal Policy Optimization)**: Implemented from SheepRL framework
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
-<a id="section-environment-setup"></a>
+<a id="environment-setup"></a>
 ## 🎮 Environment Setup
 
 Before running any examples or training, you need to download and set up the Unity environment:
@@ -46,7 +46,7 @@ unzip evaaa.zip -d envs/
 rm evaaa.zip
 ```
 
-<a id="section-requirements"></a>
+<a id="requirements"></a>
 ## 🔧 Requirements
 
 The project requires the following dependencies:
@@ -67,7 +67,7 @@ Install the dependencies using pip:
 pip install -r requirements.txt
 ```
 
-<a id="section-quick-start"></a>
+<a id="quick-start"></a>
 ## 🚀 Quick Start
 
 After setting up the environment, you can:
@@ -82,9 +82,9 @@ python simple_example.py
 python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource
 ```
 
-For more training options and configurations, see the [Usage](#section-usage) section.
+For more training options and configurations, see the [Usage](#usage) section.
 
-<a id="section-minimal-environment-interaction"></a>
+<a id="minimal-environment-interaction"></a>
 ## 🎮 Minimal Environment Interaction
 
 The EVAAA uses Unity ML-Agents for environment interaction. For detailed documentation about the ML-Agents API, please refer to the [official ML-Agents documentation](https://github.com/Unity-Technologies/ml-agents/tree/main/ml-agents-envs). For a complete example with environment interaction, including all observation types (visual, essential variables, olfactory, temperature, collision) and proper action handling, please refer to [`simple_example.py`](./simple_example.py). Here's a minimal example showing the basic structure:
@@ -128,7 +128,7 @@ This example demonstrates:
 
 For a complete example with all observation types and proper action handling, please refer to [`simple_example.py`](./simple_example.py).
 
-<a id="section-observation-space"></a>
+<a id="observation-space"></a>
 ## 📊 Observation Space
 
 The EVAAA environment provides multiple observation channels through the ML-Agents interface. The observations are returned as a tuple where:
@@ -157,7 +157,7 @@ thermal = obs[1][14:22]  # Thermal observations
 collision = obs[1][22:32]  # Collision information
 ```
 
-<a id="section-action-space"></a>
+<a id="action-space"></a>
 ## 🎯 Action Space
 
 The EVAAA environment uses discrete actions through the ML-Agents interface. The action space consists of 5 discrete actions:
@@ -181,10 +181,10 @@ env.step()
 
 For a complete example of action handling and observation processing, please refer to [`simple_example.py`](./simple_example.py).
 
-<a id="section-usage"></a>
+<a id="usage"></a>
 ## 🚀 Usage
 
-<a id="section-training"></a>
+<a id="training"></a>
 ### Training
 
 <details>
@@ -237,7 +237,7 @@ python eval.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=1 env.w
 Additional parameters for evaluation:
 - `checkpoint_path`: Path to the model checkpoint file
 
-<a id="section-configuration"></a>
+<a id="configuration"></a>
 ## ⚙️ Configuration
 
 The project uses Hydra for configuration management. Configuration files are stored in the `configs/` directory. You can modify these files to adjust:
@@ -247,20 +247,13 @@ The project uses Hydra for configuration management. Configuration files are sto
 - Logging configuration
 - Hardware settings (CUDA, CPU threads, etc.)
 
-<a id="section-logging"></a>
+<a id="logging"></a>
 ## 📊 Logging
 
 Training logs and checkpoints are saved in the `logs/` directory, organized by experiment name and timestamp. The logging system includes:
 - Training metrics
 - Environment configurations
 - Model checkpoints
-
-## 🎮 Environment Setup
-
-The framework supports custom environment configurations through the `envs/` directory. Each environment can have its own:
-- Configuration files
-- Build files
-- Data / Screen recording 
 
 ### Recording Outputs
 
@@ -274,7 +267,7 @@ Example paths for the two_resource environment:
 
 After completing these steps, the environment will be ready to use with the training and evaluation scripts.
 
-<a id="section-troubleshooting"></a>
+<a id="troubleshooting"></a>
 ## 🔧 Troubleshooting
 
 Common issues and their solutions:
@@ -283,7 +276,7 @@ Common issues and their solutions:
   **Solution**: Check if the port is available
 
 
-<a id="section-citation"></a>
+<a id="citation"></a>
 ## 📝 Citation
 
 If you use this code in your research, please cite our paper:
@@ -297,6 +290,6 @@ If you use this code in your research, please cite our paper:
 }
 ```
 
-<a id="section-license"></a>
+<a id="license"></a>
 ## 📄 License
 CC BY-SA 4.0
