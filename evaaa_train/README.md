@@ -7,22 +7,22 @@
 This repository contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
 
 ## 📄 Table of Contents
-- [Implemented Algorithms](#implemented-algorithms)
-- [Environment Setup](#environment-setup)
-- [Requirements](#requirements)
-- [Quick Start](#quick-start)
-- [Minimal Environment Interaction](#minimal-environment-interaction)
-- [Observation Space](#observation-space)
-- [Action Space](#action-space)
-- [Usage](#usage)
+- [🧮 Implemented Algorithms](#implemented-algorithms)
+- [🎮 Environment Setup](#environment-setup)
+- [🔧 Requirements](#requirements)
+- [🚀 Quick Start](#quick-start)
+- [🎮 Minimal Environment Interaction](#minimal-environment-interaction)
+- [📊 Observation Space](#observation-space)
+- [🎯 Action Space](#action-space)
+- [🚀 Usage](#usage)
   - [Training](#training)
   - [Parameters](#parameters)
-- [Configuration](#configuration)
-- [Logging](#logging)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [Citation](#citation)
-- [License](#license)
+- [⚙️ Configuration](#configuration)
+- [📊 Logging](#logging)
+- [🔧 Troubleshooting](#troubleshooting)
+- [🤝 Contributing](#contributing)
+- [📝 Citation](#citation)
+- [📄 License](#license)
 
 ## 🧮 Implemented Algorithms
 
