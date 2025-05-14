@@ -37,6 +37,8 @@ This folder includes three main algorithms:
 - **PPO (Proximal Policy Optimization)**: Implemented from SheepRL framework
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
+![fig4](/image/fig4.png)
+
 <a id="environment-setup"></a>
 ## 🎮 Environment Setup
 
