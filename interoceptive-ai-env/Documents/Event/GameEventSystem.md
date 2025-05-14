@@ -1,48 +1,52 @@
 # GameEventSystem.cs
 
-## Purpose
-The `GameEventSystem` class provides a static, centralized event management system for EVAAA. It enables registration, triggering, and management of in-game events, supporting flexible event-driven interactions between agents, triggers, and the environment.
+## Overview
+The `GameEventSystem` class provides a static, centralized event management system for EVAAA. It enables registration, triggering, and management of in-game events, supporting flexible event-driven interactions between agents, triggers, and the environment. It is used by the `EventManager` and can be extended or used directly for custom event-driven logic.
 
-## Key Features
-- Static event registration and triggering by tag.
-- Supports multiple event handlers per tag.
-- Optional maximum trigger count for each event type.
-- Integrated `TriggerZone` component for collider-based event activation.
-- Runtime reset and clearing of all event handlers and counts.
-- Simple API for registering, triggering, and managing events.
+## How to Use
+- **For beginners:**
+  - You do not need to modify this script directly for most experiments. Events are configured via JSON and managed by the `EventManager`.
+  - If you want to add custom event logic, you can register new event handlers in your own scripts using the API below.
+- **For advanced users:**
+  - You can extend or modify the event system by editing `GameEventSystem.cs` in `Assets/Scripts/Event/`.
+  - Use the static API to register, trigger, and manage events programmatically.
 
-## Configuration Options
-- **Event tags:** String identifiers for each event type (e.g., `"resource"`, `"message"`).
-- **Max count:** Optional limit on the number of times an event can be triggered.
-
-## Main Methods
-- `Register(string triggerTag, Action<GameObject> action, int maxCount = -1)`: Registers an event handler for a tag.
-- `Trigger(string triggerTag, GameObject invoker)`: Triggers all handlers for a tag.
-- `ResetCount(string triggerTag)`: Resets the trigger count for a tag.
-- `GetCount(string triggerTag)`: Returns the current trigger count for a tag.
-- `ClearAllEventHandlers()`: Removes all registered event handlers and resets counts.
+## API Reference & Main Methods
+| Method | Example Usage | Description |
+|--------|--------------|-------------|
+| `Register(string triggerTag, Action<GameObject> action, int maxCount = -1)` | `GameEventSystem.Register("resource", HandleResourceEvent, 5);` | Registers an event handler for a tag, with optional max trigger count. |
+| `Trigger(string triggerTag, GameObject invoker)` | `GameEventSystem.Trigger("resource", agentGameObject);` | Triggers all handlers for a tag. Usually called by a `TriggerZone`. |
+| `ResetCount(string triggerTag)` | `GameEventSystem.ResetCount("resource");` | Resets the trigger count for a tag. |
+| `GetCount(string triggerTag)` | `int count = GameEventSystem.GetCount("resource");` | Returns the current trigger count for a tag. |
+| `ClearAllEventHandlers()` | `GameEventSystem.ClearAllEventHandlers();` | Removes all registered event handlers and resets counts. |
 
 ### TriggerZone Component
-- `SetTriggerTag(string tag)`: Sets the trigger tag for the zone.
-- `SetTargetTag(string tag)`: Sets the target tag for objects that can activate the zone.
-- `OnTriggerEnter(Collider other)`: Triggers the event when a target-tagged object enters the zone.
+| Method | Example Usage | Description |
+|--------|--------------|-------------|
+| `SetTriggerTag(string tag)` | `triggerZone.SetTriggerTag("resource");` | Sets the trigger tag for the zone. |
+| `SetTargetTag(string tag)` | `triggerZone.SetTargetTag("player");` | Sets the target tag for objects that can activate the zone. |
+| `OnTriggerEnter(Collider other)` | *(automatic)* | Triggers the event when a target-tagged object enters the zone. |
 
-## Integration Notes
-- Used by `EventManager` to manage and trigger in-game events.
-- `TriggerZone` is attached to dynamically generated GameObjects for event activation.
-- Designed for extensibility and integration with agent and environment systems.
+## Example: Registering and Triggering Events
+```csharp
+// Register an event handler for the "resource" tag, max 5 triggers
+GameEventSystem.Register("resource", HandleResourceEvent, 5);
 
-## Example Usage
-- Register an event handler:
-  ```csharp
-  GameEventSystem.Register("resource", HandleResourceEvent, 5);
-  ```
-- Trigger an event (usually via `TriggerZone`):
-  ```csharp
-  GameEventSystem.Trigger("resource", agentGameObject);
-  ```
-- Attach `TriggerZone` to a GameObject and set tags for event activation.
+// Trigger the event (usually called by TriggerZone)
+GameEventSystem.Trigger("resource", agentGameObject);
 
----
+// Reset the trigger count for reproducibility
+GameEventSystem.ResetCount("resource");
 
-For more details on usage and advanced integration, see the code comments in `Assets/Scripts/Event/GameEventSystem.cs`. 
+// Clear all event handlers (e.g., at experiment reset)
+GameEventSystem.ClearAllEventHandlers();
+```
+
+## Practical Tips
+- **Integration:** Use with `EventManager` for data-driven event scenarios, or register your own handlers for custom logic.
+- **Max Count:** Use the `maxCount` parameter to limit how many times an event can be triggered (e.g., for one-time rewards).
+- **Debugging:** Use unique trigger tags for each event type to track and debug event flow.
+- **Reproducibility:** Always reset event counts and handlers between experiments for clean results.
+
+## Further Details
+See the code in `Assets/Scripts/Event/GameEventSystem.cs` for implementation details, or use the API above in your own scripts for advanced event-driven logic. The system is designed for extensibility and integration with agent and environment systems. 
