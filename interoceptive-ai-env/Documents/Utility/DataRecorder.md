@@ -1,24 +1,52 @@
-# DataRecorder.cs
+# DataRecorder Documentation
 
-## Purpose
-The `DataRecorder` class provides comprehensive experiment data recording and export functionality for EVAAA. It tracks agent state, actions, rewards, collisions, events, and more at both step and episode levels, supporting reproducibility and analysis of experiments.
+## Overview
+The `DataRecorder` in EVAAA provides comprehensive experiment data recording and export functionality. It tracks agent state, actions, rewards, collisions, resource consumption, and events at both step and episode levels, supporting reproducibility and in-depth analysis of experiments.
 
-## Key Features
-- Records detailed step-level and episode-level metrics for each experiment run.
-- Tracks agent state variables, actions, rewards, collisions, resource consumption, and events.
-- Exports data to CSV files for analysis and reproducibility.
-- Supports flexible configuration and output directory management via main config.
-- Integrates with agent, environment, and event systems for complete experiment tracking.
-- Provides methods for initializing, recording, exporting, and resetting data.
+---
 
-## Configuration Options
-- `experimentType`: Type of experiment (set in Inspector).
-- `isActive`: Whether recording is enabled.
-- `targetAgent`: Reference to the agent being tracked.
-- Output directory, file name prefix, and recording enable flag are set via `MainConfig` and `ExperimentData`.
+## Usage (Beginner & Advanced)
+- **Beginner**: Attach `DataRecorder` to a GameObject in your Unity scene. Assign the agent reference and configure experiment settings in the Inspector or via config files. Recording is managed automatically during simulation.
+- **Advanced**: Use the provided API to record custom events, resource choices, or episode end types. Integrate with custom agent/environment logic for advanced experiment tracking.
 
-## Main Methods
-- `Initialize(InteroceptiveAgent agent)`: Sets up the recorder and output directories.
+---
+
+## Config Reference Table
+| Field                | Type    | Description                                              | Example/Config File         |
+|----------------------|---------|----------------------------------------------------------|-----------------------------|
+| experimentType       | string  | Type of experiment (set in Inspector or config)          | Inspector                   |
+| isActive             | bool    | Whether recording is enabled                             | Inspector                   |
+| targetAgent          | object  | Reference to the agent being tracked                     | Inspector                   |
+| experimentData.recordEnable | bool | Enable/disable data recording                           | mainConfig.json             |
+| experimentData.baseFolderName | string | Output directory for data files                        | mainConfig.json             |
+| experimentData.fileNamePrefix | string | Prefix for output data files                           | mainConfig.json             |
+
+---
+
+## Real Example Config
+From `Config/mainConfig.json`:
+```json
+"experimentData": {
+    "recordEnable": "false",
+    "baseFolderName": "ExperimentData",
+    "fileNamePrefix": "data"
+}
+```
+
+---
+
+## Mapping Config Fields to Script Behavior
+- **experimentType**: Used to label and organize output files for different experiment types.
+- **isActive**: Enables or disables all recording functionality.
+- **targetAgent**: The agent whose state and actions are tracked and recorded.
+- **experimentData.recordEnable**: Controls whether data is actually written to disk.
+- **experimentData.baseFolderName**: Sets the output directory for all exported CSV files.
+- **experimentData.fileNamePrefix**: Sets the prefix for all exported data files, allowing for easy organization.
+
+---
+
+## Main Script Methods
+- `Initialize(InteroceptiveAgent agent)`: Sets up the recorder and output directories based on config.
 - `InitializeEpisode()`: Prepares data structures for a new episode.
 - `RecordStep()`, `RecordStep(string action)`: Records a step of agent-environment interaction.
 - `RecordFinalStep()`, `RecordFinalStep(string action)`: Records the final step of an episode.
@@ -29,18 +57,17 @@ The `DataRecorder` class provides comprehensive experiment data recording and ex
 - `OnEpisodeBegin()`, `OnEpisodeEnd()`: Episode lifecycle hooks.
 - `SetEpisodeEndType(string endType)`: Records the reason for episode termination.
 
-## Integration Notes
-- Attach the `DataRecorder` script to a GameObject in the Unity scene.
-- Assign the agent reference and configure experiment settings in the Inspector or config files.
-- Works in conjunction with agent, environment, and event systems for complete experiment tracking.
-- Output directory and file naming are managed via the main configuration file.
+---
 
-## Example Usage
-- Attach `DataRecorder` to a GameObject in the scene.
-- Assign the agent reference and configure experiment settings.
-- Call `Initialize()` at runtime to set up recording.
-- Use the provided methods to record steps, events, and export data during simulation.
+## Practical Tips
+- Always ensure `targetAgent` is assigned in the Inspector or via script.
+- Use `experimentData.recordEnable` to toggle data collection for debugging or full experiments.
+- Organize output files by setting `baseFolderName` and `fileNamePrefix` in your config.
+- Use the provided methods to record custom events or resource choices for richer analysis.
 
 ---
 
-For more details on configuration fields and advanced usage, see the code comments in `Assets/Scripts/Utility/DataRecorder.cs`. 
+## Further Details
+- DataRecorder integrates with agent, environment, and event systems for complete experiment tracking.
+- Output directory and file naming are managed via the main configuration file for reproducibility.
+- For advanced usage, see code comments in `Assets/Scripts/Utility/DataRecorder.cs`. 

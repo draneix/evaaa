@@ -1,68 +1,86 @@
-# Utility Scripts Overview
+# Utility System Documentation
 
-The Utility scripts in EVAAA provide general-purpose functions, data structures, and editor tools that support core simulation, data collection, and environment setup. These scripts are essential for experiment reproducibility, configuration, and efficient development workflows.
+## Overview
+The Utility System in EVAAA provides foundational data structures, helper functions, and editor tools that support simulation, configuration, and environment setup. These scripts are essential for experiment reproducibility, robust configuration, and efficient development workflows.
+
+---
 
 ## Main Components
-
-### DataRecorder.cs
-- **Purpose:** Records and exports detailed experiment data at both step and episode levels.
-- **Key Features:**
-  - Tracks agent state, actions, rewards, collisions, and events.
-  - Exports data to CSV files for analysis and reproducibility.
-  - Supports flexible configuration and output directory management.
-
-### Utility.cs
-- **Purpose:** Provides reusable data structures and helper functions for agent and environment configuration.
-- **Key Features:**
-  - Defines serializable vector, color, range, and coefficient classes.
-  - Includes spatial overlap checking utilities for environment setup.
-
-### ObstacleCollector.cs
-- **Purpose:** Automates the collection and export of obstacle configurations from the Unity scene.
-- **Key Features:**
-  - Gathers position, rotation, and scale data for obstacles.
-  - Exports configuration as JSON for reproducible environment generation.
-  - Supports filtering and formatting options.
-
-### Editor/ObstacleCollectorEditor.cs
-- **Purpose:** Provides a Unity Editor extension for obstacle collection.
-- **Key Features:**
-  - Adds a custom inspector button to trigger obstacle collection from the Unity Editor.
+- **DataRecorder.cs**: Records and exports detailed experiment data at both step and episode levels.
+- **Utility.cs**: Provides reusable data structures and helper functions for agent and environment configuration.
+- **ObstacleCollector.cs**: Automates the collection and export of obstacle configurations from the Unity scene.
+- **Editor/ObstacleCollectorEditor.cs**: Unity Editor extension for obstacle collection.
 
 ---
 
-These utility scripts streamline data management, configuration, and environment setup, supporting robust experimentation and efficient development in EVAAA.
-
-# Utility.cs
-
-## Purpose
-The `Utility` module provides general-purpose data structures and helper functions to support simulation, configuration, and environment setup in EVAAA. It includes serializable classes for configuration, color, ranges, and a static utility for overlap checking.
-
-## Key Features
-- Serializable data structures for 3D vectors, colors, value ranges, coefficients, and spatial ranges.
-- Static utility method for checking object overlap in the environment.
-- Supports configuration, procedural generation, and spatial reasoning.
-- Designed for easy integration with Unity Inspector and JSON configuration files.
-
-## Main Data Structures
-- `ThreeDVector`: Serializable 3D vector with conversion to `Vector3`.
-- `ColorVector`: Serializable color with conversion to `Color`.
-- `EVRange`: Range (min, max) for essential variables.
-- `Coefficient`: Stores multiple change coefficients for parameterized updates.
-- `PositionRange`, `RotationRange`, `ScaleRange`: Ranges for spatial configuration.
-
-## Utility Methods
-- `OverlapUtility.IsOverlapping(position, prefab, scale, boxSizeMultiplier, padding, execName)`: Checks if placing an object at a given position would overlap with existing objects, supporting procedural placement and collision avoidance.
-
-## Integration Notes
-- The utility classes are used throughout the project for configuration, agent/environment setup, and procedural generation.
-- Designed to be imported and used by other scripts (e.g., spawners, config loaders, scene controllers).
-- All data structures are serializable for use with Unity Inspector and JSON.
-
-## Example Usage
-- Use `ThreeDVector` and `ColorVector` in configuration files and convert to Unity types at runtime.
-- Use `OverlapUtility.IsOverlapping()` to check for valid placement of objects during procedural generation.
+## Usage (Beginner & Advanced)
+- **Beginner**: Use the provided data structures (e.g., `ThreeDVector`, `EVRange`, `Coefficient`) in your config files for agents, obstacles, and environments. Attach `DataRecorder` or `ObstacleCollector` to GameObjects in your scene and configure via the Inspector or config files.
+- **Advanced**: Integrate utility classes for procedural generation, custom data collection, or advanced spatial reasoning. Use `OverlapUtility.IsOverlapping()` for collision-free placement in custom spawners.
 
 ---
 
-For more details on data structures and advanced usage, see the code comments in `Assets/Scripts/Utility/Utility.cs`. 
+## Config Reference Table
+| Field/Class         | Type         | Description                                                      | Example/Config File                  |
+|---------------------|--------------|------------------------------------------------------------------|--------------------------------------|
+| ThreeDVector        | Object       | 3D vector for positions/rotations/scales                         | `initAgentPosition`, `initAgentAngle`|
+| ColorVector         | Object       | RGBA color for config                                            | (not shown in default configs)       |
+| EVRange             | Object       | Range (min, max) for essential variables                         | `foodLevelRange`, `waterLevelRange`  |
+| Coefficient         | Object       | Change coefficients for parameterized updates                    | `foodCoefficient`, `waterCoefficient`|
+| PositionRange       | Object       | Range for spatial configuration                                  | `position` in obstacleConfig.json    |
+| RotationRange       | Object       | Range for rotation configuration                                 | `rotationRange` in obstacleConfig.json|
+| ScaleRange          | Object       | Range for scale configuration                                    | `scaleRange` in obstacleConfig.json  |
+
+---
+
+## Real Example Configs
+### From `agentConfig.json`
+```json
+"initAgentPosition": { "x": 0.0, "y": 1.0, "z": 0.0 },
+"foodLevelRange": { "min": -15.0, "max": 15.0 },
+"foodCoefficient": {
+    "change_0": -0.045,
+    "change_1": 0.0,
+    "change_2": 0.0,
+    "change_3": 0.0,
+    "change_4": 0.0,
+    "change_5": 0.0
+}
+```
+### From `obstacleConfig.json`
+```json
+{
+    "prefabName": "Tree",
+    "position": { "xMin": -45, "xMax": 45, "yMin": 0, "yMax": 0, "zMin": -45, "zMax": 45 },
+    "rotationRange": { "x": 0, "y": 0, "z": 0 },
+    "scaleRange": { "xMin": 0.8, "xMax": 1.2, "yMin": 0.8, "yMax": 1.2, "zMin": 0.8, "zMax": 1.2 }
+}
+```
+
+---
+
+## Mapping Config Fields to Script Behavior
+- **ThreeDVector**: Used for positions/rotations in agent and environment configs; converted to Unity `Vector3` at runtime.
+- **EVRange**: Used for resource/health/thermo ranges; sets min/max values in agent scripts.
+- **Coefficient**: Used for resource/health/thermo change rates; mapped to agent update logic.
+- **PositionRange/RotationRange/ScaleRange**: Used in obstacle and resource configs; determines placement, orientation, and size during procedural generation.
+- **OverlapUtility.IsOverlapping()**: Used by spawners and procedural scripts to ensure no object overlap during placement.
+
+---
+
+## Main Script Methods
+- **Utility.cs**: Serializable classes for config, static overlap check utility.
+- **DataRecorder.cs**: See DataRecorder.md for full details.
+- **ObstacleCollector.cs**: See ObstacleCollector.md for full details.
+
+---
+
+## Practical Tips
+- Use the provided data structures in all config files for consistency and Inspector integration.
+- Use `OverlapUtility.IsOverlapping()` in custom placement logic to avoid collisions.
+- Review code comments in `Assets/Scripts/Utility/Utility.cs` for advanced usage.
+
+---
+
+## Further Details
+- Utility scripts are foundational for all config-driven and procedural features in EVAAA.
+- Designed for extensibility and easy integration with new modules. 
