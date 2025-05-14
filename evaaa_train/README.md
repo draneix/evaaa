@@ -76,7 +76,7 @@ python simple_example.py
 
 2. Start training with one of the implemented algorithms:
 ```bash
-python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource
+python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource
 ```
 
 For more training options and configurations, see the [Usage](#usage) section.
@@ -183,7 +183,7 @@ For a complete example of action handling and observation processing, please ref
 <summary>DQN Training Command</summary>
 
 ```bash
-python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dqn tag=dqn_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -191,7 +191,7 @@ python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env
 <summary>PPO Training Command</summary>
 
 ```bash
-python train.py exp=ppo tag=ppo_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=ppo tag=ppo_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -199,7 +199,7 @@ python train.py exp=ppo tag=ppo_tet seed=42 env.port=50000 env.time_scale=15 env
 <summary>DreamerV3 Training Command</summary>
 
 ```bash
-python train.py exp=dreamer_v3 tag=dreamer_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dreamer_v3 tag=dreamer_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -223,7 +223,7 @@ python train.py exp=dreamer_v3 tag=dreamer_tet seed=42 env.port=50000 env.time_s
 To evaluate a trained model, use the `eval.py` script:
 
 ```bash
-python eval.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=1 env.width=1000 env.height=1000 env.config=exp-damage env.screenRecordEnable=false env.dataRecordEnable=false checkpoint_path=/path/to/checkpoint
+python eval.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=1 env.width=1000 env.height=1000 env.config=exp-two-resource-food env.screenRecordEnable=true env.dataRecordEnable=true checkpoint_path=/path/to/checkpoint
 ```
 
 Additional parameters for evaluation:
