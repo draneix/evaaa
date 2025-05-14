@@ -1,96 +1,106 @@
-# ResourceSpawner
+# ResourceSpawner.cs
 
-## Description
+## Overview
+The `ResourceSpawner` is the component that places resources (food, water, ponds, etc.) in the EVAAA environment. It supports static, random, and grouped random resource distributions, enabling research on foraging, homeostasis, and multi-agent dynamics. Nearly all aspects of resource placement and properties are controlled through a simple JSON config file—making it easy for both beginners and advanced users to customize experiments without coding.
 
-The `ResourceSpawner` component implements adaptive resource distribution for reinforcement learning environments with embodied agents. It provides configurable mechanisms for deploying consumable, collectable, or interactive resources throughout the environment with various spatiotemporal patterns, as described in our paper "EVAAA: Embodied Virtual Agents with Artificial Autonomic Systems" (NeurIPS 2025).
+## How to Use
+- **For beginners:**
+  - You can change the number, type, and distribution of resources by editing the `resourceConfig.json` file in your chosen config folder (e.g., `Config/exp-Ymaze/resourceConfig.json`).
+  - No coding is required—just open the file in a text editor, change values, and press Play in Unity.
+- **For advanced users:**
+  - You can extend or modify the resource logic by editing `ResourceSpawner.cs` in `Assets/Scripts/Environment/`.
 
-## Research Context
+## Configuration Reference
+Below is a complete list of all config fields in `resourceConfig.json`, with types, examples, and clear descriptions. Resources are defined in groups:
 
-Resource management is central to embodied reinforcement learning research, particularly for studying:
+| Field         | Type/Format | Example | Description |
+|--------------|-------------|---------|-------------|
+| `prefabName` | string      | `"Food"` | Name of the resource prefab (must exist in `Resources/Resources`). |
+| `prefabLabel`| string      | `"Food"` | Semantic label for the resource (used for learning/categorization). |
+| `resourceType`| string     | `"Random"` | Distribution strategy: `Static`, `Random`, or `GroupedRandom`. |
+| `count`      | int         | `3`     | Number of resources in this group. |
+| `position`   | object `{xMin,xMax,yMin,yMax,zMin,zMax}` | `{ "xMin": -16, "xMax": -20, ... }` | Placement bounds for each resource. |
+| `rotationRange` | object `{x,y,z}` | `{ "x": 0, "y": 0, "z": 0 }` | Range of possible rotations for each resource. |
+| `scaleRange` | object `{xMin,xMax,yMin,yMax,zMin,zMax}` | `{ "xMin": 0.6, "xMax": 0.6, ... }` | Range of possible scales for each resource. |
 
-- Foraging behaviors and optimal resource gathering strategies
-- Trade-offs between homeostatic regulation and resource acquisition
-- Multi-agent competition and cooperation for limited resources
-- Temporal planning and adaptation to changing resource availability
-
-Our implementation supports research across these domains by providing precise control over the type, quantity, and distribution patterns of environmental resources.
-
-## Implementation Details
-
-The resource system provides three distinct distribution strategies with different research applications:
-
-1. **Static Resources** (`Static`): Fixed-position resources that remain constant throughout an episode. Useful for studying spatial memory, landmark navigation, and predictable resource environments.
-
-2. **Random Resources** (`Random`): Stochastically distributed resources with configurable spatial constraints. Valuable for investigating exploration strategies and adaptability to uncertainty.
-
-3. **Grouped Random Resources** (`GroupedRandom`): Clustered resource distributions that simulate natural resource patterns like food patches or water sources. Enables research on foraging strategies and resource area exploitation.
-
-## Research Implications
-
-Resource configuration directly impacts several aspects of reinforcement learning experiments:
-
-1. **Exploration-Exploitation Balance**: Resource distribution patterns influence the optimal balance between exploration and exploitation
-2. **Long-term vs. Short-term Planning**: Resource density affects the importance of long-term planning
-3. **Multi-agent Dynamics**: Resource scarcity can induce competition or cooperation between agents
-4. **Generalization**: Varying resource distributions tests agent generalization capabilities
-
-## Configuration Parameters
-
-The resource system is configured via a JSON file with groups of resources, each with parameters:
-
-| Parameter | Description | Research Implications |
-|-----------|-------------|----------------------|
-| `prefabName` | Type of resource to spawn | Determines resource properties and visual recognition challenges |
-| `prefabLabel` | Semantic label for the resource | Enables categorical learning and semantic understanding |
-| `count` | Number of resources in group | Controls resource density and scarcity |
-| `position` | Placement bounds in arena | Defines spatial distribution constraints |
-| `rotationRange` | Range of possible rotations | Adds variability to environment |
-| `scaleRange` | Range of possible sizes | Affects visibility and recognition complexity |
-| `resourceType` | Distribution strategy | Determines spatiotemporal patterns of resources |
-
-## Integration with Benchmark Tasks
-
-The `ResourceSpawner` is a core component in the following benchmark scenarios:
-
-1. **Resource Collection**: Simple gathering of resources in various environments
-2. **Resource-Temperature Trade-off**: Balancing homeostatic temperature regulation with resource gathering
-3. **Resource Competition**: Multiple agents competing for limited resources
-4. **Resource Cooperation**: Agents sharing information or coordinating to optimize collection
-
-## Example Configuration
-
+## Example resourceConfig.json (from exp-Ymaze)
 ```json
 {
-  "groups": [
-    {
-      "prefabName": "FoodResource",
-      "prefabLabel": "Food",
-      "count": 15,
-      "position": {"xMin": -13.0, "xMax": 13.0, "yMin": 0.5, "yMax": 0.5, "zMin": -13.0, "zMax": 13.0},
-      "rotationRange": {"x": 0, "y": 360, "z": 0},
-      "scaleRange": {"xMin": 1.0, "xMax": 1.0, "yMin": 1.0, "yMax": 1.0, "zMin": 1.0, "zMax": 1.0},
-      "resourceType": "GroupedRandom"
-    },
-    {
-      "prefabName": "WaterResource",
-      "prefabLabel": "Water",
-      "count": 8,
-      "position": {"xMin": -14.0, "xMax": 14.0, "yMin": 0.1, "yMax": 0.1, "zMin": -14.0, "zMax": 14.0},
-      "rotationRange": {"x": 0, "y": 0, "z": 0},
-      "scaleRange": {"xMin": 1.2, "xMax": 2.5, "yMin": 0.3, "yMax": 0.3, "zMin": 1.2, "zMax": 2.5},
-      "resourceType": "Static"
-    }
-  ]
+    "groups": [
+        {
+            "prefabName": "Food",
+            "prefabLabel": "Food",
+            "resourceType": "Random",
+            "count": 3,
+            "position": {
+                "xMin": -16, "xMax": -20,
+                "yMin": 0.6, "yMax": 0.6,
+                "zMin": 24, "zMax": 28
+            },
+            "rotationRange": {
+                "x": 0, "y": 0, "z": 0
+            },
+            "scaleRange": {
+                "xMin": 0.6, "xMax": 0.6,
+                "yMin": 0.6, "yMax": 0.6,
+                "zMin": 0.6, "zMax": 0.6
+            }
+        },
+        {
+            "prefabName": "Water",
+            "prefabLabel": "Water",
+            "resourceType": "Random",
+            "count": 3,
+            "position": {
+                "xMin": 16, "xMax": 20,
+                "yMin": 0.6, "yMax": 0.6,
+                "zMin": 24, "zMax": 28
+            },
+            "rotationRange": {
+                "x": 0, "y": 0, "z": 0
+            },
+            "scaleRange": {
+                "xMin": 0.6, "xMax": 0.6,
+                "yMin": 0.6, "yMax": 0.6,
+                "zMin": 0.6, "zMax": 0.6
+            }
+        },
+        {
+            "prefabName": "Pond",
+            "prefabLabel": "Pond",
+            "resourceType": "Static",
+            "count": 0,
+            "position": {
+                "xMin": -40, "xMax": -40,
+                "yMin": 1, "yMax": 1,
+                "zMin": -40, "zMax": -40
+            },
+            "rotationRange": {
+                "x": 0, "y": 0, "z": 0
+            },
+            "scaleRange": {
+                "xMin": 1.9, "xMax": 1.9,
+                "yMin": 1, "yMax": 1,
+                "zMin": 1.7, "zMax": 1.7
+            }
+        }
+    ]
 }
 ```
 
-## Parameter Tuning for Research
+## Main Script Methods & How Config Maps to Behavior
+- The resource config is loaded at runtime using the `ConfigLoader` utility, with the file specified by `configFileName` (default: `resourceConfig.json`).
+- **Initialization:** `InitializeResourceSpawner()` and `InitializeResources()` read the config and set up all resource groups.
+- **Distribution:** Each group spawns the specified number of resources, with randomization within the provided position, rotation, and scale ranges, according to the `resourceType`.
+- **Labels:** `prefabLabel` is used for semantic learning and agent observations.
+- **Prefab Loading:** Prefabs must exist in `Resources/Resources` and match the `prefabName` field.
 
-For controlled reinforcement learning experiments, we recommend:
+## Practical Tips for Research & Tuning
+- **Resource Abundance:** Increase `count` and use wide spatial bounds for abundant environments; decrease for scarcity.
+- **Distribution Strategy:** Use `Static` for fixed locations, `Random` for scattered, and `GroupedRandom` for clustered resources.
+- **Reproducibility:** Always save and document your config files for each experiment.
+- **Debugging:** Use distinct prefabs and labels to visually distinguish resource types.
+- **Multi-Agent:** Use low `count` and overlapping bounds to induce competition; use high `count` for cooperation studies.
 
-- **Abundance Studies**: Use high resource counts (>20) with wide spatial distribution
-- **Scarcity Studies**: Use low resource counts (<10) with constrained spatial distribution
-- **Foraging Research**: Use `GroupedRandom` with 3-5 clusters of resources
-- **Exploration Research**: Use `Random` distribution with varying counts to study adaptation
-
-For curriculum learning, begin with `Static` resources in obvious locations, then transition to `Random` and finally to `GroupedRandom` as agents develop more sophisticated strategies. 
+## Further Details
+See the code in `Assets/Scripts/Environment/ResourceSpawner.cs` for implementation details, or experiment with different configs in the `Config/` folders. All fields are documented above for easy mapping between config, code, and experiment design. 

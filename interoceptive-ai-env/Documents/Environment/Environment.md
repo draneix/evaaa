@@ -1,66 +1,46 @@
-# InteroceptiveAI Environment System
+# Environment System Overview
 
-## Overview
+## What is the Environment System?
+The Environment system in EVAAA defines the world in which agents operate. It is designed to be highly modular and configurable, so you can easily build, modify, and extend environments for a wide range of experiments—from simple temperature regulation to complex predator-prey and multi-agent scenarios.
 
-This document introduces the InteroceptiveAI Environment System, an extensible framework for creating configurable reinforcement learning environments with interoceptive dynamics. The system is designed to support research in embodied artificial intelligence, homeostatic regulation, and physiological simulation as described in our 2025 NeurIPS submission, "EVAAA: Embodied Virtual Agents with Artificial Autonomic Systems."
+**Key features:**
+- Modular components for different environment features (temperature, arena, obstacles, resources, predators)
+- Nearly all environment features can be configured via simple JSON files—no coding required for most users
+- Supports reproducible research and systematic parameter sweeps
 
-The modular architecture allows researchers to construct custom environments with varying levels of complexity, from simple temperature-based navigation tasks to complex multi-agent scenarios with predator-prey dynamics and resource constraints.
+## Main Components
+Each part of the environment system is documented in detail in its own markdown file:
 
-## Research Applications
+- [**ThermoGridSpawner**](./ThermoGridSpawner_Introduction.md): Manages temperature dynamics in the environment using a spatial thermal grid.
+- [**CourtSpawner**](./CourtSpawner_Introduction.md): Generates the physical arena or court for experiments.
+- [**ObstacleSpawner**](./ObstacleSpawner_Introduction.md): Places obstacles (e.g., rocks, bushes, bonfires) with optional thermal properties.
+- [**ResourceSpawner**](./ResourceSpawner_Introduction.md): Manages consumable resources (food, water, ponds) and their placement.
+- [**PredatorSpawner**](./PredatorSpawner_Introduction.md): Implements adversarial entities (predators) that challenge agents.
 
-The environment system is particularly suited for research in:
+All components are highly configurable through their respective JSON files, allowing you to create custom environments and run reproducible experiments.
 
+## Research Applications & Benchmarks
+The EVAAA environment system supports a variety of research scenarios, including:
 - Homeostatic reinforcement learning
 - Physiologically-motivated reward functions
 - Embodied intelligence with internal state regulation
-- Multi-agent cooperation under resource constraints
-- Interoceptive awareness and decision-making
+- Multi-agent cooperation and resource sharing
+- Interoceptive awareness and adaptive decision-making
 
-## Core Components
+**Benchmark scenarios include:**
+1. Temperature Regulation
+2. Resource Gathering
+3. Predator Avoidance
+4. Multi-Agent Cooperation
 
-The environment is composed of several modular systems, each with its own configuration parameters:
-
-- [ThermoGridSpawner](ThermoGridSpawner_Introduction.md) - Manages temperature dynamics in the environment
-- [CourtSpawner](CourtSpawner_Introduction.md) - Generates the physical arena for experiments
-- [ObstacleSpawner](ObstacleSpawner_Introduction.md) - Places obstacles with thermal properties
-- [ResourceSpawner](ResourceSpawner_Introduction.md) - Manages consumable resources
-- [PredatorSpawner](PredatorSpawner_Introduction.md) - Implements adversarial entities
-
-Each component is configurable through JSON files, allowing researchers to perform systematic parameter sweeps and reproducible experiments.
-
-## Research Benchmarks
-
-The InteroceptiveAI environment provides several benchmark scenarios described in our paper:
-
-1. **Temperature Regulation** - Agents must maintain homeostatic temperature through environment navigation
-2. **Resource Gathering** - Agents must balance resource collection with temperature regulation
-3. **Predator Avoidance** - Agents must avoid predators while maintaining homeostasis
-4. **Multi-Agent Cooperation** - Multiple agents must share limited resources while maintaining collective welfare
-
-## Reinforcement Learning Integration
-
-The environment provides standardized observation and action spaces compatible with common RL frameworks:
-
-### Observation Space
-- Agent internal state (temperature, energy, etc.)
-- Local environmental perception (temperature, obstacles, resources)
-- Optional: Global environment state for centralized training
-
-### Action Space
-- Movement (continuous or discrete)
-- Resource interaction
-- Optional: Communication signals for multi-agent scenarios
-
-### Reward Functions
-- Homeostatic rewards based on temperature regulation
-- Resource collection rewards
-- Survival time
-- Custom reward functions can be implemented for specific research questions
+## RL Integration & Observations
+- Standardized observation and action spaces compatible with RL frameworks
+- Agent observations include internal state, local environment, and (optionally) global state
+- Actions include movement, resource interaction, and (optionally) communication
+- Rewards can be based on homeostasis, resource collection, survival, or custom functions
 
 ## Reproducible Research
-
-To ensure experimental reproducibility, all environment configurations can be saved as JSON files, including:
-
+All environment configurations are saved as JSON files in your experiment folder, e.g.:
 ```
 {environment_name}/{experiment_id}/
   ├── thermoGridConfig.json
@@ -71,7 +51,4 @@ To ensure experimental reproducibility, all environment configurations can be sa
 ```
 
 ## Getting Started
-
-For detailed documentation on each component, please refer to the individual component guides linked in the Core Components section.
-
-For benchmark implementation details and baseline agent performance, please refer to our paper "EVAAA: Embodied Virtual Agents with Artificial Autonomic Systems" (NeurIPS 2025). 
+For details on how to use and configure each component, see the linked documentation above. All components are designed to work together, making it easy to build, modify, and extend environments for your research in EVAAA. 

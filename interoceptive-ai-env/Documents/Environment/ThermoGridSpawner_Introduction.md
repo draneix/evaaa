@@ -1,84 +1,63 @@
-# ThermoGridSpawner
+# ThermoGridSpawner.cs
 
-## Description
+## Overview
+The `ThermoGridSpawner` is a core environment component in EVAAA, responsible for creating a spatially-distributed temperature field that agents must navigate to maintain homeostasis. Inspired by biological thermoregulation, it enables research on homeostatic RL, adaptive behavior, and embodied intelligence. Nearly all aspects of the thermal environment are controlled through a simple JSON config file—making it easy for both beginners and advanced users to customize experiments without coding.
 
-The `ThermoGridSpawner` implements a spatially-distributed thermal field for embodied reinforcement learning experiments. Inspired by biological thermoregulation mechanisms, this component provides a continuous environmental temperature gradient that agents must navigate to maintain homeostasis, as discussed in our paper "EVAAA: Embodied Virtual Agents with Artificial Autonomic Systems" (NeurIPS 2025).
+## How to Use
+- **For beginners:**
+  - You can change the temperature landscape by editing the `thermoGridConfig.json` file in your chosen config folder (e.g., `Config/exp-Ymaze/thermoGridConfig.json`).
+  - No coding is required—just open the file in a text editor, change values, and press Play in Unity.
+- **For advanced users:**
+  - You can extend or modify the grid logic by editing `ThermoGridSpawner.cs` in `Assets/Scripts/Environment/`.
 
-## Research Context
+## Configuration Reference
+Below is a complete list of all config fields in `thermoGridConfig.json`, with types, examples, and clear descriptions:
 
-Temperature regulation is a fundamental homeostatic process in biological systems. By implementing a configurable thermal environment, we enable research on:
+| Field                | Type/Format | Example | Description |
+|----------------------|-------------|---------|-------------|
+| `numberOfGridCubeX`  | int         | `100`   | Number of grid cells along X (width). Sets grid resolution and observation detail. |
+| `numberOfGridCubeZ`  | int         | `100`   | Number of grid cells along Z (depth). |
+| `fieldDefaultTemp`   | float       | `0.0`   | Baseline temperature for all cells. Sets the neutral point for agent homeostasis. |
+| `hotSpotTemp`        | float       | `20.0`  | Temperature value for hot spots (thermal extremes). |
+| `hotSpotCount`       | int         | `0`     | Number of hot spots to place (if `useRandomHotSpot` is true). |
+| `hotSpotSize`        | float       | `20`    | Size (radius) of each hot spot. |
+| `smoothingSigma`     | float       | `5.0`   | Controls Gaussian smoothing (gradient sharpness). |
+| `useObjectHotSpot`   | bool        | `true`  | If true, links hot spots to objects (e.g., obstacles). |
+| `useRandomHotSpot`   | bool        | `true`  | If true, places hot spots randomly. |
+| `gridCubeHeight`     | float/int   | `2`     | Visual height of grid cubes (for debugging/visualization). |
 
-- Homeostatic reinforcement learning with physiologically-motivated reward functions
-- Sensorimotor mapping between interoceptive signals and spatial navigation
-- Evolution of regulatory behaviors under varying environmental conditions
-- Transfer learning between different thermal environments
-
-## Implementation Details
-
-The thermal grid is implemented as a matrix of discrete cells, each with a temperature value. The system provides several key features:
-
-- **Temperature Gradients**: Continuous temperature fields with configurable gradients
-- **Hot Spots**: Both random and object-linked thermal sources
-- **Gaussian Smoothing**: Realistic heat diffusion using configurable Gaussian kernels
-- **Dynamic Updates**: Temperature values that respond to time (day/night) and agent actions
-
-## Observation Space
-
-When used in reinforcement learning environments, the thermal grid provides the following observation components:
-
-- Local temperature at agent position (scalar)
-- Optional: Temperature gradient around agent (vector field)
-- Optional: Global temperature map (partial or complete)
-
-These observations can be configured via the observation preprocessor to match research requirements.
-
-## Configuration Parameters
-
-The thermal grid is configured via a JSON file with the following parameters:
-
-| Parameter | Description | Research Implications |
-|-----------|-------------|----------------------|
-| `numberOfGridCubeX/Z` | Grid dimensions | Controls environment complexity and observation space dimensionality |
-| `fieldDefaultTemp` | Baseline temperature | Sets the neutral thermal point for agent homeostasis |
-| `hotSpotTemp` | Hot spot temperature | Determines the strength of thermal extremes |
-| `hotSpotCount` | Number of hot spots | Controls environment complexity |
-| `hotSpotSize` | Size of hot spots | Affects strategy complexity for thermal regulation |
-| `smoothingSigma` | Gaussian smoothing parameter | Controls temperature gradient smoothness |
-| `useObjectHotSpot` | Enable object-linked hot spots | Links thermal properties to physical objects |
-| `useRandomHotSpot` | Enable random hot spots | Creates unpredictable thermal landscapes |
-| `gridCubeHeight` | Visual height of grid visualization | Visualization parameter without direct research impact |
-
-## Integration with Benchmark Tasks
-
-The `ThermoGridSpawner` is a core component in the following benchmark scenarios:
-
-1. **Basic Thermal Regulation**: Agents navigate to maintain optimal temperature
-2. **Thermal Regulation with Obstacles**: Navigation with physical constraints
-3. **Resource-Temperature Trade-off**: Balancing resource gathering with temperature regulation
-
-## Example Configuration
-
+## Example thermoGridConfig.json
 ```json
 {
-  "numberOfGridCubeX": 20,
-  "numberOfGridCubeZ": 20,
-  "fieldDefaultTemp": 20.0,
-  "hotSpotTemp": 40.0,
-  "hotSpotCount": 3,
-  "hotSpotSize": 2.0,
-  "smoothingSigma": 1.5,
-  "useObjectHotSpot": true,
-  "useRandomHotSpot": true,
-  "gridCubeHeight": 0.1
+    "numberOfGridCubeX": 100,
+    "numberOfGridCubeZ": 100,
+    "fieldDefaultTemp": 0.0,
+    "hotSpotTemp": 20.0,
+    "hotSpotCount": 0,
+    "hotSpotSize": 20,
+    "smoothingSigma": 5.0,
+    "useObjectHotSpot": true,
+    "useRandomHotSpot": true,
+    "gridCubeHeight": 2
 }
 ```
 
-## Parameter Tuning for Research
+## Main Script Methods & How Config Maps to Behavior
+- The grid config is loaded at runtime using the `ConfigLoader` utility, with the file specified by `configFileName` (default: `thermoGridConfig.json`).
+- **Initialization:** `InitializeThermoGridSpawner()` and `InitializeGrid()` read the config and set up the grid.
+- **Temperature Assignment:**
+  - `fieldDefaultTemp` sets the baseline for all grid cells.
+  - `hotSpotTemp`, `hotSpotCount`, `hotSpotSize`, `useRandomHotSpot`, and `useObjectHotSpot` control the placement and properties of hot spots.
+  - `smoothingSigma` applies Gaussian smoothing for realistic gradients.
+- **Visualization:** `gridCubeHeight` sets the height of grid cubes (can be used for debugging).
+- **Dynamic Updates:** The grid can update in response to day/night cycles and agent/environment actions via methods like `SetDayNightTemperature()`.
 
-For research on temperature regulation behaviors, we recommend:
+## Practical Tips for Research & Tuning
+- **Resolution:** Higher `numberOfGridCubeX/Z` increases spatial detail but uses more memory/compute.
+- **Difficulty:** Increase `hotSpotCount` or decrease `hotSpotSize` for more challenging navigation.
+- **Gradient Sharpness:** Lower `smoothingSigma` for sharper gradients, higher for smoother fields.
+- **Reproducibility:** Always save and document your config files for each experiment.
+- **Debugging:** Set `gridCubeHeight` > 0 and enable rendering to visualize the grid in Unity.
 
-- Varying `fieldDefaultTemp` to study adaptation to different baseline environments
-- Adjusting `smoothingSigma` to investigate the impact of gradient sharpness on learning
-- Modifying `hotSpotCount` and `hotSpotSize` to control task difficulty
-
-For reproducible experiments, maintain consistent thermal parameters across training runs. 
+## Further Details
+See the code in `Assets/Scripts/Environment/ThermoGridSpawner.cs` for implementation details, or experiment with different configs in the `Config/` folders. All fields are documented above for easy mapping between config, code, and experiment design. 

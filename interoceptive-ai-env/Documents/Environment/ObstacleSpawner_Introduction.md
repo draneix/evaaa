@@ -1,95 +1,78 @@
-# ObstacleSpawner
+# ObstacleSpawner.cs
 
-## Description
+## Overview
+The `ObstacleSpawner` is the component that places obstacles in the EVAAA environment. It supports complex, parameterized obstacle groups with thermal properties, enabling research on navigation, path planning, and thermoregulation. Nearly all aspects of obstacle placement and properties are controlled through a simple JSON config file—making it easy for both beginners and advanced users to customize experiments without coding.
 
-The `ObstacleSpawner` component implements dynamic obstacle placement for reinforcement learning environments with embodied agents. It enables the creation of complex navigational challenges with thermally-active obstacles that impact both agent movement and environmental temperature, as described in our paper "EVAAA: Embodied Virtual Agents with Artificial Autonomic Systems" (NeurIPS 2025).
+## How to Use
+- **For beginners:**
+  - You can change the number, type, and properties of obstacles by editing the `obstacleConfig.json` file in your chosen config folder (e.g., `Config/exp-Ymaze/obstacleConfig.json`).
+  - No coding is required—just open the file in a text editor, change values, and press Play in Unity.
+- **For advanced users:**
+  - You can extend or modify the obstacle logic by editing `ObstacleSpawner.cs` in `Assets/Scripts/Environment/`.
 
-## Research Context
+## Configuration Reference
+Below is a complete list of all config fields in `obstacleConfig.json`, with types, examples, and clear descriptions. Obstacles are defined in groups:
 
-Environmental obstacles play a critical role in embodied AI research by:
+| Field         | Type/Format | Example | Description |
+|--------------|-------------|---------|-------------|
+| `prefabName` | string      | `"Block"` | Name of the obstacle prefab (must exist in `Resources/Obstacles`). |
+| `count`      | int         | `1`     | Number of obstacles in this group. |
+| `temperature`| float       | `0.0`   | Thermal property of the obstacle (affects local temperature). |
+| `padding`    | float       | `0.0`   | Minimum distance between obstacles (prevents overlap). |
+| `position`   | object `{xMin,xMax,yMin,yMax,zMin,zMax}` | `{ "xMin": -10.2, "xMax": -10.2, ... }` | Placement bounds for each obstacle. |
+| `rotationRange` | object `{x,y,z}` | `{ "x": 0.0, "y": 320.0, "z": 0.0 }` | Range of possible rotations for each obstacle. |
+| `scaleRange` | object `{xMin,xMax,yMin,yMax,zMin,zMax}` | `{ "xMin": 1.0, "xMax": 1.0, ... }` | Range of possible scales for each obstacle. |
 
-- Creating navigation and path-planning challenges
-- Forming decision points that require trade-offs (e.g., shorter path vs. thermal comfort)
-- Providing objects with thermal properties that influence environment dynamics
-- Enabling the study of transfer learning across environments with varying complexity
-
-Thermally-active obstacles are particularly relevant for studying interoceptive AI systems, as they create spatially-anchored thermal anomalies that agents must factor into their decision-making.
-
-## Implementation Details
-
-The obstacle system provides several key features relevant to reinforcement learning research:
-
-- **Parameterized Obstacle Groups**: Multiple types and configurations of obstacles
-- **Thermal Properties**: Each obstacle can have its own temperature, affecting local environmental conditions
-- **Spatial Distribution Control**: Configurable position ranges, rotations, and scales
-- **Collision Avoidance**: Intelligent placement with overlap prevention
-- **Runtime Regeneration**: Environment can be restructured during experiments
-
-## Research Implications
-
-Obstacle configuration directly impacts several aspects of reinforcement learning experiments:
-
-1. **Navigation Complexity**: Higher obstacle counts increase path-planning challenges
-2. **Temperature Regulation**: Thermally-active obstacles create localized temperature gradients
-3. **Observation Complexity**: Obstacles may occlude visual information or resources
-4. **Exploration Strategies**: Obstacle distribution affects optimal exploration patterns
-
-## Configuration Parameters
-
-The obstacle system is configured via a JSON file with groups of obstacles, each with parameters:
-
-| Parameter | Description | Research Implications |
-|-----------|-------------|----------------------|
-| `prefabName` | Type of obstacle to spawn | Visual/semantic properties of environment |
-| `count` | Number of obstacles in group | Controls navigation complexity |
-| `temperature` | Thermal property of obstacles | Influences thermal gradients and agent thermoregulation |
-| `position` | Placement bounds in arena | Controls spatial distribution and navigation paths |
-| `rotationRange` | Range of possible rotations | Adds variability to environment |
-| `scaleRange` | Range of possible sizes | Controls difficulty of navigation/avoidance |
-| `padding` | Minimum distance between obstacles | Affects path widths and navigation difficulty |
-
-## Integration with Benchmark Tasks
-
-The `ObstacleSpawner` is a critical component in the following benchmark scenarios:
-
-1. **Navigation with Obstacles**: Testing pathfinding abilities
-2. **Thermal Regulation with Obstacles**: Navigating thermal landscape with physical constraints
-3. **Resource Collection with Obstacles**: Optimizing paths to resources with obstacles
-4. **Combined Scenario**: All elements together for complete environmental challenge
-
-## Example Configuration
-
+## Example obstacleConfig.json (from exp-Ymaze)
 ```json
 {
-  "groups": [
-    {
-      "prefabName": "ThermalRock",
-      "count": 8,
-      "temperature": 35.0,
-      "position": {"xMin": -12.0, "xMax": 12.0, "yMin": 0.5, "yMax": 0.5, "zMin": -12.0, "zMax": 12.0},
-      "rotationRange": {"x": 0, "y": 360, "z": 0},
-      "scaleRange": {"xMin": 1.0, "xMax": 3.0, "yMin": 1.0, "yMax": 3.0, "zMin": 1.0, "zMax": 3.0},
-      "padding": 2.5
-    },
-    {
-      "prefabName": "ColdCrystal",
-      "count": 5,
-      "temperature": 5.0,
-      "position": {"xMin": -14.0, "xMax": 14.0, "yMin": 0.5, "yMax": 0.5, "zMin": -14.0, "zMax": 14.0},
-      "rotationRange": {"x": 0, "y": 360, "z": 0},
-      "scaleRange": {"xMin": 0.8, "xMax": 1.5, "yMin": 0.8, "yMax": 2.0, "zMin": 0.8, "zMax": 1.5},
-      "padding": 1.8
-    }
-  ]
+    "groups": [
+      {
+        "prefabName": "Block",
+        "count": 1,
+        "temperature": 0.0,
+        "padding": 0.0,
+        "position": {
+          "xMin": -10.2,
+          "xMax": -10.2,
+          "yMin": 2.0,
+          "yMax": 2.0,
+          "zMin": 23.8,
+          "zMax": 23.8
+        },
+        "rotationRange": {
+          "x": 0.0,
+          "y": 320.0,
+          "z": 0.0
+        },
+        "scaleRange": {
+          "xMin": 1.0,
+          "xMax": 1.0,
+          "yMin": 5.0,
+          "yMax": 5.0,
+          "zMin": 32.0,
+          "zMax": 32.0
+        }
+      }
+      // ... more groups ...
+    ]
 }
 ```
 
-## Parameter Tuning for Research
+## Main Script Methods & How Config Maps to Behavior
+- The obstacle config is loaded at runtime using the `ConfigLoader` utility, with the file specified by `configFileName` (default: `obstacleConfig.json`).
+- **Initialization:** `InitializeObstacleSpawner()` reads the config and sets up all obstacle groups.
+- **Placement:** Each group spawns the specified number of obstacles, with randomization within the provided position, rotation, and scale ranges.
+- **Thermal Properties:** Each obstacle is assigned its `temperature` value, which can affect the thermal grid if integrated.
+- **Padding:** The script uses the `padding` value to prevent overlap between obstacles.
+- **Prefab Loading:** Prefabs must exist in `Resources/Obstacles` and match the `prefabName` field.
 
-For controlled reinforcement learning experiments, we recommend:
+## Practical Tips for Research & Tuning
+- **Navigation Difficulty:** Increase `count` or decrease `padding` for more challenging navigation.
+- **Thermal Complexity:** Use varied `temperature` values to create hot/cold spots in the environment.
+- **Reproducibility:** Always save and document your config files for each experiment.
+- **Debugging:** Use distinct prefabs and scales to visually distinguish obstacle types.
+- **Static vs. Random:** Obstacles with fixed positions (xMin==xMax, zMin==zMax) are treated as static; others are randomized each run.
 
-- **Easy Environment**: Low obstacle count (<5), large padding (>3.0), uniform temperatures
-- **Medium Environment**: Medium obstacle count (5-10), medium padding (2.0-3.0), varied temperatures
-- **Hard Environment**: High obstacle count (>10), low padding (<2.0), extreme temperatures
-
-For curriculum learning, progressively decrease padding and increase count as agent performance improves. 
+## Further Details
+See the code in `Assets/Scripts/Environment/ObstacleSpawner.cs` for implementation details, or experiment with different configs in the `Config/` folders. All fields are documented above for easy mapping between config, code, and experiment design. 
