@@ -1,0 +1,13 @@
+{
+    "isAIControlled": true,
+    "configFolderName": "exp-goal-manipulation-WaterToFood",
+    "recordingScreen": {
+        "recordEnable": "false",
+        "recordingFolderName": "SampleRecording"
+    },
+    "experimentData": {
+        "recordEnable": "false",
+        "baseFolderName": "ExperimentData",
+        "fileNamePrefix": "data"
+    }
+}
