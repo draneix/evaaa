@@ -208,7 +208,7 @@ Suppose you want to double the amount of food in the environment:
 #### 6. Tips and Troubleshooting
 - If you make a mistake in a JSON file, Unity may show an error or the simulation may not load as expected. Double-check your edits for typos or missing commas/brackets.
 - You can always restore the original config files from your Git repository if needed.
-- For more details on what each parameter means, see the documentation in the [DocumentationHierarchy](/Documents/DocumentationHierarchy.md) folder.
+- For more details on what each parameter means, see the documentation in the [DocumentationHierarchy](/evvva_unity/Documents/DocumentationHierarchy.md) folder.
 
 ---
 
