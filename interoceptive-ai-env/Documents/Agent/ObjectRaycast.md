@@ -1,38 +1,43 @@
 # ObjectRaycast.cs
 
-## Purpose
-The `ObjectRaycast` class provides collision and obstacle detection for agents in EVAAA using a radial raycasting system. It enables agents to perceive their immediate surroundings, detect obstacles, and gather collision-based observations for learning and navigation.
+## Overview
+The `ObjectRaycast` component enables agents in EVAAA to sense obstacles and collisions using a radial raycasting system. This allows agents to perceive their immediate surroundings, detect obstacles, and receive collision-based observations for learning and navigation. Nearly all aspects of raycasting and collision sensing are controlled through the agent's config file—making it easy for both beginners and advanced users to customize behavior without coding.
 
-## Key Features
-- Casts multiple rays in a radial pattern around the agent to detect obstacles and objects.
-- Collects detailed collision and proximity data for use in agent observations.
-- Calculates and applies damage to the agent based on collision impulse.
-- Supports customizable ray count, length, and detection layers.
-- Integrates with the agent's internal state and reward system.
+## How to Use
+- **For beginners:**
+  - You can control how the agent senses obstacles and collisions by editing the relevant fields in `agentConfig.json` (e.g., `raysPerDirection`, `maxDistance`, `damageConstant`, `useCollisionObs`).
+  - No coding is required—just open the file in a text editor, change values, and press Play in Unity.
+- **For advanced users:**
+  - You can extend or modify the raycasting logic by editing `ObjectRaycast.cs` in `Assets/Scripts/Agent/`.
 
-## Configuration Options
-- `rayCount`: Number of rays to cast around the agent.
-- `rayLength`: Maximum distance for each ray.
-- `detectionLayerMask`: Layer mask for objects to detect.
-- `collisionDamageThreshold`: Minimum impulse required to apply damage.
-- `damageCoefficient`: Scales the amount of damage applied on collision.
+## Configuration Reference
+Below is a list of all relevant config fields for object raycasting and collision, with explanations and examples (from `agentConfig.json`):
 
-## Main Methods
-- `InitializeRaycast()`: Sets up raycasting parameters and references.
-- `CollectRaycastObservations()`: Casts rays and collects data for agent observations.
-- `OnCollisionEnter(Collision collision)`: Handles collision events and applies damage if necessary.
-- `DrawRays()`: (Optional) Visualizes rays in the Unity Editor for debugging.
+| Field | Type/Format | Example | Description |
+|-------|-------------|---------|-------------|
+| `raysPerDirection` | int | `100` | Number of rays cast in a circle around the agent (higher = finer sensing). |
+| `maxDistance` | float | `1.5` | Maximum distance each ray can detect obstacles. |
+| `radialRange` | float | `360.0` | Field of view for raycasting (degrees, usually 360 for full circle). |
+| `damageConstant` | float | `0.0002` | Scales the amount of damage applied to the agent on collision. |
+| `useCollisionObs` | bool | `true` | If true, collision/raycast data is included in the agent's observations. |
 
-## Integration Notes
-- Designed to be attached to agent GameObjects and referenced by the main agent script.
-- Works in conjunction with the agent's health and reward systems.
-- Raycast data can be included in the agent's observation vector for learning.
+## Example agentConfig.json (relevant fields)
+```json
+{
+  "raysPerDirection": 100,
+  "maxDistance": 1.5,
+  "radialRange": 360.0,
+  "damageConstant": 0.0002,
+  "useCollisionObs": true
+}
+```
 
-## Example Usage
-- Attach the `ObjectRaycast` script to an agent GameObject.
-- Configure raycasting parameters via the Unity Inspector or agent config files.
-- The script will automatically collect and provide collision data during simulation.
+## Main Script Methods & How Config Maps to Behavior
+- The agent loads all config fields at startup and uses them to set raycasting and collision parameters.
+- **Raycasting:** `DetectObstacle()` casts rays in a circle, filling the `collisionObservation` array with obstacle data.
+- **Collision Handling:** `OnCollisionStay()` and `OnCollisionExit()` apply damage to the agent and update collision state based on config values.
+- **Observations:** If `useCollisionObs` is true, raycast/collision data is included in the agent's observation vector for learning.
 
 ---
 
-For more details on configuration fields and advanced usage, see the code comments in `Assets/Scripts/Agent/ObjectRaycast.cs`. 
+For further details, see the code comments in `Assets/Scripts/Agent/ObjectRaycast.cs` or explore the config files in your experiment folder. 

@@ -136,8 +136,6 @@ Below is a complete list of all config fields in `agentConfig.json`, with explan
 - **Actions:** Movement and eating are controlled by `moveSpeed`, `turnSpeed`, `eatingDistance`, and `autoEat`.
 - **Internal State:** Essential variable ranges, starting values, and coefficients control how food, water, thermal, and health change over time and with actions.
 - **Reward:** The agent's reward is calculated from changes in internal variables, as set by the config.
-- **Manual vs. AI Control:** The agent can be switched between AI and manual control via the main config (`isAIControlled`).
-
 ---
 
 For further details, see the code comments in `Assets/Scripts/Agent/InteroceptiveAgent.cs` or explore the config files in your experiment folder. 
