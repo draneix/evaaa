@@ -1,21 +1,45 @@
 # ConfigLoader.cs
 
-## Purpose
-The `ConfigLoader` class loads and manages experiment configuration files in EVAAA. It enables flexible switching between training levels, experimental testbeds, and custom scenarios by reading structured JSON files from the `Config/` directory.
+## Overview
+The `ConfigLoader` class loads and manages experiment configuration files in EVAAA. It enables flexible switching between training levels, experimental testbeds, and custom scenarios by reading structured JSON files from the `Config/` directory. This script is the central hub for all experiment settings.
 
-## Key Features
-- Loads the main configuration file (`mainConfig.json`) and sets the active experiment folder.
-- Supports platform-specific paths for cross-platform compatibility.
-- Loads additional configuration files for agents, environment, events, etc., from the selected experiment folder.
-- Provides methods to retrieve configuration data and file paths for other systems.
-- Integrates with Unity Inspector for easy assignment and debugging.
+## How to Use
+- **For beginners:**
+  - You do not need to modify this script for most experiments. Attach it to a GameObject in your Unity scene and assign the main configuration file name in the Inspector (if different from default).
+  - Place all configuration files in the `Config/` directory at the project root.
+  - The script will automatically load the correct settings when you press Play.
+- **For advanced users:**
+  - You can extend or modify config loading logic by editing `ConfigLoader.cs` in `Assets/Scripts/SceneController/`.
+  - Use the provided methods to load custom config files or add new config types.
 
-## Configuration Options
-- `mainConfigFileName`: Name of the main configuration JSON file (default: `mainConfig.json`).
-- `configFolderPath`: Path to the active experiment configuration folder (set automatically).
-- `mainConfig`: Deserialized object containing global experiment settings (AI control, recording, data output, etc.).
+## Configuration Reference
+Below is a list of main config fields in `mainConfig.json`, with types, examples, and clear descriptions:
 
-## Main Methods
+| Field                | Type/Format | Example | Description |
+|----------------------|-------------|---------|-------------|
+| `isAIControlled`     | bool        | `true`  | Whether the agent is controlled by AI or human. |
+| `configFolderName`   | string      | `"exp-goal-manipulation-WaterToFood"` | Name of the active experiment config folder. |
+| `recordingScreen`    | object      | `{ "recordEnable": "false", "recordingFolderName": "SampleRecording" }` | Screenshot recording options. |
+| `experimentData`     | object      | `{ "recordEnable": "false", "baseFolderName": "ExperimentData", "fileNamePrefix": "data" }` | Data recording options. |
+
+## Example mainConfig.json
+```json
+{
+    "isAIControlled": true,
+    "configFolderName": "exp-goal-manipulation-WaterToFood",
+    "recordingScreen": {
+        "recordEnable": "false",
+        "recordingFolderName": "SampleRecording"
+    },
+    "experimentData": {
+        "recordEnable": "false",
+        "baseFolderName": "ExperimentData",
+        "fileNamePrefix": "data"
+    }
+}
+```
+
+## Main Script Methods & How Config Maps to Behavior
 - `InitializeConfigLoader()`: Loads the main configuration and sets the active experiment folder.
 - `LoadMainConfig()`: Reads and parses the main configuration JSON file.
 - `SetConfigFolder(string folderName)`: Sets the path to the experiment folder.
@@ -28,12 +52,10 @@ The `ConfigLoader` class loads and manages experiment configuration files in EVA
 - All configuration files should be placed in the `Config/` directory at the project root.
 - Supports both Windows and macOS builds.
 
-## Example Usage
-- Attach the `ConfigLoader` script to a GameObject in the Unity scene.
-- Assign the main configuration file name in the Inspector (if different from default).
-- Call `InitializeConfigLoader()` at runtime to load experiment settings.
-- Use `LoadConfig<T>()` to load additional configuration files as needed.
+## Practical Tips
+- Always check that your config folder and file names match those in your experiment setup.
+- Use the Inspector to quickly switch between different experiment folders.
+- For custom experiments, add new config files to your folder and load them using `LoadConfig<T>()`.
 
----
-
-For more details on configuration fields and advanced usage, see the code comments in `Assets/Scripts/SceneController/ConfigLoader.cs`. 
+## Further Details
+See the code in `Assets/Scripts/SceneController/ConfigLoader.cs` for implementation details, or explore the config files in the `Config/` folders for practical examples. 
