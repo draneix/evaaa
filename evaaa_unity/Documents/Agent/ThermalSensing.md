@@ -3,6 +3,8 @@
 ## Overview
 The `ThermalSensing` component enables agents in EVAAA to sense and respond to local environmental temperature. It provides agents with thermal perception by reading from a spatial temperature grid, supporting adaptive behavior in dynamic environments. Nearly all aspects of thermal sensing are controlled through the agent's config file and the environment's thermal grid config—making it easy for both beginners and advanced users to customize behavior without coding.
 
+![sup_fig3.png](/image/sup_fig3.png)
+
 ## How to Use
 - **For beginners:**
   - You can control whether the agent senses temperature and how it interprets thermal data by editing the relevant fields in `agentConfig.json` (e.g., `useThermalObs`, `relativeThermalObs`, `thermoLevelRange`, `startThermoLevel`).

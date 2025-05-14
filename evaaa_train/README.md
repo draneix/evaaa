@@ -50,7 +50,15 @@ Before running any examples or training, you need to download and set up the Uni
 pip install gdown
 
 # Download and setup the environment
+# For Linux
 gdown --fuzzy "https://drive.google.com/file/d/14pgW30OrynErDS_6BrGjbAc91iS35oL-/view?usp=sharing"
+
+# For Mac
+gdown --fuzzy "TODO: add link for Mac OS version"
+
+# For Windows
+"Currently, EVAAA is not supporting Windows"
+
 unzip evaaa.zip -d envs/
 rm evaaa.zip
 ```
@@ -157,7 +165,17 @@ The vector observation is a concatenated array of different sensor readings:
 | 14-21 | Thermal | 8 directional temperature sensors (F, B, L, R, FL, FR, BL, BR) |
 | 22-31 | Collision | 10 sectors of collision detection (100 rays grouped into sectors) |
 
-For detailed explanations of each observation type, including how they are calculated and their specific properties, please refer to the comments in [`simple_example.py`](./simple_example.py).
+For detailed explanations of each observation type, including how they are calculated and their specific properties, see here.
+
+<details>
+<summary> Detailed Observations </summary>
+
+![sup_fig2.png](/image/sup_fig2.png)
+
+![sup_fig3.png](/image/sup_fig3.png)
+
+</details>
+
 
 ### Example Usage
 ```python

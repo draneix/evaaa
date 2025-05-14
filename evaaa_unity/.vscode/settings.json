@@ -50,10 +50,10 @@
         "Obj/": true,
         "ProjectSettings/": true,
         "temp/": true,
-        "Temp/": true,
+        "Temp/": true
     },
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "interoceptive-ai-env.sln",
-    "omnisharp.path": "latest", 
-    "omnisharp.useGlobalMono": "always",
+    "dotnet.defaultSolution": "evaaa_unity.sln",
+    "omnisharp.path": "latest",
+    "omnisharp.useGlobalMono": "always"
 }
