@@ -195,7 +195,7 @@ For a complete example of action handling and observation processing, please ref
 <a id="usage"></a>
 ## 🚀 Usage
 
-> **ℹ️ For details on available training levels and experiment configurations, see [Selecting an Experiment or Environment in evaaa_unity/README.md](../evaaa_unity/README.md#2-selecting-an-experiment-or-environment).**
+> **ℹ️ For details on available training levels and experiment configurations**, see [Selecting an Experiment or Environment in evaaa_unity/README.md](../evaaa_unity/README.md#2-selecting-an-experiment-or-environment).
 
 <a id="training"></a>
 ### Training
