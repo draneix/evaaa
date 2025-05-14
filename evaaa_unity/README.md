@@ -88,6 +88,7 @@ Follow these detailed steps to set up Unity and run EVAAA:
 ### 2. Clone the Repository
 Open a terminal (Command Prompt, PowerShell, or Terminal) and run:
 ```bash
+git lfs install
 git clone https://github.com/cocoanlab/interoceptive-ai-env.git
 cd interoceptive-ai-env
 ```
