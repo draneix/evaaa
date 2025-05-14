@@ -1,0 +1,21 @@
+{
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+                {
+                        "name": "Python Debugger: Current File",
+                        "type": "debugpy",
+                        "request": "launch",
+                        "program": "${file}",
+                        "console": "integratedTerminal",
+                        "justMyCode": false,
+                        // "args": ["exp=dqn", "tag=tet", "seed=252", "env.port=8210", "env.time_scale=1", "env.width=1000", "env.height=1000", "env.config=train-level-1.2-CorneredResource", "env.screenRecordEnable=true", "env.dataRecordEnable=true", "checkpoint_path=/media/nas01/projects/Interoceptive-AI/evaaa_train/logs/runs/ppo/interoceptiveAI/2025-05-11_12-15-40_train-level-1.1-ScatteredResource_seed50/version_0/checkpoint/ckpt_1505280_0.ckpt"]
+                        // "args": ["exp=ppo", "tag=dqn_debug", "seed=252", "env.port=8210", "env.time_scale=1", "env.width=1000", "env.height=1000", "env.config=train-level-1.2-CorneredResource", "env.screenRecordEnable=true", "env.dataRecordEnable=true", "checkpoint_path=/media/nas01/projects/Interoceptive-AI/evaaa_train/logs/runs/ppo/interoceptiveAI/2025-05-11_12-15-40_train-level-1.1-ScatteredResource_seed50/version_0/checkpoint/ckpt_1505280_0.ckpt"]
+                        "args": ["exp=ppo", "tag=dqn_debug", "seed=252", "env.port=8210", "env.time_scale=1", "env.width=1000", "env.height=1000", "env.config=train-level-1.2-CorneredResource", "env.screenRecordEnable=true", "env.dataRecordEnable=true"]
+                        // "args": ["exp=dreamer_v3", "tag=dqn_debug", "seed=252", "env.port=8210", "env.time_scale=1", "env.width=1000", "env.height=1000", "env.config=train-level-1.2-CorneredResource", "env.screenRecordEnable=true", "env.dataRecordEnable=true", "checkpoint_path=/media/nas01/projects/Interoceptive-AI/evaaa_train/logs/runs/dreamer_v3/interoceptiveAI/2025-05-12_15-59-55_train-level-1.1-ScatteredResource_seed51/version_0/checkpoint/ckpt_100000_0.ckpt"]
+
+                }
+        ]
+}
