@@ -2,10 +2,10 @@
 [![Unity 2022.3.16f1](https://img.shields.io/badge/Unity-2022.3.16f1-blue.svg)](https://unity.com/releases/editor/whats-new/2022.3.16)
 [![C#](https://img.shields.io/badge/C%23-9.0-green.svg)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 
-# EVAAA: Essential Variables in Autonomous and Adaptive Agents
+# EVAAA: Unity Environment
 
 ## 📄 Table of Contents
-- [EVAAA: Essential Variables in Autonomous and Adaptive Agents](#evaaa-essential-variables-in-autonomous-and-adaptive-agents)
+- [EVAAA: Unity Environment](#evaaa-unity-environment)
   - [📄 Table of Contents](#-table-of-contents)
   - [📝 Overview](#-overview)
   - [🚀 Quickstart Example](#-quickstart-example)
@@ -166,6 +166,8 @@ EVAAA is designed so that all environment, agent, and task settings are controll
 |                                    | exp-damage                           |
 |                                    | exp-predator                         |
 
+
+![fig3](/image/fig3.png)
 
 #### 3. Modifying Environment, Agent, or Task Settings
 - Open the folder named in `configFolderName` (e.g., `Config/train-level-2.1-Obstacles/`).

@@ -7,20 +7,27 @@
 This repository contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
 
 ## 📄 Table of Contents
-- [🧮 Implemented Algorithms](#implemented-algorithms)
-- [🎮 Environment Setup](#environment-setup)
-- [🔧 Requirements](#requirements)
-- [🚀 Quick Start](#quick-start)
-- [🎮 Minimal Environment Interaction](#minimal-environment-interaction)
-- [📊 Observation Space](#observation-space)
-- [🎯 Action Space](#action-space)
-- [🚀 Usage](#usage)
-  - [Training](#training)
-  - [Parameters](#parameters)
-- [⚙️ Configuration](#configuration)
-- [📊 Logging](#logging)
-- [🔧 Troubleshooting](#troubleshooting)
-- [📄 License](#license)
+- [EVAAA: Python Interface for Training and Evaluation](#evaaa-python-interface-for-training-and-evaluation)
+  - [📄 Table of Contents](#-table-of-contents)
+  - [🧮 Implemented Algorithms](#-implemented-algorithms)
+  - [🎮 Environment Setup](#-environment-setup)
+  - [🔧 Requirements](#-requirements)
+  - [🚀 Quick Start](#-quick-start)
+  - [🎮 Minimal Environment Interaction](#-minimal-environment-interaction)
+  - [📊 Observation Space](#-observation-space)
+    - [Vector Observations (obs\[1\])](#vector-observations-obs1)
+    - [Example Usage](#example-usage)
+  - [🎯 Action Space](#-action-space)
+    - [Example Usage](#example-usage-1)
+  - [🚀 Usage](#-usage)
+    - [Training](#training)
+    - [Parameters](#parameters)
+    - [Evaluation](#evaluation)
+  - [⚙️ Configuration](#️-configuration)
+  - [📊 Logging](#-logging)
+    - [Recording Outputs](#recording-outputs)
+  - [🔧 Troubleshooting](#-troubleshooting)
+  - [📄 License](#-license)
 
 <a id="implemented-algorithms"></a>
 ## 🧮 Implemented Algorithms
@@ -133,6 +140,9 @@ For a complete example with all observation types and proper action handling, pl
 The EVAAA environment provides multiple observation channels through the ML-Agents interface. The observations are returned as a tuple where:
 - `obs[0]`: Visual observation (camera input)
 - `obs[1]`: Vector observation containing multiple sensor readings
+
+![fig2](/image/fig2.png)
+
 
 ### Vector Observations (obs[1])
 The vector observation is a concatenated array of different sensor readings:
