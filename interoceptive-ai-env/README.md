@@ -206,7 +206,7 @@ Suppose you want to double the amount of food in the environment:
 #### 6. Tips and Troubleshooting
 - If you make a mistake in a JSON file, Unity may show an error or the simulation may not load as expected. Double-check your edits for typos or missing commas/brackets.
 - You can always restore the original config files from your Git repository if needed.
-- For more details on what each parameter means, see the documentation in the `Documents/` folder or ask for help.
+- For more details on what each parameter means, see the documentation in the [DocumentationHierarchy](/Documents/DocumentationHierarchy.md) folder.
 
 ---
 
@@ -227,7 +227,7 @@ The EVAAA project is organized into several core script groups, each responsible
 
 ---
 
-**Note:** For each group, the corresponding markdown file in the `Documents/` folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
+**Note:** For each group, the corresponding markdown file in the [DocumentationHierarchy](/Documents/DocumentationHierarchy.md) folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
 
 ## 🌍 Environments & Tasks
 
