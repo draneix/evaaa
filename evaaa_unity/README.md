@@ -56,6 +56,7 @@ Follow these steps to launch your first EVAAA simulation:
 
 1. **Clone the Repository**
    ```bash
+   git lfs install
    git clone https://github.com/cocoanlab/interoceptive-ai-env.git
    cd interoceptive-ai-env
    ```
