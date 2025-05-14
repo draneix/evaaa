@@ -4,7 +4,7 @@
 
 # EVAAA: Python Interface for Training and Evaluation
 
-This repository contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
+This folder contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
 
 ## 📄 Table of Contents
 - [EVAAA: Python Interface for Training and Evaluation](#evaaa-python-interface-for-training-and-evaluation)
@@ -32,7 +32,7 @@ This repository contains a modified version of the [SheepRL](https://github.com/
 <a id="implemented-algorithms"></a>
 ## 🧮 Implemented Algorithms
 
-This repository includes three main algorithms:
+This folder includes three main algorithms:
 - **DreamerV3**: Implemented from SheepRL framework
 - **PPO (Proximal Policy Optimization)**: Implemented from SheepRL framework
 - **DQN (Deep Q-Network)**: Custom implementation by our team

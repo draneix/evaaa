@@ -37,18 +37,21 @@
 ---
 
 ## 📝 Overview
-EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a biologically inspired 3D simulation platform for reinforcement learning (RL) research. Unlike traditional RL environments that rely on externally defined, task-specific rewards, EVAAA grounds agent motivation in the regulation of internal physiological variables—such as food, water, thermal balance, and damage—mirroring the homeostatic drives found in biological organisms.
+This folder contains the **Unity simulation environment** for EVAAA (Essential Variables in Autonomous and Adaptive Agents). The Unity environment is the core simulation backend for the EVAAA platform, providing a rich, extensible, and biologically inspired 3D world for reinforcement learning (RL) research.
 
-A unique strength of EVAAA is its dual-environment architecture:
-- **Progressive Survival Curriculum:** Agents are trained in a sequence of naturalistic environments of increasing complexity, where they must autonomously maintain essential variables under dynamic, multimodal conditions. This curriculum scaffolds the emergence of adaptive survival behaviors, from basic resource foraging to environments with obstacles, predators, and temporal changes.
-- **Unseen Experimental Testbeds:** Beyond the training curriculum, EVAAA provides a suite of controlled, previously unseen test environments. These testbeds are designed to isolate and rigorously evaluate specific decision-making challenges—such as resource prioritization, collision avoidance, thermal risk, multi-goal planning, and adaptive behavior under novel conditions—enabling systematic assessment of generalization and internal-state-driven control.
+Key features of the Unity environment:
+- **Agent Embodiment & Multimodal Perception:** Agents are embodied in a 3D world and experience the environment through vision, olfaction, thermoception, collision detection, and interoception (internal physiological variables).
+- **Unity ML-Agents Integration:** The environment is built on [Unity ML-Agents](https://github.com/Unity-Technologies/ml-agents), enabling seamless communication with RL training frameworks and supporting both AI and human-controlled agents.
+- **Progressive Curriculum & Testbeds:** Includes a sequence of naturalistic training levels (curriculum) and a suite of controlled experimental testbeds for evaluating adaptive and generalizable behaviors.
+- **JSON-Based Configuration System:** All aspects of the environment, agent, and tasks are controlled via editable JSON files—no code or scene changes required for new experiments or modifications.
+- **Modular & Extensible Design:** The simulation is organized into modular components (Agent, Environment, Event System, Scene Controllers, UI, Utility), making it easy to extend or customize for new research needs.
 
-Key features include:
-- **Multimodal Perception:** Agents experience the world through vision, olfaction, thermoception, collision detection, and interoception.
-- **Unified, Intrinsic Reward System:** Rewards are derived from internal state dynamics, enabling autonomous goal generation and reducing the need for manual reward engineering.
-- **Modular & Extensible Design:** All core systems (Agent, Environment, Event, SceneControllers, UI, Utility) are highly modular and configurable via JSON, supporting rapid experiment iteration and reproducibility.
+This Unity project is intended for:
+- Researchers designing new RL environments or experiments
+- Developers extending the simulation or adding new features
+- Anyone interested in embodied AI, biologically inspired RL, or Unity-based simulation
 
-EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
+For training RL agents or running experiments, use this Unity environment in conjunction with the Python training suite (`evaaa_train`).
 
 ## 🚀 Quickstart Example
 

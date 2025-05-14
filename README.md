@@ -4,7 +4,18 @@
 
 # EVAAA: Essential Variables in Autonomous and Adaptive Agents
 
-A biologically inspired platform for reinforcement learning research, combining a Unity-based 3D simulation environment with a Python-based training and evaluation suite.
+EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a biologically inspired 3D simulation platform for reinforcement learning (RL) research. Unlike traditional RL environments that rely on externally defined, task-specific rewards, EVAAA grounds agent motivation in the regulation of internal physiological variables—such as food, water, thermal balance, and damage—mirroring the homeostatic drives found in biological organisms.
+
+A unique strength of EVAAA is its dual-environment architecture:
+- **Progressive Survival Curriculum:** Agents are trained in a sequence of naturalistic environments of increasing complexity, where they must autonomously maintain essential variables under dynamic, multimodal conditions. This curriculum scaffolds the emergence of adaptive survival behaviors, from basic resource foraging to environments with obstacles, predators, and temporal changes.
+- **Unseen Experimental Testbeds:** Beyond the training curriculum, EVAAA provides a suite of controlled, previously unseen test environments. These testbeds are designed to isolate and rigorously evaluate specific decision-making challenges—such as resource prioritization, collision avoidance, thermal risk, multi-goal planning, and adaptive behavior under novel conditions—enabling systematic assessment of generalization and internal-state-driven control.
+
+Key features include:
+- **Multimodal Perception:** Agents experience the world through vision, olfaction, thermoception, collision detection, and interoception.
+- **Unified, Intrinsic Reward System:** Rewards are derived from internal state dynamics, enabling autonomous goal generation and reducing the need for manual reward engineering.
+- **Modular & Extensible Design:** All core systems (Agent, Environment, Event, SceneControllers, UI, Utility) are highly modular and configurable via JSON, supporting rapid experiment iteration and reproducibility.
+
+EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
 
 ![fig1](/image/fig1.png)
 
