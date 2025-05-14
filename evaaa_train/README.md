@@ -6,23 +6,19 @@
 
 This repository contains a modified version of the [SheepRL](https://github.com/Eclectic-Sheep/sheeprl) training framework, adapted for EVAAA training and evaluation needs. The codebase maintains the core structure of SheepRL while incorporating custom modifications.
 
-## ✨ Features
-
-- 🤖 Three benchmark RL algorithms (DreamerV3, PPO, DQN)
-- 🎮 Unity ML-Agents integration
-- 📊 Logging and monitoring
-- 🎥 Screen and data recording capabilities
-
 ## 📄 Table of Contents
 - [Implemented Algorithms](#implemented-algorithms)
-- [Project Structure](#project-structure)
+- [Environment Setup](#environment-setup)
+- [Requirements](#requirements)
 - [Quick Start](#quick-start)
 - [Minimal Environment Interaction](#minimal-environment-interaction)
-- [Requirements](#requirements)
+- [Observation Space](#observation-space)
+- [Action Space](#action-space)
 - [Usage](#usage)
+  - [Training](#training)
+  - [Parameters](#parameters)
 - [Configuration](#configuration)
 - [Logging](#logging)
-- [Environment Setup](#environment-setup)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [Citation](#citation)
@@ -35,90 +31,19 @@ This repository includes three main algorithms:
 - **PPO (Proximal Policy Optimization)**: Implemented from SheepRL framework
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
-## 📁 Project Structure
+## 🎮 Environment Setup
 
-```
-.
-├── algos/           # Algorithm implementations
-│   ├── dreamer_v3/  # DreamerV3 from SheepRL
-│   ├── ppo/        # PPO from SheepRL
-│   └── dqn/        # Custom DQN implementation
-├── configs/         # Configuration files
-├── envs/           # Environment definitions
-├── models/         # Neural network models
-├── utils/          # Utility functions
-├── train.py        # Training script
-├── eval.py         # Evaluation script
-├── cli.py          # Command-line interface
-├── command.sh      # Example commands
-└── simple_example.py # Basic environment interaction example
-```
-
-## 🚀 Quick Start
+Before running any examples or training, you need to download and set up the Unity environment:
 
 ```bash
-# Clone the repository
-git clone [repository-url]
-
-# Install dependencies
-pip install -r requirements.txt
+# Install gdown for downloading from Google Drive
+pip install gdown
 
 # Download and setup the environment
-pip install gdown
 gdown --fuzzy "https://drive.google.com/file/d/14pgW30OrynErDS_6BrGjbAc91iS35oL-/view?usp=sharing"
 unzip evaaa.zip -d envs/
 rm evaaa.zip
-
-# Run a simple example
-python simple_example.py
-
-# Start training
-python train.py exp=dqn tag=dqn_tet seed=252 env.port=8210 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource
 ```
-
-## 🎮 Minimal Environment Interaction
-
-The EVAAA uses Unity ML-Agents for environment interaction. For detailed documentation about the ML-Agents API, please refer to the [official ML-Agents documentation](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Python-LLAPI.md). For a complete example with environment interaction, including all observation types (visual, essential variables, olfactory, temperature, collision) and proper action handling, please refer to [`simple_example.py`](./simple_example.py). Here's a minimal example showing the basic structure:
-
-```python
-import os
-from mlagents_envs.environment import UnityEnvironment, ActionTuple
-from mlagents_envs.side_channel.environment_parameters_channel import EnvironmentParametersChannel
-from mlagents_envs.side_channel.engine_configuration_channel import EngineConfigurationChannel
-
-# Initialize environment
-env = UnityEnvironment(
-    file_name='./envs/two_resource/0.15.10-250509/build',
-    seed=252,
-    base_port=8210,
-)
-
-# Configure environment
-env.reset()
-behavior_name = list(env.behavior_specs)[0]
-
-# Simple interaction loop
-for _ in range(10): 
-    # Execute random action
-    action = ActionTuple()
-    action.add_discrete([[0]])  # Example action
-    env.set_actions(behavior_name, action)
-    env.step()
-    
-    # Get observations
-    decision_steps, terminal_steps = env.get_steps(behavior_name)
-    for agent_id in decision_steps:
-        obs = decision_steps[agent_id].obs
-        print(f"Visual shape: {obs[0].shape}")
-        print(f"State vector: {obs[1]}")
-
-env.close()
-```
-
-This example demonstrates the basic interaction with the environment using ML-Agents, including:
-- Environment initialization
-- Action execution
-- Observation retrieval
 
 ## 🔧 Requirements
 
@@ -140,6 +65,116 @@ Install the dependencies using pip:
 pip install -r requirements.txt
 ```
 
+## 🚀 Quick Start
+
+After setting up the environment, you can:
+
+1. Run the basic example to verify the installation:
+```bash
+python simple_example.py
+```
+
+2. Start training with one of the implemented algorithms:
+```bash
+python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource
+```
+
+For more training options and configurations, see the [Usage](#usage) section.
+
+## 🎮 Minimal Environment Interaction
+
+The EVAAA uses Unity ML-Agents for environment interaction. For detailed documentation about the ML-Agents API, please refer to the [official ML-Agents documentation](https://github.com/Unity-Technologies/ml-agents/tree/main/ml-agents-envs). For a complete example with environment interaction, including all observation types (visual, essential variables, olfactory, temperature, collision) and proper action handling, please refer to [`simple_example.py`](./simple_example.py). Here's a minimal example showing the basic structure:
+
+```python
+from mlagents_envs.environment import UnityEnvironment, ActionTuple
+
+# Initialize environment
+env = UnityEnvironment(
+    file_name='./envs/evaaa/build',
+    seed=42,
+    base_port=50000,
+)
+
+# Get behavior name and reset environment
+env.reset()
+behavior_name = list(env.behavior_specs)[0]
+
+# Simple interaction loop
+for _ in range(10): 
+    # Execute action
+    action = ActionTuple()
+    action.add_discrete([[1]])  # Move forward
+    env.set_actions(behavior_name, action)
+    env.step()
+    
+    # Get observations
+    decision_steps, terminal_steps = env.get_steps(behavior_name)
+    for agent_id in decision_steps:
+        obs = decision_steps[agent_id].obs
+        print(f"Visual shape: {obs[0].shape}")
+        print(f"State vector: {obs[1]}")
+
+env.close()
+```
+
+This example demonstrates:
+- Environment initialization
+- Basic action execution (moving forward)
+- Observation retrieval
+
+For a complete example with all observation types and proper action handling, please refer to [`simple_example.py`](./simple_example.py).
+
+## 📊 Observation Space
+
+The EVAAA environment provides multiple observation channels through the ML-Agents interface. The observations are returned as a tuple where:
+- `obs[0]`: Visual observation (camera input)
+- `obs[1]`: Vector observation containing multiple sensor readings
+
+### Vector Observations (obs[1])
+The vector observation is a concatenated array of different sensor readings:
+
+| Index Range | Type | Description |
+|-------------|------|-------------|
+| 0-3 | Essential Variables | Food level, water level, temperature, and health |
+| 4-13 | Olfactory | 10 values representing resource properties in detection range |
+| 14-21 | Thermal | 8 directional temperature sensors (F, B, L, R, FL, FR, BL, BR) |
+| 22-31 | Collision | 10 sectors of collision detection (100 rays grouped into sectors) |
+
+For detailed explanations of each observation type, including how they are calculated and their specific properties, please refer to the comments in [`simple_example.py`](./simple_example.py).
+
+### Example Usage
+```python
+# Accessing different observation types
+visual_obs = obs[0]  # Visual observation
+essential_vars = obs[1][0:4]  # Essential variables
+olfactory = obs[1][4:14]  # Olfactory observations
+thermal = obs[1][14:22]  # Thermal observations
+collision = obs[1][22:32]  # Collision information
+```
+
+## 🎯 Action Space
+
+The EVAAA environment uses discrete actions through the ML-Agents interface. The action space consists of 5 discrete actions:
+
+| Action Index | Action | Description |
+|--------------|--------|-------------|
+| 0 | None | No movement or action |
+| 1 | Forward | Move forward in the current direction |
+| 2 | Left | Turn and move left |
+| 3 | Right | Turn and move right |
+| 4 | Eat | Consume resources when in range |
+
+### Example Usage
+```python
+# Creating and executing an action
+action = ActionTuple()
+action.add_discrete([[1]])  # Move forward
+env.set_actions(behavior_name, action)
+env.step()
+```
+
+For a complete example of action handling and observation processing, please refer to [`simple_example.py`](./simple_example.py).
+
 ## 🚀 Usage
 
 ### Training
@@ -148,7 +183,7 @@ pip install -r requirements.txt
 <summary>DQN Training Command</summary>
 
 ```bash
-python train.py exp=dqn tag=dqn_tet seed=252 env.port=8210 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -156,7 +191,7 @@ python train.py exp=dqn tag=dqn_tet seed=252 env.port=8210 env.time_scale=15 env
 <summary>PPO Training Command</summary>
 
 ```bash
-python train.py exp=ppo tag=ppo_tet seed=252 env.port=8210 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=ppo tag=ppo_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -164,7 +199,7 @@ python train.py exp=ppo tag=ppo_tet seed=252 env.port=8210 env.time_scale=15 env
 <summary>DreamerV3 Training Command</summary>
 
 ```bash
-python train.py exp=dreamer_v3 tag=dreamer_tet seed=252 env.port=8210 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dreamer_v3 tag=dreamer_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.2-CorneredResource env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -174,8 +209,8 @@ python train.py exp=dreamer_v3 tag=dreamer_tet seed=252 env.port=8210 env.time_s
 |-----------|------|-------------|---------|
 | `exp` | string | Experiment type (dqn, ppo, or dreamer_v3) | - |
 | `tag` | string | Experiment tag for identification | - |
-| `seed` | int | Random seed for reproducibility | 252 |
-| `env.port` | int | Environment port number | 8210 |
+| `seed` | int | Random seed for reproducibility | - |
+| `env.port` | int | Environment port number | - |
 | `env.time_scale` | int | Time scale for environment simulation | 15 |
 | `env.width` | int | Environment width | 100 |
 | `env.height` | int | Environment height | 100 |
@@ -188,7 +223,7 @@ python train.py exp=dreamer_v3 tag=dreamer_tet seed=252 env.port=8210 env.time_s
 To evaluate a trained model, use the `eval.py` script:
 
 ```bash
-python eval.py exp=dqn tag=dqn_tet seed=252 env.port=8210 env.time_scale=1 env.width=1000 env.height=1000 env.config=exp-damage env.screenRecordEnable=false env.dataRecordEnable=false checkpoint_path=/path/to/checkpoint
+python eval.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=1 env.width=1000 env.height=1000 env.config=exp-damage env.screenRecordEnable=false env.dataRecordEnable=false checkpoint_path=/path/to/checkpoint
 ```
 
 Additional parameters for evaluation:
@@ -224,28 +259,8 @@ When running experiments with recording enabled:
 - Data recordings (`env.dataRecordEnable=true`): Saved in `envs/[environment_name]/[version]/Data/`
 
 Example paths for the two_resource environment:
-- Screen recordings: `envs/two_resource/0.15.10-250509/Recordings/`
-- Data recordings: `envs/two_resource/0.15.10-250509/Data/`
-
-## 📥 Environment Setup
-
-The environment files are too large to be included in the repository directly. Follow these steps to download and set up the environment:
-
-1. Install gdown:
-```bash
-pip install gdown
-```
-
-2. Download the environment files:
-```bash
-gdown --fuzzy "https://drive.google.com/file/d/1kyySDFI2Bsrk4xeLnWZJCGFepEbpGPsB/view?usp=drive_link"
-```
-
-3. Extract and move the files:
-```bash
-unzip linux.zip -d evaaa
-mv evaaa envs/
-```
+- Screen recordings: `envs/evaaa/Recordings/`
+- Data recordings: `envs/evaaa/Data/`
 
 After completing these steps, the environment will be ready to use with the training and evaluation scripts.
 

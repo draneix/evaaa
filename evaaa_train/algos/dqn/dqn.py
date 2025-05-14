@@ -162,12 +162,13 @@ def main(config=None):
     )
 
     engineChannel = EngineConfigurationChannel()
-    paramChannel = EnvironmentParametersChannel()
+    # paramChannel = EnvironmentParametersChannel()
 
     env = UnityEnvironment(
         file_name=env_file,
         seed=int(code_settings["seed"]),
-        side_channels=[engineChannel, paramChannel],
+        # side_channels=[engineChannel, paramChannel],
+        side_channels=[engineChannel],
         base_port=base_port,
     )
 
@@ -177,12 +178,12 @@ def main(config=None):
         height=int(engine_configuration["height"]),
     )
 
-    # %%
-    # Setting pre-defined parameters from Unity
-    for key in environment_parameters.keys():
-        for parameters in environment_parameters[key].keys():
-            value = environment_parameters[key][parameters]
-            paramChannel.set_float_parameter(parameters, float(value))
+    # # %%
+    # # Setting pre-defined parameters from Unity
+    # for key in environment_parameters.keys():
+    #     for parameters in environment_parameters[key].keys():
+    #         value = environment_parameters[key][parameters]
+    #         paramChannel.set_float_parameter(parameters, float(value))
 
     # Reset environment with parameters
     env.reset()

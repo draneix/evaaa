@@ -78,11 +78,11 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             height=engine_configuration["height"],
         )
 
-        # Setting pre-defined parameters from Unity
-        for key in environment_parameters.keys():
-            for parameters in environment_parameters[key].keys():
-                value = environment_parameters[key][parameters]
-                paramChannel.set_float_parameter(parameters, float(value))
+        # # Setting pre-defined parameters from Unity
+        # for key in environment_parameters.keys():
+        #     for parameters in environment_parameters[key].keys():
+        #         value = environment_parameters[key][parameters]
+        #         paramChannel.set_float_parameter(parameters, float(value))
 
         unity_env.reset()
         # env = UnityToGymWrapper(unity_env, uint8_visual=True, flatten_branched=False, allow_multiple_obs=True)
