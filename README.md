@@ -56,10 +56,14 @@ EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research plat
 
 ---
 
+
+## 📬 Contact
+<!-- Contact information for questions or collaboration -->
+
+## 🙏 Acknowledgements
+<!-- Credits for Unity ML-Agents, asset sources, and any collaborators or funding sources -->
+
 ## 📚 Citing EVAAA
-
-
----
 
 ## 📄 License
 This project is licensed under the [CC BY-SA 4.0 License](https://creativecommons.org/licenses/by-sa/4.0/).

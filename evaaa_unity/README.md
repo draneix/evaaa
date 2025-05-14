@@ -29,10 +29,7 @@
     - [🧪 Experimental Testbeds](#-experimental-testbeds)
       - [Basic Homeostatic Regulation](#basic-homeostatic-regulation)
       - [Advanced Adaptive Skills](#advanced-adaptive-skills)
-  - [📚 Citing EVAAA](#-citing-evaaa)
-  - [📬 Contact](#-contact)
-  - [🙏 Acknowledgements](#-acknowledgements)
-  - [📄 License](#-license)
+  - [� License](#-license)
 
 ---
 
@@ -281,14 +278,6 @@ EVAAA includes a suite of controlled testbed environments, each designed to isol
 
 This curriculum and testbed suite enable systematic analysis of how agents learn, adapt, and generalize under internal-state-driven demands in complex, dynamic environments.
 
-## 📚 Citing EVAAA
-<!-- BibTeX entry for citation -->
-
-## 📬 Contact
-<!-- Contact information for questions or collaboration -->
-
-## 🙏 Acknowledgements
-<!-- Credits for Unity ML-Agents, asset sources, and any collaborators or funding sources -->
 
 ## 📄 License
 CC BY-SA 4.0
