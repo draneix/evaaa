@@ -4,6 +4,8 @@
 
 # EVAAA: Essential Variables in Autonomous and Adaptive Agents
 
+![fig1](/image/fig1.png)
+
 EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a biologically inspired 3D simulation platform for reinforcement learning (RL) research. Unlike traditional RL environments that rely on externally defined, task-specific rewards, EVAAA grounds agent motivation in the regulation of internal physiological variables—such as food, water, thermal balance, and damage—mirroring the homeostatic drives found in biological organisms.
 
 A unique strength of EVAAA is its dual-environment architecture:
@@ -16,8 +18,6 @@ Key features include:
 - **Modular & Extensible Design:** All core systems (Agent, Environment, Event, SceneControllers, UI, Utility) are highly modular and configurable via JSON, supporting rapid experiment iteration and reproducibility.
 
 EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
-
-![fig1](/image/fig1.png)
 
 ---
 

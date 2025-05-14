@@ -2,10 +2,10 @@
 [![Unity 2022.3.16f1](https://img.shields.io/badge/Unity-2022.3.16f1-blue.svg)](https://unity.com/releases/editor/whats-new/2022.3.16)
 [![C#](https://img.shields.io/badge/C%23-9.0-green.svg)](https://docs.microsoft.com/en-us/dotnet/csharp/)
 
-# EVAAA: Unity Environment
+# EVAAA: A Simulation Environment in Unity
 
 ## 📄 Table of Contents
-- [EVAAA: Unity Environment](#evaaa-unity-environment)
+- [EVAAA: A Simulation Environment in Unity](#evaaa-a-simulation-environment-in-unity)
   - [📄 Table of Contents](#-table-of-contents)
   - [📝 Overview](#-overview)
   - [🚀 Quickstart Example](#-quickstart-example)
