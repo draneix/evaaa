@@ -29,7 +29,7 @@
     - [🧪 Experimental Testbeds](#-experimental-testbeds)
       - [Basic Homeostatic Regulation](#basic-homeostatic-regulation)
       - [Advanced Adaptive Skills](#advanced-adaptive-skills)
-  - [� License](#-license)
+  - [📄 License](#-license)
 
 ---
 
@@ -229,7 +229,7 @@ The EVAAA project is organized into several core script groups, each responsible
 
 ---
 
-**Note:** For each group, the corresponding markdown file in the [DocumentationHierarchy](/Documents/DocumentationHierarchy.md) folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
+**Note:** For each group, the corresponding markdown file in the [DocumentationHierarchy](/evaaa_unity/Documents/DocumentationHierarchy.md) folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
 
 ## 🌍 Environments & Tasks
 
