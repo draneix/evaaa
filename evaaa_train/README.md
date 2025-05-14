@@ -38,6 +38,7 @@ This folder includes three main algorithms:
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
 ![fig4](/image/fig4.png)
+This train result are saved in the [plotting](/evaaa_train/plotting/).
 
 <a id="environment-setup"></a>
 ## 🎮 Environment Setup
