@@ -29,7 +29,6 @@
     - [🧪 Experimental Testbeds](#-experimental-testbeds)
       - [Basic Homeostatic Regulation](#basic-homeostatic-regulation)
       - [Advanced Adaptive Skills](#advanced-adaptive-skills)
-  - [🛠️ Customization](#️-customization)
   - [📚 Citing EVAAA](#-citing-evaaa)
   - [📬 Contact](#-contact)
   - [🙏 Acknowledgements](#-acknowledgements)
@@ -232,7 +231,7 @@ The EVAAA project is organized into several core script groups, each responsible
 
 ## 🌍 Environments & Tasks
 
-EVAAA features a two-tiered environment architecture designed to study autonomy, adaptivity, and internal state regulation in reinforcement learning agents:
+At the heart of EVAAA is a unique integration of a two-tiered environment architecture with a unified, intrinsic reward system. In EVAAA, agents are motivated not by externally defined, task-specific rewards, but by the need to regulate their own internal physiological variables—such as food, water, thermal balance, and damage. This intrinsic reward system is consistent across all environments, allowing agents to autonomously generate and pursue goals that emerge from their internal state dynamics. The two-tiered design—combining a progressive, naturalistic survival curriculum with a suite of controlled, unseen experimental testbeds—enables both the development of adaptive behaviors and the evaluation of generalization and flexible decision-making in novel scenarios. By unifying these elements, EVAAA provides a biologically inspired benchmark for studying autonomy, adaptivity, and internally motivated control in reinforcement learning agents.
 
 ### 📈 Naturalistic Training Curriculum
 
@@ -240,14 +239,14 @@ EVAAA's training environments are structured as a sequence of four progressively
 
 | **Level** | **Name**                        | **Config Name**                        | **Description** |
 |-----------|---------------------------------|----------------------------------------|-----------------|
-| 1         | Basic Resource Foraging         | train-level-1.1-ScatteredResource      | Randomly distributed food and water in an open field with variable temperatures. Establishes baseline consumption behavior. |
-|           |                                 | train-level-1.2-CorneredResource       | Resources relocated to a fixed corner, requiring spatial targeting based on internal need. Both sublevels are obstacle-free to isolate essential variable (EV)-driven behavior. |
-| 2         | Obstacle-Resource Mapping       | train-level-2.1-Obstacles              | Bonfires introduce localized heat, requiring agents to regulate thermal state. Rocks and bushes obstruct navigation and inflict damage. |
-|           |                                 | train-level-2.2-ResourceMapping        | Stable layouts (e.g., pond location, food near trees) encourage agents to associate specific cues with essential resources. Environmental complexity increases with obstacles and cues. |
-| 3         | Terrain Exploration & Navigation| train-level-3.1-Navigation             | Wall-enclosed tree regions demand efficient path planning amid thermal and damage constraints. |
-|           |                                 | train-level-3.2-Exploration            | Food appears at only one tree region per episode, forcing dynamic search and strategy revision as availability shifts. Agents must balance competing EVs while exploring semi-structured terrain. |
-| 4         | Dynamic Threatening Environment | train-level-4.1-Predator               | A predator inflicts damage and must be evaded. |
-|           |                                 | train-level-4.2-DayAndNight            | A day-night cycle modulates temperature and predator behavior, requiring time-aware planning and adaptation to shifting external demands. External threats and temporal changes challenge behavioral flexibility. |
+| 1         | Basic Resource Foraging         | train-level-1.1-ScatteredResource      | Food and water are scattered randomly in an open field with changing temperatures. This level establishes basic foraging and consumption behaviors. |
+|           |                                 | train-level-1.2-CorneredResource       | All resources are placed in a fixed corner, requiring the agent to navigate purposefully based on its needs. Both sublevels have no obstacles, focusing on essential variable (EV) regulation. |
+| 2         | Obstacle-Resource Mapping       | train-level-2.1-Obstacles              | Bonfires add heat sources, so agents must manage their body temperature. Rocks and bushes block paths and can cause damage, introducing navigation and risk management. |
+|           |                                 | train-level-2.2-ResourceMapping        | Resources are placed in consistent locations (e.g., food near trees, water in ponds), encouraging agents to learn and use environmental cues. More obstacles and cues increase complexity. |
+| 3         | Terrain Exploration & Navigation| train-level-3.1-Navigation             | Tree areas are surrounded by walls, requiring agents to plan efficient routes while managing temperature and avoiding damage. |
+|           |                                 | train-level-3.2-Exploration            | Only one tree area has food per episode, so agents must search and adapt their strategy as food locations change. Balancing multiple needs is key. |
+| 4         | Dynamic Threatening Environment | train-level-4.1-Predator               | A predator is introduced, and agents must avoid it to survive, adding a threat-avoidance challenge. |
+|           |                                 | train-level-4.2-DayAndNight            | The environment cycles between day and night, affecting temperature and predator activity. Agents must adapt their behavior to these changing conditions. |
 
 ---
 
@@ -258,27 +257,24 @@ EVAAA includes a suite of controlled testbed environments, each designed to isol
 #### Basic Homeostatic Regulation
 | **Category** | **Task Name**              | **Config Name**              | **Description** |
 |--------------|---------------------------|------------------------------|-----------------|
-| Basic        | Two-Resource Choice (Food) | exp-two-resource-food        | Agents choose between food and water based on internal need, under partial observability. Tests internal-state-driven prioritization. |
-| Basic        | Two-Resource Choice (Water)| exp-two-resource-water       | Similar to above, but with different initial internal states or resource distributions. |
-| Basic        | Two-Resource Choice (Thermo)| exp-two-resource-thermo     | Agents must regulate thermal state versus another essential variable. |
-| Basic        | Avoiding Collision         | exp-riskTaking               | Agents must reach a visible resource while avoiding narrowly spaced obstacles, testing fine-grained movement control and damage minimization. |
+| Basic        | Two-Resource Choice (Food) | exp-two-resource-food        | Agents choose between food and water, prioritizing based on low food levels. Tests if agents act according to internal needs. |
+| Basic        | Two-Resource Choice (Water)| exp-two-resource-water       | Same as above, but agents start with low water levels, testing flexible prioritization. |
+| Basic        | Two-Resource Choice (Thermo)| exp-two-resource-thermo     | Agents must regulate their body temperature by choosing the right resource. |
+| Basic        | Avoiding Collision         | exp-riskTaking               | Agents must reach a resource while avoiding closely spaced obstacles, testing precise movement and damage avoidance. |
 
 #### Advanced Adaptive Skills
 | **Category** | **Task Name**                | **Config Name**                   | **Description** |
 |--------------|-----------------------------|-----------------------------------|-----------------|
-| Advanced     | Multi-Goal Planning         | exp-multiGoalPlanning             | Agents infer urgency across multiple EVs and act in priority order, testing coordination and sequential internal-state regulation. |
-| Advanced     | Spatial Navigation (Y-maze) | exp-Ymaze                         | Two resources are placed at separate ends of a Y-shaped layout, requiring agents to revisit and redirect based on changing internal needs. |
-| Advanced     | Goal Manipulation (Food→Water) | exp-goal-manipulation-FoodToWater | A transparent boundary triggers a hidden change in EV levels. Agents must detect the shift and re-prioritize without external cues. |
-| Advanced     | Goal Manipulation (Water→Food) | exp-goal-manipulation-WaterToFood | Similar to above, but with the opposite EV change. |
-| Advanced     | Thermal Risk Task            | exp-predator                      | A resource is placed behind a bonfire or near a predator. Agents must plan whether to endure the risk or find an alternative strategy. |
-| Advanced     | Predator Avoidance           | exp-predator                      | Agents autonomously suppress actions during the day to avoid predators, shifting to active foraging at night—testing adaptive, time-aware survival behavior. |
+| Advanced     | Thermal Risk Task            | exp-riskTaking                   | A resource is behind a bonfire. Agents must decide whether to risk taking damage for a thermal reward. |
+| Advanced     | Goal Manipulation (Food→Water) | exp-goal-manipulation-FoodToWater | When the agent crosses a transparent boundary, its essential variables change from low food/high water to low water/high food. The agent receives updated EV observations and must adapt its priorities accordingly. |
+| Advanced     | Goal Manipulation (Water→Food) | exp-goal-manipulation-WaterToFood | Same as above, but the essential variables change from low water/high food to low food/high water. The agent receives updated EV observations and must adjust its behavior in response. |
+| Advanced     | Spatial Navigation (Y-maze) | exp-Ymaze                         | Two resources are at the ends of a Y-shaped maze. Agents must revisit and change direction as their needs change. |
+| Advanced     | Multi-Goal Planning         | exp-multiGoalPlanning             | Agents must prioritize and address multiple needs in sequence, testing their ability to coordinate and plan. |
+| Advanced     | Predator Avoidance           | exp-predator                      | Agents must avoid predators during the day and forage at night, requiring adaptive, time-sensitive strategies. |
 
 ---
 
 This curriculum and testbed suite enable systematic analysis of how agents learn, adapt, and generalize under internal-state-driven demands in complex, dynamic environments.
-
-## 🛠️ Customization
-<!-- How to modify agent parameters, environment settings, or curriculum via config files -->
 
 ## 📚 Citing EVAAA
 <!-- BibTeX entry for citation -->
