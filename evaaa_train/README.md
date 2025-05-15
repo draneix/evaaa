@@ -38,7 +38,7 @@ This folder includes three main algorithms:
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
 ![fig4](/image/fig4.png)
-This train result are saved in the [plotting](/evaaa_train/plotting/).
+The training results are stored in the [plotting](/evaaa_train/plotting/) directory.
 
 <a id="environment-setup"></a>
 ## 🎮 Environment Setup
@@ -57,7 +57,7 @@ gdown --fuzzy "https://drive.google.com/file/d/14pgW30OrynErDS_6BrGjbAc91iS35oL-
 gdown --fuzzy "TODO: add link for Mac OS version"
 
 # For Windows
-"Currently, EVAAA is not supporting Windows"
+gdown --fuzzy "TODO: add link for Windows version"
 
 unzip evaaa.zip -d envs/
 rm evaaa.zip
@@ -65,6 +65,8 @@ rm evaaa.zip
 
 <a id="requirements"></a>
 ## 🔧 Requirements
+
+⚙️ Python=3.10.1
 
 The project requires the following dependencies:
 ```
