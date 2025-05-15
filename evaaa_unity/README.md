@@ -155,18 +155,18 @@ EVAAA is designed so that all environment, agent, and task settings are controll
 
 **Pre-existing config folders you can use:**
 
-| Survival Curriculum                | Experimental Testbeds                |
-|------------------------------------|--------------------------------------|
-| train-level-1.1-ScatteredResource  | exp-multiGoalPlanning                |
-| train-level-1.2-CorneredResource   | exp-two-resource-food                |
-| train-level-2.1-Obstacles          | exp-two-resource-water               |
-| train-level-2.2-ResourceMapping    | exp-two-resource-thermo              |
-| train-level-3.1-Navigation         | exp-Ymaze                            |
-| train-level-3.2-Exploration        | exp-goal-manipulation-FoodToWater    |
-| train-level-4.1-Predator           | exp-goal-manipulation-WaterToFood    |
-| train-level-4.2-DayAndNight        | exp-riskTaking                       |
-|                                    | exp-damage                           |
-|                                    | exp-predator                         |
+| Survival Curriculum                        | Experimental Testbeds                |
+|--------------------------------------------|--------------------------------------|
+| train-level-1.1-Scattered-Cubes            | exp-multiGoalPlanning                |
+| train-level-1.2-Corner-Located-Cubes       | exp-two-resource-food                |
+| train-level-2.1-Natural-Obstacle-Layout    | exp-two-resource-water               |
+| train-level-2.2-Obstacle-Resource-Pairings | exp-two-resource-thermo              |
+| train-level-3.1-Navigation                 | exp-Ymaze                            |
+| train-level-3.2-Exploration                | exp-goal-manipulation-FoodToWater    |
+| train-level-4.1-Predator-Threat            | exp-goal-manipulation-WaterToFood    |
+| train-level-4.2-Day-Night-Cycle            | exp-riskTaking                       |
+|                                            | exp-collision-avoidance              |
+|                                            | exp-predator                         |
 
 
 ![fig3](/image/fig3.png)
