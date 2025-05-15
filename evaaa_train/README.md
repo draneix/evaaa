@@ -51,13 +51,13 @@ pip install gdown
 
 # Download and setup the environment
 # For Linux
-gdown --fuzzy "https://drive.google.com/file/d/14pgW30OrynErDS_6BrGjbAc91iS35oL-/view?usp=sharing"
+gdown --fuzzy "https://drive.google.com/file/d/1DtxIEpYPkWqVPQx3Tig-XKL01VYGJ4cJ/view?usp=sharing"
 
 # For Mac
-gdown --fuzzy "TODO: add link for Mac OS version"
+gdown --fuzzy "https://drive.google.com/file/d/1Du4pDs9oY0GICp_nowrN5LIWi3ordK1E/view?usp=sharing"
 
 # For Windows
-gdown --fuzzy "TODO: add link for Windows version"
+gdown --fuzzy "https://drive.google.com/file/d/1DuDTLTaeVMi_DOO-0z6GUCYmf2midbCy/view?usp=sharing"
 
 unzip evaaa.zip -d envs/
 rm evaaa.zip
