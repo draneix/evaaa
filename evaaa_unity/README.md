@@ -57,13 +57,13 @@ Follow these steps to launch your first EVAAA simulation:
 1. **Clone the Repository**
    ```bash
    git lfs install
-   git clone https://github.com/cocoanlab/interoceptive-ai-env.git
-   cd interoceptive-ai-env
+   git clone https://anonymous.4open.science/r/evaaa-2486
+   cd evaaa
    ```
 
 2. **Open the Project in Unity**
    - Launch **Unity Hub**.
-   - Click **Add** and select the cloned `interoceptive-ai-env` folder.
+   - Click **Add** and select the `evaaa_env` folder in the cloned folder.
    - Open the project using **Unity Editor 2022.3.16f1**.
 
 3. **Select an Environment or Task**
@@ -90,13 +90,13 @@ Follow these detailed steps to set up Unity and run EVAAA:
 Open a terminal (Command Prompt, PowerShell, or Terminal) and run:
 ```bash
 git lfs install
-git clone https://github.com/cocoanlab/interoceptive-ai-env.git
-cd interoceptive-ai-env
+git clone https://anonymous.4open.science/r/evaaa-2486
+cd evaaa
 ```
 
 ### 3. Open the Project in Unity
 1. Launch **Unity Hub**.
-2. Click **Add** (or the plus `+` icon) and select the folder where you cloned `interoceptive-ai-env`.
+2. Click **Add** (or the plus `+` icon) and select the `evaaa_evn` folder where you cloned.
 3. In Unity Hub, make sure the project is set to use **Unity Editor 2022.3.16f1**. If not, click the three dots next to the project and select **Add Editor Version** to install it.
 4. Click the project name to open it in Unity.
 
