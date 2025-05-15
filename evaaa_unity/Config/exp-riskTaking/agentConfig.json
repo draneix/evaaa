@@ -26,7 +26,7 @@
     "thermoLevelRange": { "min": -15.0, "max": 15.0 },
     "startThermoLevel": 0.0,
     "healthLevelRange": { "min": 0.0, "max": 100.0 },
-    "startHealthLevel": 100.0,
+    "startHealthLevel": 0.0,
     "useTouchObs": true,
     "useCollisionObs": true,
     "useOlfactoryObs": true,
@@ -57,7 +57,7 @@
         "change_4": 0.0
     },
     "healthCoefficient": {
-        "change_0": 0.05,
+        "change_0": -0.05,
         "change_1": 0.0,
         "change_2": 0.0,
         "change_3": 0.0,

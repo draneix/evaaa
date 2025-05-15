@@ -69,7 +69,8 @@ public class ObjectRaycast : MonoBehaviour
         // agent.GetComponent<InteroceptiveAgent>().ApplyDamage(damage);
 
         InteroceptiveAgent agentScript = agent.GetComponent<InteroceptiveAgent>();
-        agentScript.resourceLevels[3] -= damage;
+        // agentScript.resourceLevels[3] -= damage;
+        agentScript.resourceLevels[3] += damage;
         if (damage > 0.5)
         {
             agentScript.countCollision = 1.0f;

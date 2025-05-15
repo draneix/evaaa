@@ -152,7 +152,8 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             reward = np.array(-100, dtype=np.float32)
         else:
             if self.env_cfg["env"]["use_reward_shaping"]:
-                reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((100 - obs[1][3]) * 0.15, 2.0))
+                # reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((100 - obs[1][3]) * 0.15, 2.0))
+                reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((obs[1][3]) * 0.15, 2.0))
             else:
                 reward = np.array(0, dtype=np.float32)
 

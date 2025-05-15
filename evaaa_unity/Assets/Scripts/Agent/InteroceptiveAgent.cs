@@ -589,7 +589,8 @@ public class InteroceptiveAgent : Agent
                         checkThermoLevel = (this.thermoLevelRange.max < this.resourceLevels[2] || this.resourceLevels[2] < this.thermoLevelRange.min);
                 }
 
-                bool checkHealth = (this.resourceLevels[3] < this.healthLevelRange.min);
+                // bool checkHealth = (this.resourceLevels[3] < this.healthLevelRange.min);
+                bool checkHealth = (this.resourceLevels[3] > this.healthLevelRange.max);
 
                 if (checkFoodLevel || checkWaterLevel || checkThermoLevel || checkHealth)
                 {        
@@ -901,7 +902,7 @@ public class InteroceptiveAgent : Agent
                 setPoints[0] = 0;
                 setPoints[1] = 0;
                 setPoints[2] = 0;
-                setPoints[3] = 100;
+                setPoints[3] = 0;
 
                 // float[] maxDeviations = new float[] { startFoodLevel - foodLevelRange.min, 
                 //                                 startWaterLevel - waterLevelRange.min, 

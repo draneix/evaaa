@@ -182,7 +182,8 @@ class DqnAgent:
     def get_reward(self, observations, next_observations, action, done):
         if self._reward_shaping:
             # Reward
-            reward = -0.01 * (np.power(next_observations["ev"][0][0:3], 2.0).sum(axis=0) + np.power((100 - next_observations["ev"][0][3]) * 0.15, 2.0))
+            # reward = -0.01 * (np.power(next_observations["ev"][0][0:3], 2.0).sum(axis=0) + np.power((100 - next_observations["ev"][0][3]) * 0.15, 2.0))
+            reward = -0.01 * (np.power(next_observations["ev"][0][0:3], 2.0).sum(axis=0) + np.power((next_observations["ev"][0][3]) * 0.15, 2.0))
 
             # # Action penalty
             if action not in (
