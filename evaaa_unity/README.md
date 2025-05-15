@@ -36,8 +36,6 @@
 ## 📝 Overview
 This folder contains the **Unity simulation environment** for EVAAA (Essential Variables in Autonomous and Adaptive Agents). The Unity environment is the core simulation backend for the EVAAA platform, providing a rich, extensible, and biologically inspired 3D world for reinforcement learning (RL) research.
 
-![unity_editor_screen](/image/unity_editor_screen.jpeg)
-
 
 Key features of the Unity environment:
 - **Agent Embodiment & Multimodal Perception:** Agents are embodied in a 3D world and experience the environment through vision, olfaction, thermoception, collision detection, and interoception (internal physiological variables).
