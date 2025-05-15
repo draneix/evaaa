@@ -1,6 +1,6 @@
 {
     "isAIControlled": true,
-    "configFolderName": "train-level-4.2-DayAndNight",
+    "configFolderName": "train-level-1.2-CorneredResource",
     "recordingScreen": {
         "recordEnable": "false",
         "recordingFolderName": "SampleRecording"
