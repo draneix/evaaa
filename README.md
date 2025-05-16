@@ -25,6 +25,9 @@ EVAAA thus provides a principled, extensible framework for studying autonomy, ad
 | ![Failed agent](image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1,<br>where resources are readily accessible and visible.</sub> | ![Succeed agent](image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1,<br>where resources must be actively searched for and are less apparent.</sub> |
 
 
+| Normal forating beahvior from agent | Abnormal self-terminating behaivor from agent |
+|:-------------------------------------------:|:-----------------------------------------:|
+| ![Failed agent](image/2025-03-25_20-06-21_train-level-3-Wall_exp-Ymaze.gif)<br><sub>This agent was trained through level-3-1, where the locations of food resources are stable and predictable..</sub> | ![Succeed agent](image/2025-04-08_16-23-14_train-level-3.2-Explore_exp-Ymaze.gif)<br><sub>This agent was trained at level-3-2, where constantly shifting resource locations increased environmental uncertainty, ultimately leading to self-termination. </sub> |
 
 
 ## 📝 Overview
