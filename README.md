@@ -28,15 +28,15 @@ Key features include:
 |type| Normal Foraging Behavior | Abnormal Self-Terminating Behavior |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
 | training |![level-3-1](image/level-3-1.jpeg)|![level-3-2](image/level-3-2.jpeg)|
-| testing | ![Failed agent](image/level-3-1_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-1, where food resources are located in consistent and predictable positions.</sub> | ![Succeed agent](image/level-3-2_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-2, where dynamic resource locations increased environmental uncertainty, ultimately resulting in self-termination behavior.</sub> |
+| testing | ![Failed agent](image/level-3-1_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-1, where food resources are located in consistent and predictable positions.</sub> | ![Succeed agent](image/level-3-2_exp-Ymaze.gif)<br><sub>In level-3-2, dynamic resource locations increased uncertainty, prompting the agent to self-terminate early when food was not found to avoid negative rewards.</sub> |
 
 
 ## 📝 Overview
 EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research platform for studying autonomy, adaptivity, and internal-state-driven control in reinforcement learning (RL) agents. The project consists of two main components:
 
 > ⚠️ ** Note for users viewing the repository via [https://anonymous.4open.science/r/evaaa-2486](https://anonymous.4open.science/r/evaaa-2486) **  
-> To enable the links below to work as intended, please **manually click** on the `evaaa_unity` and `evaaa_train` folders in the left sidebar first.  
-> This action initializes the folder context and ensures proper loading of the associated documentation.
+> To ensure the links below function correctly, please first **manually click** on the `evaaa_unity` and `evaaa_train` folders  from the left sidebar.  
+> This step initializes the folder context and allows the linked documentation to load properly.
  
 - **Unity Simulation Environment** ([evaaa_unity](./evaaa_unity/README.md)): A 3D, multimodal, curriculum-based environment where agents must regulate internal physiological variables (food, water, thermal, damage) to survive and adapt. Built with Unity ML-Agents, supporting rich sensory input and flexible configuration.
 - **Python Training Suite** ([evaaa_train](./evaaa_train/README.md)): A modular training and evaluation framework (based on SheepRL) for developing RL agents in the EVAAA environment. Includes implementations of DQN, PPO, and DreamerV3, with tools for logging, evaluation, and curriculum learning.
