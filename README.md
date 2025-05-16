@@ -19,7 +19,7 @@ Key features include:
 
 EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
 
-## Emergent Behavior of the Agent
+## 🤖 Emergent Behavior of the Agent
 
 |type| Unsuccessful Agent in Two-Resource Scenario | Successful Agent in Two-Resource Scenario |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
