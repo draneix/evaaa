@@ -19,24 +19,11 @@ Key features include:
 
 EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
 
-<div align="center">
-  <figure style="display:inline-block; margin: 0 20px;">
-    <img src="image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif" alt="Failed agent" width="400"/>
-    <figcaption>
-      <strong>Unsuccessful agent in two-resource scenario</strong><br>
-      <span style="font-size: 90%;">This agent experienced only in level-1-1<br>
-      where resources are readily accessible and visible</span>
-    </figcaption>
-  </figure>
-  <figure style="display:inline-block; margin: 0 20px;">
-    <img src="image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif" alt="Succeed agent" width="400"/>
-    <figcaption>
-      <strong>Successful agent in two-resource scenario</strong><br>
-      <span style="font-size: 90%;">This agent experienced level-2-1<br>
-      where resources must be actively searched for and are less apparent</span>
-    </figcaption>
-  </figure>
-</div>
+
+| Unsuccessful agent in two-resource scenario | Successful agent in two-resource scenario |
+|:-------------------------------------------:|:-----------------------------------------:|
+| ![Failed agent](image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1, where resources are readily accessible and visible.</sub> | ![Succeed agent](image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1, where resources must be actively searched for and are less apparent.</sub> |
+
 
 
 
