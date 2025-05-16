@@ -170,7 +170,7 @@ EVAAA is designed so that all environment, agent, and task settings are controll
 |                                            | exp-predator                         |
 
 
-![fig3](/image/fig3.gif)
+![fig3](../image/fig3.png)
 
 #### 3. Modifying Environment, Agent, or Task Settings
 - Open the folder named in `configFolderName` (e.g., `Config/train-level-2.1-Obstacles/`).
@@ -232,7 +232,7 @@ The EVAAA project is organized into several core script groups, each responsible
 
 ---
 
-**Note:** For each group, the corresponding markdown file in the [DocumentationHierarchy](/evaaa_unity/Documents/DocumentationHierarchy.md) folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
+**Note:** For each group, the corresponding markdown file in the [DocumentationHierarchy](Documents/DocumentationHierarchy.md) folder provides a summary of the main scripts, their purposes, and key features. Subcomponents of the environment are also documented individually for clarity and modularity.
 
 ## 🌍 Environments & Tasks
 

@@ -4,7 +4,7 @@
 
 # EVAAA: Essential Variables in Autonomous and Adaptive Agents
 
-![fig1](/image/fig1.gif)
+![fig1](image/fig1.png)
 
 EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a biologically inspired 3D simulation platform for reinforcement learning (RL) research. Unlike traditional RL environments that rely on externally defined, task-specific rewards, EVAAA grounds agent motivation in the regulation of internal physiological variables—such as food, water, thermal balance, and damage—mirroring the homeostatic drives found in biological organisms.
 
@@ -23,21 +23,25 @@ EVAAA thus provides a principled, extensible framework for studying autonomy, ad
 
 |type| Unsuccessful Agent in Two-Resource Scenario | Successful Agent in Two-Resource Scenario |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
-| training |![level-1-1](/image/level-1-1.gif)|![level-2-1](/image/level-2-1.gif)|
+| training |![level-1-1](image/level-1-1.jpeg)|![level-2-1](image/level-2-1.jpeg)|
 | testing | ![Failed agent](image/level-1-1_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1,<br>where resources are readily accessible and visible.</sub> | ![Succeed agent](image/level-2-1_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1,<br>where resources must be actively searched for and are less apparent.</sub> |
 
 
 |type| Normal Foraging Behavior | Abnormal Self-Terminating Behavior |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
-| training |![level-3-1](/image/level-3-1.gif)|![level-3-2](/image/level-3-2.gif)|
+| training |![level-3-1](image/level-3-1.jpeg)|![level-3-2](image/level-3-2.jpeg)|
 | testing | ![Failed agent](image/level-3-1_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-1, where food resources are located in consistent and predictable positions.</sub> | ![Succeed agent](image/level-3-2_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-2, where dynamic resource locations increased environmental uncertainty, ultimately resulting in self-termination behavior.</sub> |
 
 
 ## 📝 Overview
 EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research platform for studying autonomy, adaptivity, and internal-state-driven control in reinforcement learning (RL) agents. The project consists of two main components:
 
-- **Unity Simulation Environment** ([evaaa_unity](/evaaa_unity/)): A 3D, multimodal, curriculum-based environment where agents must regulate internal physiological variables (food, water, thermal, damage) to survive and adapt. Built with Unity ML-Agents, supporting rich sensory input and flexible configuration.
-- **Python Training Suite** ([evaaa_train](/evaaa_train/)): A modular training and evaluation framework (based on SheepRL) for developing RL agents in the EVAAA environment. Includes implementations of DQN, PPO, and DreamerV3, with tools for logging, evaluation, and curriculum learning.
+> ⚠️ ** Note for users viewing the repository via [https://anonymous.4open.science/r/evaaa-2486](https://anonymous.4open.science/r/evaaa-2486) **  
+> To enable the links below to work as intended, please **manually click** on the `evaaa_unity` and `evaaa_train` folders in the left sidebar first.  
+> This action initializes the folder context and ensures proper loading of the associated documentation.
+ 
+- **Unity Simulation Environment** ([evaaa_unity](./evaaa_unity/README.md)): A 3D, multimodal, curriculum-based environment where agents must regulate internal physiological variables (food, water, thermal, damage) to survive and adapt. Built with Unity ML-Agents, supporting rich sensory input and flexible configuration.
+- **Python Training Suite** ([evaaa_train](./evaaa_train/README.md)): A modular training and evaluation framework (based on SheepRL) for developing RL agents in the EVAAA environment. Includes implementations of DQN, PPO, and DreamerV3, with tools for logging, evaluation, and curriculum learning.
 
 ---
 
@@ -52,8 +56,8 @@ EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research plat
 └── README.md      # (You are here)
 ```
 
-- **`evaaa_unity/`**: Contains the Unity project for the EVAAA simulation environment. See [`evaaa_unity/README.md`](evaaa_unity/README.md) for setup, configuration, and usage instructions.
-- **`evaaa_train/`**: Contains the Python code for training and evaluating RL agents in EVAAA. See [`evaaa_train/README.md`](evaaa_train/README.md) for installation, training commands, and evaluation details.
+- **`evaaa_unity/`**: Contains the Unity project for the EVAAA simulation environment. See [`evaaa_unity/README.md`](./evaaa_unity/README.md) for setup, configuration, and usage instructions.
+- **`evaaa_train/`**: Contains the Python code for training and evaluating RL agents in EVAAA. See [`evaaa_train/README.md`](./evaaa_train/README.md) for installation, training commands, and evaluation details.
 
 ---
 
@@ -61,12 +65,12 @@ EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research plat
 
 | Component         | Description                                      | Quick Link                                  |
 |-------------------|--------------------------------------------------|---------------------------------------------|
-| Unity Environment | 3D simulation, agent embodiment, configuration   | [evaaa_unity/README.md](evaaa_unity/README.md) |
-| Python Training   | RL algorithms, logging, evaluation, curriculum   | [evaaa_train/README.md](evaaa_train/README.md) |
+| Unity Environment | 3D simulation, agent embodiment, configuration   | [evaaa_unity](./evaaa_unity/README.md) |
+| Python Training   | RL algorithms, logging, evaluation, curriculum   | [evaaa_train](./evaaa_train/README.md) |
 
 - **New to EVAAA?**
-  1. Start with the [Unity environment setup](evaaa_unity/README.md) to explore or customize the simulation.
-  2. Then follow the [Python training guide](evaaa_train/README.md) to train and evaluate RL agents.
+  1. Start with the [Unity environment setup](./evaaa_unity/README.md) to explore or customize the simulation.
+  2. Then follow the [Python training guide](./evaaa_train/README.md) to train and evaluate RL agents.
 
 ---
 
