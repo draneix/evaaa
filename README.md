@@ -19,17 +19,18 @@ Key features include:
 
 EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
 
+## Emergent Behavior of the Agent
 
-|type| Unsuccessful agent in two-resource scenario | Successful agent in two-resource scenario |
+|type| Unsuccessful Agent in Two-Resource Scenario | Successful Agent in Two-Resource Scenario |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
 | training |![level-1-1](/image/level-1-1.jpeg)|![level-2-1](/image/level-2-1.jpeg)|
 | testing | ![Failed agent](image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1,<br>where resources are readily accessible and visible.</sub> | ![Succeed agent](image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1,<br>where resources must be actively searched for and are less apparent.</sub> |
 
 
-|type| Normal forating beahvior from agent | Abnormal self-terminating behaivor from agent |
+|type| Normal Foraging Behavior | Abnormal Self-Terminating Behavior |
 |:-------------------:|:-------------------------------------------:|:-----------------------------------------:|
 | training |![level-3-1](/image/level-3-1.jpeg)|![level-3-2](/image/level-3-2.jpeg)|
-| testing | ![Failed agent](image/2025-03-25_20-06-21_train-level-3-Wall_exp-Ymaze.gif)<br><sub>This agent was trained through level-3-1, where the locations of food resources are stable and predictable..</sub> | ![Succeed agent](image/2025-04-08_16-23-14_train-level-3.2-Explore_exp-Ymaze.gif)<br><sub>This agent was trained at level-3-2, where constantly shifting resource locations increased environmental uncertainty, ultimately leading to self-termination. </sub> |
+| testing | ![Failed agent](image/2025-03-25_20-06-21_train-level-3-Wall_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-1, where food resources are located in consistent and predictable positions.</sub> | ![Succeed agent](image/2025-04-08_16-23-14_train-level-3.2-Explore_exp-Ymaze.gif)<br><sub>This agent was trained on level-3-2, where dynamic resource locations increased environmental uncertainty, ultimately resulting in self-termination behavior.</sub> |
 
 
 ## 📝 Overview
