@@ -22,7 +22,7 @@ EVAAA thus provides a principled, extensible framework for studying autonomy, ad
 
 | Unsuccessful agent in two-resource scenario | Successful agent in two-resource scenario |
 |:-------------------------------------------:|:-----------------------------------------:|
-| ![Failed agent](image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1, where resources are readily accessible and visible.</sub> | ![Succeed agent](image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1, where resources must be actively searched for and are less apparent.</sub> |
+| ![Failed agent](image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif)<br><sub>This agent operated only in level-1-1,<br>where resources are readily accessible and visible.</sub> | ![Succeed agent](image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)<br><sub>This agent navigated level-2-1,<br>where resources must be actively searched for and are less apparent.</sub> |
 
 
 
