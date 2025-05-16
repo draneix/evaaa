@@ -1,4 +1,4 @@
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.5.0-red.svg)](https://pytorch.org/)
 
@@ -37,7 +37,7 @@ This folder includes three main algorithms:
 - **PPO (Proximal Policy Optimization)**: Implemented from SheepRL framework
 - **DQN (Deep Q-Network)**: Custom implementation by our team
 
-![fig4](/image/fig4.png)
+![fig4](/image/fig4.gif)
 The training results are stored in the [plotting](/evaaa_train/plotting/) directory.
 
 <a id="environment-setup"></a>
@@ -154,7 +154,7 @@ The EVAAA environment provides multiple observation channels through the ML-Agen
 - `obs[0]`: Visual observation (camera input)
 - `obs[1]`: Vector observation containing multiple sensor readings
 
-![fig2](/image/fig2.png)
+![fig2](/image/fig2.gif)
 
 
 ### Vector Observations (obs[1])
@@ -172,9 +172,9 @@ For detailed explanations of each observation type, including how they are calcu
 <details>
 <summary> Detailed Observations </summary>
 
-![sup_fig2.png](/image/sup_fig2.png)
+![sup_fig2.gif](/image/sup_fig2.gif)
 
-![sup_fig3.png](/image/sup_fig3.png)
+![sup_fig3.gif](/image/sup_fig3.gif)
 
 </details>
 
@@ -311,4 +311,4 @@ Common issues and their solutions:
 
 <a id="license"></a>
 ## 📄 License
-CC BY-SA 4.0
+CC BY-NC-SA 4.0
