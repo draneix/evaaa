@@ -19,7 +19,17 @@ Key features include:
 
 EVAAA thus provides a principled, extensible framework for studying autonomy, adaptivity, and internal-state-driven control in RL agents, bridging the gap between artificial and biological models of adaptive behavior, and enabling both the development and systematic evaluation of robust, generalizable agent behaviors.
 
-![level-1-1](/image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif) ![level-1-2](/image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif)
+<div align="center">
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="image/2025-02-25_15-02-03_level-1_seed46_exp-two-resource-food.gif" alt="Failed agent" width="400"/>
+    <figcaption>Failed agent for two resource choice</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 0 20px;">
+    <img src="image/2025-03-18_16-27-50_level-2-cnt_exp-two-resource-food.gif" alt="Succeed agent" width="400"/>
+    <figcaption>Succeed agent for two resource choice</figcaption>
+  </figure>
+</div>
+
 
 ## 📝 Overview
 EVAAA (Essential Variables in Autonomous and Adaptive Agents) is a research platform for studying autonomy, adaptivity, and internal-state-driven control in reinforcement learning (RL) agents. The project consists of two main components:
