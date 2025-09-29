@@ -37,7 +37,14 @@ rnn:
     layer_norm: ${algo.layer_norm}
     dense_units: ${algo.rnn.lstm.hidden_size}
 encoder:
-  dense_units: 64
+  # dense_units: 64
+  cnn_features_dim: 512
+  mlp_features_dim: 64
+  dense_units: ${algo.dense_units}
+  mlp_layers: ${algo.mlp_layers}
+  dense_act: ${algo.dense_act}
+  layer_norm: ${algo.layer_norm}
+  ortho_init: False
 
 # Optimizer related parameters
 optimizer:

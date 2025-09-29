@@ -57,7 +57,7 @@ wrapper:
         visualWidth: 64
 
       olfactorySensor:
-        useOlfactory: true
+        useOlfactory: false
         olfactorySensorLength: 100
         olfactoryFeatureSize: 10
 
