@@ -15,7 +15,7 @@ algo:
   cnn_keys:
     encoder: [rgb]
   mlp_keys:
-    encoder: ['ev','thermo','collision','touch']
+    encoder: ['ev', 'olfactory', 'thermo','collision','touch']
 
 # Environment
 env:

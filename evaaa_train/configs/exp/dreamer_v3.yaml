@@ -18,7 +18,8 @@ algo:
   mlp_keys:
     encoder: ['ev','olfactory','thermo','collision','touch']
     decoder: ['ev','olfactory','thermo','collision','touch']
-
+    # encoder: ['olfactory','thermo','collision','touch'] 
+    # decoder: ['olfactory','thermo','collision','touch']
 # tag:
 #   exp_tag: 'test_tag'
 

@@ -49,6 +49,7 @@ wrapper:
       common:
         singleTrial: false    # Checking for success in specific experiments (Not available now)
       ev:   # for defining EV parameters
+        useEV: true
         evSize: 4
       # for sensor parameters
       visualSensor:
@@ -57,7 +58,7 @@ wrapper:
         visualWidth: 64
 
       olfactorySensor:
-        useOlfactory: false
+        useOlfactory: true
         olfactorySensorLength: 100
         olfactoryFeatureSize: 10
 

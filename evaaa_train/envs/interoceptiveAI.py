@@ -41,6 +41,7 @@ class InteroceptiveAIWrapper(gym.Wrapper):
 
         engine_configuration = env_cfg["engine_configuration"]
         environment_parameters = env_cfg["environment_parameters"]
+        self.environment_parameters = environment_parameters
 
         # assigned_port = env_cfg["env"]["env_port"] + random.randint(0, 1000)  # Assign a random port within a range
         assigned_port = env_cfg["env"]["env_port"]
@@ -91,7 +92,10 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         )
 
         # Define observation spaces using gymnasium.Box
-        self._vector_obs_infos = {"ev": (environment_parameters["ev"]["evSize"],)}
+        if environment_parameters["ev"]["useEV"]:
+            self._vector_obs_infos = {"ev": (environment_parameters["ev"]["evSize"],)}
+        else:
+            self._vector_obs_infos = {}
         if environment_parameters["olfactorySensor"]["useOlfactory"]:
             self._vector_obs_infos["olfactory"] = (environment_parameters["olfactorySensor"]["olfactoryFeatureSize"],)
         if environment_parameters["thermoSensor"]["useThermo"]:
@@ -101,14 +105,14 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         if environment_parameters["touchSensor"]["useTouchObs"]:
             self._vector_obs_infos["touch"] = (environment_parameters["touchSensor"]["touchSensorSize"],)
 
-        obs_dict = {
-            "rgb": spaces.Box(
+        obs_dict = {}
+        if environment_parameters["visualSensor"]["useVisual"]:
+            obs_dict["rgb"] = spaces.Box(
                 low=self.env.observation_space[0].low,
                 high=self.env.observation_space[0].high,
                 shape=self.env.observation_space[0].shape,
                 dtype=self.env.observation_space[0].dtype,
-            ),
-        }
+            )
 
         start_idx = 0
         for key in self._vector_obs_infos.keys():
@@ -136,7 +140,10 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         return self._render_mode
 
     def _convert_obs(self, obs: np.ndarray) -> Dict[str, np.ndarray]:
-        _obs_dict = {"rgb": obs[0]}
+        if self.environment_parameters["visualSensor"]["useVisual"]:
+            _obs_dict = {"rgb": obs[0]}
+        else:
+            _obs_dict = {}  
 
         start_idx = 0
         for key in self._vector_obs_infos.keys():
