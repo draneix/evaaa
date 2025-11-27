@@ -12,10 +12,12 @@ algo:
   total_steps: 50000000000000
   per_rank_batch_size: 16
   per_rank_sequence_length: 64
-  cnn_keys:
-    encoder: [rgb]
-    decoder: [rgb]
+  # cnn_keys:
+  #   encoder: [rgb]
+  #   decoder: [rgb]
   mlp_keys:
+    # encoder: ['ev','olfactory','thermo','collision','touch']
+    # decoder: ['ev','olfactory','thermo','collision','touch']
     encoder: ['ev','olfactory','thermo','collision','touch']
     decoder: ['ev','olfactory','thermo','collision','touch']
 # tag:

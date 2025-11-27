@@ -582,6 +582,9 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
 
     episode = 1
     episode_survival_step = 0
+    # Simple per-episode reward aggregation (per-env)
+    episode_returns = np.zeros((cfg.env.num_envs,), dtype=np.float32)
+    episode_lengths = np.zeros((cfg.env.num_envs,), dtype=np.int32)
     cumulative_per_rank_gradient_steps = 0
     for iter_num in range(start_iter, total_iters + 1):
         episode_survival_step += 1
@@ -626,8 +629,28 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
                 next_obs, rewards, terminated, truncated, infos = envs.step(
                     real_actions.reshape(envs.action_space.shape)
                 )
+                if cfg.env.max_episode_steps !=0 and episode_survival_step > cfg.env.max_episode_steps:
+                    terminated = True
+                    truncated = True
+
+                # Aggregate raw rewards per env for average reward computation
+                rew_array = np.asarray(rewards, dtype=np.float32).reshape(-1)
+                if rew_array.shape[0] == 0:
+                    rew_array = np.zeros((cfg.env.num_envs,), dtype=np.float32)
+                if rew_array.shape[0] == 1 and cfg.env.num_envs > 1:
+                    rew_array = np.repeat(rew_array, cfg.env.num_envs)
+                episode_returns[: len(rew_array)] += rew_array[: len(episode_returns)]
+                episode_lengths[: len(rew_array)] += 1
                 if terminated:
                     fabric.log("Survival Steps/Episode", episode_survival_step, episode)
+                    # Log average reward for the finished episode (single-env case)
+                    avg_rew = (
+                        float(episode_returns[0]) / float(episode_lengths[0]) if episode_lengths[0] > 0 else 0.0
+                    )
+                    fabric.log("Rewards/avg_per_episode", avg_rew, episode)
+                    # Reset counters for next episode
+                    episode_returns[0] = 0.0
+                    episode_lengths[0] = 0
                     envs.reset()
                     episode += 1
                     episode_survival_step = 0

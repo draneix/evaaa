@@ -92,18 +92,36 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         )
 
         # Define observation spaces using gymnasium.Box
+        # if environment_parameters["ev"]["useEV"]:
+        #     self._vector_obs_infos = {"ev": (environment_parameters["ev"]["evSize"],)}
+        # else:
+        #     self._vector_obs_infos = {}
+        # if environment_parameters["olfactorySensor"]["useOlfactory"]:
+        #     self._vector_obs_infos["olfactory"] = (environment_parameters["olfactorySensor"]["olfactoryFeatureSize"],)
+        # if environment_parameters["thermoSensor"]["useThermo"]:
+        #     self._vector_obs_infos["thermo"] = (environment_parameters["thermoSensor"]["thermoSensorSize"],)
+        # if environment_parameters["collisionSensor"]["useCollision"]:
+        #     self._vector_obs_infos["collision"] = (environment_parameters["collisionSensor"]["collisionSensorSize"],)
+        # if environment_parameters["touchSensor"]["useTouchObs"]:
+        #     self._vector_obs_infos["touch"] = (environment_parameters["touchSensor"]["touchSensorSize"],)
+
+        self._vector_obs_infos = {"ev": (environment_parameters["ev"]["evSize"],)}
+        self._vector_obs_infos["olfactory"] = (environment_parameters["olfactorySensor"]["olfactoryFeatureSize"],)
+        self._vector_obs_infos["thermo"] = (environment_parameters["thermoSensor"]["thermoSensorSize"],)
+        self._vector_obs_infos["collision"] = (environment_parameters["collisionSensor"]["collisionSensorSize"],)
+        self._vector_obs_infos["touch"] = (environment_parameters["touchSensor"]["touchSensorSize"],)
+
+        self._selected_vector_obs_list = []
         if environment_parameters["ev"]["useEV"]:
-            self._vector_obs_infos = {"ev": (environment_parameters["ev"]["evSize"],)}
-        else:
-            self._vector_obs_infos = {}
+            self._selected_vector_obs_list.append("ev")
         if environment_parameters["olfactorySensor"]["useOlfactory"]:
-            self._vector_obs_infos["olfactory"] = (environment_parameters["olfactorySensor"]["olfactoryFeatureSize"],)
+            self._selected_vector_obs_list.append("olfactory")
         if environment_parameters["thermoSensor"]["useThermo"]:
-            self._vector_obs_infos["thermo"] = (environment_parameters["thermoSensor"]["thermoSensorSize"],)
+            self._selected_vector_obs_list.append("thermo")
         if environment_parameters["collisionSensor"]["useCollision"]:
-            self._vector_obs_infos["collision"] = (environment_parameters["collisionSensor"]["collisionSensorSize"],)
+            self._selected_vector_obs_list.append("collision")
         if environment_parameters["touchSensor"]["useTouchObs"]:
-            self._vector_obs_infos["touch"] = (environment_parameters["touchSensor"]["touchSensorSize"],)
+            self._selected_vector_obs_list.append("touch")
 
         obs_dict = {}
         if environment_parameters["visualSensor"]["useVisual"]:
@@ -118,12 +136,13 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         for key in self._vector_obs_infos.keys():
             end_idx = start_idx + self._vector_obs_infos[key][0]
 
-            obs_dict[key] = spaces.Box(
-                low=self.env.observation_space[1].low[start_idx:end_idx],
-                high=self.env.observation_space[1].high[start_idx:end_idx],
-                shape=self._vector_obs_infos[key],
-                dtype=self.env.observation_space[1].dtype,
-            )
+            if key in self._selected_vector_obs_list:
+                obs_dict[key] = spaces.Box(
+                    low=self.env.observation_space[1].low[start_idx:end_idx],
+                    high=self.env.observation_space[1].high[start_idx:end_idx],
+                    shape=self._vector_obs_infos[key],
+                    dtype=self.env.observation_space[1].dtype,
+                )
 
             start_idx = end_idx
 
@@ -148,7 +167,8 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         start_idx = 0
         for key in self._vector_obs_infos.keys():
             end_idx = start_idx + self._vector_obs_infos[key][0]
-            _obs_dict[key] = obs[1][start_idx:end_idx]
+            if key in self._selected_vector_obs_list:
+                _obs_dict[key] = obs[1][start_idx:end_idx]
             start_idx = end_idx
 
         # return {"rgb": obs[0], "state": obs[1]}
@@ -158,11 +178,21 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         if done: 
             reward = np.array(-100, dtype=np.float32)
         else:
-            if self.env_cfg["env"]["use_reward_shaping"]:
+            if self.env_cfg["env"]["use_reward_shaping_"]:
                 # reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((100 - obs[1][3]) * 0.15, 2.0))
-                reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((obs[1][3]) * 0.15, 2.0))
+                if self.env_cfg["env"]["use_homeostatic_reward_"]:
+                    reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((obs[1][3]) * 0.15, 2.0))
+                else:
+                    reward = np.sum(obs[1][4:14])/10 # reward for the approaching to the resources
+                    reward -= np.sum(np.absolute(obs[1][14:22]))/1000 # reward for the temperature reward
+                    if obs[1][-2] + obs[1][-3] >= 1: 
+                        reward += 100 # reward for the consumption of the resources
+                    if obs[1][-1] == 1:
+                        reward -= 1 # reward for the collision with the obstacles
             else:
                 reward = np.array(0, dtype=np.float32)
+
+                
 
         # if self.env_cfg["env"]["use_reward_shaping"]:
         #     reward = -0.01 * (np.power(obs[1][:3], 2.0).sum(axis=0) + np.power((100 - obs[1][3]) * 0.15, 2.0))

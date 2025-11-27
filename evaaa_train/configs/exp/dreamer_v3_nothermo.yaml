@@ -16,8 +16,10 @@ algo:
     encoder: [rgb]
     decoder: [rgb]
   mlp_keys:
-    encoder: ['ev','olfactory','thermo','collision','touch']
-    decoder: ['ev','olfactory','thermo','collision','touch']
+    # encoder: ['ev','olfactory','thermo','collision','touch']
+    # decoder: ['ev','olfactory','thermo','collision','touch']
+    encoder: ['ev','olfactory','collision','touch']
+    decoder: ['ev','olfactory','collision','touch']
 # tag:
 #   exp_tag: 'test_tag'
 
