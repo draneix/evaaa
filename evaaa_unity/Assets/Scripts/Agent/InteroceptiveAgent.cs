@@ -608,9 +608,13 @@ public class InteroceptiveAgent : Agent
                         }
                         EndEpisode();
                 }
-                if (this.resourceLevels[3] > healthLevelRange.max)
+                // if (this.resourceLevels[3] > healthLevelRange.max)
+                // {
+                //         this.resourceLevels[3] = healthLevelRange.max;
+                // }
+                if (this.resourceLevels[3] < healthLevelRange.min)
                 {
-                        this.resourceLevels[3] = healthLevelRange.max;
+                        this.resourceLevels[3] = healthLevelRange.min;
                 }
 
                 int action = actions.DiscreteActions[0];
