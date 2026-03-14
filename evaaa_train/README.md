@@ -103,7 +103,7 @@ python simple_example.py
 
 2. Start training with one of the implemented algorithms:
 ```bash
-python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource
+python train.py exp=dqn tag=dqn_tet seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-Scattered-Cubes
 ```
 
 For more training options and configurations, see the [Usage](#usage) section.

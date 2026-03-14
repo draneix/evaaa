@@ -230,7 +230,7 @@ class DqnAgent:
         # Calculate Q(s_t, a) - the model computes Q(s_t) and selects the column of the taken action.
         # These are the actions selected for each batch state according to policy_net.
         state_action_values = self._q_network(observations, device=self.device).gather(
-            1, torch.from_numpy(actions).to(self.device)
+            1, torch.from_numpy(actions).to(self.device, dtype=torch.int64)
         )
 
         # Calculate V(s_{t+1}) for all next states

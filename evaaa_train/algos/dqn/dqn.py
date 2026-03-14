@@ -170,6 +170,7 @@ def main(config=None):
         # side_channels=[engineChannel, paramChannel],
         side_channels=[engineChannel],
         base_port=base_port,
+        no_graphics=engine_configuration.get("no_graphics", False),
     )
 
     engineChannel.set_configuration_parameters(
@@ -219,6 +220,10 @@ def main(config=None):
     # Setting device for model
     agent._q_network.to(device)
     agent._target_q_network.to(device)
+
+    # Torch compile to accelerate training
+    agent._q_network = torch.compile(agent._q_network)
+    agent._target_q_network = torch.compile(agent._target_q_network)
 
     # %%
     # Loading pre-trained model
@@ -418,10 +423,14 @@ def main(config=None):
                         writer.add_scalar("Epsilon/Episode", agent._epsilon, episode)
 
                         # Get one node's weight for debugging purpose
+                        param = None
                         for name, p in agent._q_network.named_parameters():
-                            if name == "fc_cat.weight":
+                            if "fc_cat.weight" in name:
                                 param = p.cpu().detach().numpy()
-                        writer.add_scalar("tracking weight", param[0, 0], episode)
+                                break
+                        
+                        if param is not None:
+                            writer.add_scalar("tracking weight", param[0, 0], episode)
 
                     # Copying configuration yaml file of the traning to tensorboard log folder
                     if (

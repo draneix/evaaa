@@ -25,10 +25,10 @@ mainCofnig:
         fileNamePrefix: ""
 
 engine_configuration:   # for stimulating Unity 
-  time_scale: 15
+  time_scale: 100
   width: 100
   height: 100
-  no_graphics: false
+  no_graphics: true
 
 environment_parameters:
   common:
@@ -71,7 +71,6 @@ agent_parameter:
   epsilon_start: 1.0   # Epsilon starting value
   epsilon_end: 0.1    # Epsilon final value. (Starts at epsilon_start and decreases toward epsilon_end) 
   exploration_steps: 209000   # Number of exploration steps that decrease the Epsilon value
-  batch_size: 12    # Number of Sampled Transitions in the ReplayBuffer
+  batch_size: 64    # Number of Sampled Transitions in the ReplayBuffer
   target_update_period: 5000    # Target network is updated with current network's weight by 'target_update_period'
   reward_shaping: 1  # indicating whether the reward is shaping (1 = enable, 0 = disable)
-

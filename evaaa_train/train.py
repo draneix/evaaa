@@ -1,7 +1,6 @@
 import os, importlib, warnings, shutil
 from typing import Any, Dict
 import sys
-
 import hydra
 from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf, open_dict
@@ -14,6 +13,19 @@ from cli import resume_from_checkpoint
 from utils.metric import MetricAggregator
 from utils.timer import timer
 from utils.utils import dotdict, print_config
+
+# Patch pathlib.Path.rename to avoid FileExistsError on Windows
+# PyTorch Inductor uses rename() which fails if the cache file already exists
+import pathlib
+if os.name == 'nt':
+    _old_rename = pathlib.Path.rename
+    def _safe_rename(self, target):
+        try:
+            return _old_rename(self, target)
+        except FileExistsError:
+            return self.replace(target)
+    pathlib.Path.rename = _safe_rename
+
 
 def is_dqn_selected():
     for arg in sys.argv:

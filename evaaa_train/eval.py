@@ -14,6 +14,18 @@ from lightning import Fabric
 from cli import check_configs_evaluation
 from utils.utils import dotdict
 
+# Patch pathlib.Path.rename to avoid FileExistsError on Windows
+# PyTorch Inductor uses rename() which fails if the cache file already exists
+import pathlib
+if os.name == 'nt':
+    _old_rename = pathlib.Path.rename
+    def _safe_rename(self, target):
+        try:
+            return _old_rename(self, target)
+        except FileExistsError:
+            return self.replace(target)
+    pathlib.Path.rename = _safe_rename
+
 def is_dqn_selected():
     for arg in sys.argv:
         if "exp=dqn" in arg:
