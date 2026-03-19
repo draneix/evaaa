@@ -70,6 +70,7 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             seed=seed,
             side_channels=[engineChannel, paramChannel],
             base_port=assigned_port,
+            no_graphics=engine_configuration.get("no_graphics", False),
             # additional_args=["-logfile", "-"],
         )
 

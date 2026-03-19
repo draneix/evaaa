@@ -221,9 +221,9 @@ def main(config=None):
     agent._q_network.to(device)
     agent._target_q_network.to(device)
 
-    # Torch compile to accelerate training
-    agent._q_network = torch.compile(agent._q_network)
-    agent._target_q_network = torch.compile(agent._target_q_network)
+    # # Torch compile to accelerate training
+    # agent._q_network = torch.compile(agent._q_network)
+    # agent._target_q_network = torch.compile(agent._target_q_network)
 
     # %%
     # Loading pre-trained model
