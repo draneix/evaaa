@@ -71,6 +71,7 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             side_channels=[engineChannel, paramChannel],
             base_port=assigned_port,
             no_graphics=engine_configuration.get("no_graphics", False),
+            timeout_wait=300,  # Increase the timeout to 300 seconds
             # additional_args=["-logfile", "-"],
         )
 

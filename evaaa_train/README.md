@@ -222,7 +222,7 @@ For a complete example of action handling and observation processing, please ref
 <summary>DQN Training Command</summary>
 
 ```bash
-python train.py exp=dqn tag=dqn_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dqn tag=dqn_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-Scattered-Cubes env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -230,7 +230,7 @@ python train.py exp=dqn tag=dqn_tr seed=42 env.port=50000 env.time_scale=15 env.
 <summary>PPO Training Command</summary>
 
 ```bash
-python train.py exp=ppo tag=ppo_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=ppo tag=ppo_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-Scattered-Cubes env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 
@@ -238,7 +238,7 @@ python train.py exp=ppo tag=ppo_tr seed=42 env.port=50000 env.time_scale=15 env.
 <summary>DreamerV3 Training Command</summary>
 
 ```bash
-python train.py exp=dreamer_v3 tag=dreamer_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-ScatteredResource env.screenRecordEnable=false env.dataRecordEnable=false
+python train.py exp=dreamer_v3 tag=dreamer_tr seed=42 env.port=50000 env.time_scale=15 env.width=100 env.height=100 env.config=train-level-1.1-Scattered-Cubes env.screenRecordEnable=false env.dataRecordEnable=false
 ```
 </details>
 

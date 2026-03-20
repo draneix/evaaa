@@ -15,10 +15,10 @@ recordingFolder: Recordings
 baseFolderName: Data
 fileNamePrefix: data
 base_dir: "./envs"
-time_scale: 15
+time_scale: 100
 width: 100
 height: 100
-no_graphics: false
+no_graphics: true
 max_episode_steps: 0
 use_reward_shaping: true
 use_homeostatic_reward: true

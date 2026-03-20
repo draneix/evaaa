@@ -47,7 +47,7 @@ wrapper:
       time_scale: ${env.time_scale} # speeding
       width: ${env.width}
       height: ${env.height}
-      no_graphics: false
+      no_graphics: ${env.no_graphics}
 
     environment_parameters:   
       common:

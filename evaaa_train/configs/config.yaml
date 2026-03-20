@@ -8,7 +8,7 @@ defaults:
   - checkpoint: default.yaml
   - distribution: default.yaml
   - env: default.yaml
-  - fabric: default.yaml
+  - fabric: cuda.yaml
   - metric: default.yaml
   - model_manager: default.yaml
   - hydra: default.yaml

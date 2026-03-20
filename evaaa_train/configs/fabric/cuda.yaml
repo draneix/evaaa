@@ -2,6 +2,6 @@ defaults:
   - default
   - _self_
 
-devices: 2
-strategy: "ddp"
+devices: 1
+strategy: "auto"
 accelerator: "cuda"
