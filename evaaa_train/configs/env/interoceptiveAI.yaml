@@ -29,8 +29,6 @@ wrapper:
   id: ${env.id}
   screen_size: ${env.screen_size}
   seed: ${seed}
-  rank: 0
-  behavior_name: null
   env_cfg:
     env:
       base_dir_: ${env.base_dir}

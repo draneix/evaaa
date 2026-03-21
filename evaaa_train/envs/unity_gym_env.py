@@ -36,7 +36,6 @@ class UnityToGymWrapper(gym.Env):
         uint8_visual: bool = False,
         flatten_branched: bool = False,
         allow_multiple_obs: bool = False,
-        behavior_name: Optional[str] = None,
         action_space_seed: Optional[int] = None,
     ):
         """
@@ -66,28 +65,14 @@ class UnityToGymWrapper(gym.Env):
         self.game_over = False
         self._allow_multiple_obs = allow_multiple_obs
 
-        # Select the target behavior. If multiple behaviors are available,
-        # we allow an explicit selection instead of failing hard.
-        available_behaviors = list(self._env.behavior_specs.keys())
-        if behavior_name is None:
-            if len(available_behaviors) == 1:
-                self.name = available_behaviors[0]
-            else:
-                self.name = sorted(available_behaviors)[0]
-                logger.warning(
-                    "Unity environment exposes multiple behaviors. "
-                    "Defaulting to '%s'. Available behaviors: %s",
-                    self.name,
-                    available_behaviors,
-                )
-        else:
-            if behavior_name not in self._env.behavior_specs:
-                raise UnityGymException(
-                    "Requested behavior_name "
-                    f"'{behavior_name}' not found. Available behaviors: {available_behaviors}"
-                )
-            self.name = behavior_name
+        # Check brain configuration
+        if len(self._env.behavior_specs) != 1:
+            raise UnityGymException(
+                "There can only be one behavior in a UnityEnvironment "
+                "if it is wrapped in a gym."
+            )
 
+        self.name = list(self._env.behavior_specs.keys())[0]
         self.group_spec = self._env.behavior_specs[self.name]
 
         if self._get_n_vis_obs() == 0 and self._get_vec_obs_size() == 0:

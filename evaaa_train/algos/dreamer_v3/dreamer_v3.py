@@ -580,7 +580,8 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
     step_data = {}
     obs = envs.reset(seed=cfg.seed)[0]
     for k in obs_keys:
-        step_data[k] = obs[k][np.newaxis]
+        # step_data[k] = obs[k][np.newaxis]
+        step_data[k] = obs[k][np.newaxis, np.newaxis]
     step_data["rewards"] = np.zeros((1, cfg.env.num_envs, 1))
     step_data["truncated"] = np.zeros((1, cfg.env.num_envs, 1))
     step_data["terminated"] = np.zeros((1, cfg.env.num_envs, 1))
@@ -636,12 +637,9 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
                 next_obs, rewards, terminated, truncated, infos = envs.step(
                     real_actions.reshape(envs.action_space.shape)
                 )
-                terminated = np.asarray(terminated, dtype=np.uint8).reshape(cfg.env.num_envs)
-                truncated = np.asarray(truncated, dtype=np.uint8).reshape(cfg.env.num_envs)
                 if cfg.env.max_episode_steps !=0 and episode_survival_step > cfg.env.max_episode_steps:
-                    terminated = np.ones_like(terminated, dtype=np.uint8)
-                    truncated = np.ones_like(truncated, dtype=np.uint8)
-                dones = np.logical_or(terminated, truncated).astype(np.uint8)
+                    terminated = True
+                    truncated = True
 
                 # Aggregate raw rewards per env for average reward computation
                 rew_array = np.asarray(rewards, dtype=np.float32).reshape(-1)
@@ -651,20 +649,24 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
                     rew_array = np.repeat(rew_array, cfg.env.num_envs)
                 episode_returns[: len(rew_array)] += rew_array[: len(episode_returns)]
                 episode_lengths[: len(rew_array)] += 1
-                if np.any(dones):
-                    done_idxes = np.nonzero(dones)[0].tolist()
-                    for done_idx in done_idxes:
-                        fabric.log("Survival Steps/Episode", episode_survival_step, episode)
-                        avg_rew = (
-                            float(episode_returns[done_idx]) / float(episode_lengths[done_idx])
-                            if episode_lengths[done_idx] > 0
-                            else 0.0
-                        )
-                        fabric.log("Rewards/avg_per_episode", avg_rew, episode)
-                        episode_returns[done_idx] = 0.0
-                        episode_lengths[done_idx] = 0
-                        episode += 1
+                if terminated:
+                    fabric.log("Survival Steps/Episode", episode_survival_step, episode)
+                    # Log average reward for the finished episode (single-env case)
+                    avg_rew = (
+                        float(episode_returns[0]) / float(episode_lengths[0]) if episode_lengths[0] > 0 else 0.0
+                    )
+                    fabric.log("Rewards/avg_per_episode", avg_rew, episode)
+                    # Reset counters for next episode
+                    episode_returns[0] = 0.0
+                    episode_lengths[0] = 0
+                    envs.reset()
+                    episode += 1
                     episode_survival_step = 0
+
+                terminated = np.array([terminated], dtype=np.uint8)
+                truncated = np.array([truncated], dtype=np.uint8)
+
+                dones = np.logical_or(terminated, truncated).astype(np.uint8)
 
             step_data["is_first"] = np.zeros_like(step_data["terminated"])
             if "restart_on_exception" in infos:
@@ -680,7 +682,7 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
                         rb.buffer[i]["is_first"][last_inserted_idx] = np.zeros_like(
                             rb.buffer[i]["is_first"][last_inserted_idx]
                         )
-                        step_data["is_first"][:, i] = np.ones_like(step_data["is_first"][:, i])
+                        step_data["is_first"][i] = np.ones_like(step_data["is_first"][i])
 
             if cfg.metric.log_level > 0 and "final_info" in infos:
                 for i, agent_ep_info in enumerate(infos["final_info"]):
@@ -701,7 +703,8 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
                             real_next_obs[k][idx] = v
 
             for k in obs_keys:
-                step_data[k] = next_obs[k][np.newaxis]
+                # step_data[k] = next_obs[k][np.newaxis]
+                step_data[k] = next_obs[k][np.newaxis, np.newaxis]
 
             # next_obs becomes the new obs
             obs = next_obs

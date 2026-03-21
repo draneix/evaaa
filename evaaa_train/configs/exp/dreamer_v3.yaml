@@ -22,7 +22,7 @@ algo:
 #   exp_tag: 'test_tag'
 
 env:
-  num_envs: 2
+  num_envs: 1
 
 # Checkpoint
 checkpoint:
