@@ -33,6 +33,8 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         screen_size: None,
         env_cfg: None,
         seed: int | None = None,
+        rank: int = 0,
+        behavior_name: str | None = None,
     ) -> None:
         
         self.env_cfg = env_cfg
@@ -43,8 +45,8 @@ class InteroceptiveAIWrapper(gym.Wrapper):
         environment_parameters = env_cfg["environment_parameters"]
         self.environment_parameters = environment_parameters
 
-        # assigned_port = env_cfg["env"]["env_port"] + random.randint(0, 1000)  # Assign a random port within a range
-        assigned_port = env_cfg["env"]["env_port"]
+        # Ensure each parallel environment binds to a unique Unity base port.
+        assigned_port = int(env_cfg["env"]["env_port"]) + int(rank)
 
         file_path = os.path.join(env_cfg["env"]["base_dir_"], env_cfg["env"]["env_name"], "Config", "mainConfig.json")
         # Load the JSON file
@@ -70,6 +72,7 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             seed=seed,
             side_channels=[engineChannel, paramChannel],
             base_port=assigned_port,
+            no_graphics=bool(engine_configuration.get("no_graphics", False)),
             # timeout_wait=300,  # Increase the timeout to 300 seconds
             # additional_args=["-logfile", "-"],
         )
@@ -88,8 +91,15 @@ class InteroceptiveAIWrapper(gym.Wrapper):
 
         unity_env.reset()
         # env = UnityToGymWrapper(unity_env, uint8_visual=True, flatten_branched=False, allow_multiple_obs=True)
+        selected_behavior_name = behavior_name or env_cfg["env"].get("behavior_name")
         super().__init__(
-            UnityToGymWrapper(unity_env, uint8_visual=True, flatten_branched=False, allow_multiple_obs=True)
+            UnityToGymWrapper(
+                unity_env,
+                uint8_visual=True,
+                flatten_branched=False,
+                allow_multiple_obs=True,
+                behavior_name=selected_behavior_name,
+            )
         )
 
         # Define observation spaces using gymnasium.Box
