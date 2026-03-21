@@ -463,6 +463,14 @@ def main(fabric: Fabric, cfg: Dict[str, Any]):
         fabric.print("Encoder MLP keys:", cfg.algo.mlp_keys.encoder)
         fabric.print("Decoder CNN keys:", cfg.algo.cnn_keys.decoder)
         fabric.print("Decoder MLP keys:", cfg.algo.mlp_keys.decoder)
+    missing_cnn_keys = set(cfg.algo.cnn_keys.encoder) - set(observation_space.spaces.keys())
+    if len(missing_cnn_keys) > 0:
+        raise RuntimeError(
+            "Missing CNN observation keys required by the model: "
+            f"{sorted(missing_cnn_keys)}. Available observation keys: "
+            f"{sorted(observation_space.spaces.keys())}. "
+            "If you expect visual input, ensure `environment_parameters.visualSensor.useVisual=true`."
+        )
     obs_keys = cfg.algo.cnn_keys.encoder + cfg.algo.mlp_keys.encoder
 
     world_model, actor, critic, target_critic, player = build_agent(
