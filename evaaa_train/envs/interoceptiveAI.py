@@ -22,7 +22,7 @@ from mlagents_envs.side_channel.engine_configuration_channel import (
 )
 # from mlagents_envs.envs.unity_gym_env import UnityToGymWrapper
 from envs.unity_gym_env import UnityToGymWrapper
-os.environ["DISPLAY"] = ":1"
+# os.environ["DISPLAY"] = ":1"
 
 
 class InteroceptiveAIWrapper(gym.Wrapper):
@@ -70,7 +70,7 @@ class InteroceptiveAIWrapper(gym.Wrapper):
             seed=seed,
             side_channels=[engineChannel, paramChannel],
             base_port=assigned_port,
-            timeout_wait=300,  # Increase the timeout to 300 seconds
+            # timeout_wait=300,  # Increase the timeout to 300 seconds
             # additional_args=["-logfile", "-"],
         )
 
