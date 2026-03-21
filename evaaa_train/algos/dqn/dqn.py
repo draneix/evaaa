@@ -170,7 +170,6 @@ def main(config=None):
         # side_channels=[engineChannel, paramChannel],
         side_channels=[engineChannel],
         base_port=base_port,
-        no_graphics=engine_configuration.get("no_graphics", False),
         timeout_wait=300,  # Increase the timeout to 300 seconds
     )
 

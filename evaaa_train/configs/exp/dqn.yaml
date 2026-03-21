@@ -28,7 +28,7 @@ engine_configuration:   # for stimulating Unity
   time_scale: 100
   width: 100
   height: 100
-  no_graphics: true
+  no_graphics: false
 
 environment_parameters:
   common:
