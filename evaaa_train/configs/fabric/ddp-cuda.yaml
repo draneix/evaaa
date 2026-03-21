@@ -2,6 +2,10 @@ defaults:
   - default
   - _self_
 
+<<<<<<< HEAD
 devices: -1
+=======
+devices: 2
+>>>>>>> parent of 2c5fb83f (standardised for runs)
 strategy: "ddp"
 accelerator: "cuda"

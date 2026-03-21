@@ -26,7 +26,7 @@ env:
 
 # Checkpoint
 checkpoint:
-  every: 50000  
+  every: 100000
 
 # Buffer
 buffer:
